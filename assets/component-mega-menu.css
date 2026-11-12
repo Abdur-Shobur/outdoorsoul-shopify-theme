@@ -9,8 +9,8 @@
   border-right: 0;
   left: 0;
   overflow-y: auto;
-  padding-bottom: 3rem;
-  padding-top: 3rem;
+  padding-bottom: 0;
+  padding-top: 0;
   position: absolute;
   right: 0;
   top: 100%;
@@ -26,12 +26,17 @@
 
 .js .mega-menu__content {
   opacity: 0;
-  transform: translateY(-1.5rem);
+  visibility: hidden;
+  transform: translateY(-0.6rem);
+  pointer-events: none;
+  transition: opacity 0.2s ease, transform 0.2s ease, visibility 0.2s;
 }
 
 .mega-menu[open] .mega-menu__content {
   opacity: 1;
+  visibility: visible;
   transform: translateY(0);
+  pointer-events: auto;
 }
 
 .mega-menu__list {
@@ -48,18 +53,12 @@
   padding-bottom: 0.6rem;
   padding-top: 0.6rem;
   text-decoration: none;
-  transition: text-decoration var(--duration-short) ease;
+  transition: color var(--duration-short) ease;
   word-wrap: break-word;
 }
 
 .mega-menu__link--level-2 {
   font-weight: bold;
-  font-size: 1.9rem; /* Increases the text size */
-  margin-bottom: 0.5rem; /* Adds a little space before the next items start */
-  white-space: nowrap;       /* Prevents text from wrapping to a second line */
-  overflow: hidden;          /* Hides any text that overflows the column width */
-  text-overflow: ellipsis;   /* Adds '...' at the end if the text is cut off */
-}
 }
 
 .header--top-center .mega-menu__list {
@@ -77,12 +76,6 @@
 .mega-menu__link:hover,
 .mega-menu__link--active {
   color: rgb(var(--color-foreground));
-  background-color: #F4F6F3 !important; /* Forces background color */
-  text-decoration: underline;
-}
-
-.mega-menu__link--active:hover {
-  text-decoration-thickness: 0.2rem;
 }
 
 .mega-menu .mega-menu__list--condensed {
@@ -92,10 +85,3 @@
 .mega-menu__list--condensed .mega-menu__link {
   font-weight: normal;
 }
-
-.mega-menu__link--level-2:hover {
-  text-decoration: none !important;
-  background-color: transparent !important;
-  cursor: default;
-}
-

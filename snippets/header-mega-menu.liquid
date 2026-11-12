@@ -5,6 +5,21 @@
   {% render 'header-mega-menu' %}
 {% endcomment %}
 
+{%- liquid
+  assign show_card_1 = false
+  assign show_card_2 = false
+  if section.settings.featured_card_1_image != blank or section.settings.featured_card_1_heading != blank
+    assign show_card_1 = true
+  endif
+  if section.settings.featured_card_2_image != blank or section.settings.featured_card_2_heading != blank
+    assign show_card_2 = true
+  endif
+  assign show_featured = false
+  if show_card_1 or show_card_2
+    assign show_featured = true
+  endif
+-%}
+
 <nav class="header__inline-menu">
   <ul class="list-menu list-menu--inline" role="list">
     {%- for link in section.settings.menu.links -%}
@@ -30,43 +45,128 @@
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
                 tabindex="-1"
               >
-                <ul
-                  class="mega-menu__list page-width{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
-                  role="list"
-                >
-                  {%- for childlink in link.links -%}
-                    <li>
-                      <a
-                        id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                        href="{{ childlink.url }}"
-                        class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
-                        {% if childlink.current %}
-                          aria-current="page"
-                        {% endif %}
-                      >
-                        {{ childlink.title | escape }}
-                      </a>
-                      {%- if childlink.links != blank -%}
-                        <ul class="list-unstyled" role="list">
-                          {%- for grandchildlink in childlink.links -%}
-                            <li>
-                              <a
-                                id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                href="{{ grandchildlink.url }}"
-                                class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
-                                {% if grandchildlink.current %}
-                                  aria-current="page"
-                                {% endif %}
-                              >
-                                {{ grandchildlink.title | escape }}
-                              </a>
-                            </li>
-                          {%- endfor -%}
-                        </ul>
+                <div class="os-mega-inner{% if show_featured %} has-featured{% endif %}">
+                  <ul
+                    class="mega-menu__list{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
+                    role="list"
+                  >
+                    {%- for childlink in link.links -%}
+                      <li>
+                        <a
+                          id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                          href="{{ childlink.url }}"
+                          class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
+                          {% if childlink.current %}
+                            aria-current="page"
+                          {% endif %}
+                        >
+                          {{ childlink.title | escape }}
+                        </a>
+                        {%- if childlink.links != blank -%}
+                          <ul class="list-unstyled" role="list">
+                            {%- for grandchildlink in childlink.links -%}
+                              <li>
+                                <a
+                                  id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                  href="{{ grandchildlink.url }}"
+                                  class="mega-menu__link link{% if grandchildlink.current %} mega-menu__link--active{% endif %}"
+                                  {% if grandchildlink.current %}
+                                    aria-current="page"
+                                  {% endif %}
+                                >
+                                  {{ grandchildlink.title | escape }}
+                                </a>
+                              </li>
+                            {%- endfor -%}
+                          </ul>
+                        {%- endif -%}
+                      </li>
+                    {%- endfor -%}
+                  </ul>
+
+                  {%- if show_featured -%}
+                    <div class="os-mega-featured{% unless show_card_1 and show_card_2 %} os-mega-featured--single{% endunless %}">
+                      {%- if show_card_1 -%}
+                        <a
+                          href="{{ section.settings.featured_card_1_link | default: link.url }}"
+                          class="os-mega-card"
+                        >
+                          {%- if section.settings.featured_card_1_image != blank -%}
+                            {{
+                              section.settings.featured_card_1_image
+                              | image_url: width: 600
+                              | image_tag:
+                                loading: 'lazy',
+                                widths: '300, 450, 600',
+                                sizes: '(min-width: 990px) 220px, 45vw',
+                                alt: section.settings.featured_card_1_heading
+                            }}
+                          {%- endif -%}
+                          <span class="os-mega-card__body">
+                            {%- if section.settings.featured_card_1_heading != blank -%}
+                              <span class="os-mega-card__title">{{ section.settings.featured_card_1_heading | escape }}</span>
+                            {%- endif -%}
+                            {%- if section.settings.featured_card_1_subtext != blank -%}
+                              <span class="os-mega-card__sub">
+                                {{ section.settings.featured_card_1_subtext | escape }}
+                                <span class="svg-wrapper" aria-hidden="true">
+                                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                                </span>
+                              </span>
+                            {%- endif -%}
+                          </span>
+                        </a>
                       {%- endif -%}
-                    </li>
-                  {%- endfor -%}
-                </ul>
+                      {%- if show_card_2 -%}
+                        <a
+                          href="{{ section.settings.featured_card_2_link | default: link.url }}"
+                          class="os-mega-card"
+                        >
+                          {%- if section.settings.featured_card_2_image != blank -%}
+                            {{
+                              section.settings.featured_card_2_image
+                              | image_url: width: 600
+                              | image_tag:
+                                loading: 'lazy',
+                                widths: '300, 450, 600',
+                                sizes: '(min-width: 990px) 220px, 45vw',
+                                alt: section.settings.featured_card_2_heading
+                            }}
+                          {%- endif -%}
+                          <span class="os-mega-card__body">
+                            {%- if section.settings.featured_card_2_heading != blank -%}
+                              <span class="os-mega-card__title">{{ section.settings.featured_card_2_heading | escape }}</span>
+                            {%- endif -%}
+                            {%- if section.settings.featured_card_2_subtext != blank -%}
+                              <span class="os-mega-card__sub">
+                                {{ section.settings.featured_card_2_subtext | escape }}
+                                <span class="svg-wrapper" aria-hidden="true">
+                                  {{- 'icon-arrow.svg' | inline_asset_content -}}
+                                </span>
+                              </span>
+                            {%- endif -%}
+                          </span>
+                        </a>
+                      {%- endif -%}
+                    </div>
+                  {%- endif -%}
+                </div>
+
+                <div class="os-mega-footer">
+                  <div class="os-mega-footer__inner">
+                    {%- if section.settings.mega_footer_text != blank -%}
+                      <span>{{ section.settings.mega_footer_text | escape }}</span>
+                    {%- else -%}
+                      <span></span>
+                    {%- endif -%}
+                    <a href="{{ link.url }}" class="os-mega-footer__link">
+                      View all {{ link.title | escape }}
+                      <span class="svg-wrapper" aria-hidden="true">
+                        {{- 'icon-arrow.svg' | inline_asset_content -}}
+                      </span>
+                    </a>
+                  </div>
+                </div>
               </div>
             </details>
           </header-menu>

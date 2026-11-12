@@ -54,13 +54,26 @@
 
   @media screen and (max-width: 749px) {
     .ai-trust-bar-container-{{ ai_gen_id }} {
-      grid-template-columns: 1fr;
+      display: flex;
+      flex-wrap: nowrap;
+      justify-content: flex-start;
       gap: {{ block.settings.mobile_gap }}px;
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+
+    .ai-trust-bar-container-{{ ai_gen_id }}::-webkit-scrollbar {
+      display: none;
+    }
+
+    .ai-trust-bar-item-{{ ai_gen_id }} {
+      flex: 0 0 auto;
     }
 
     .ai-trust-bar-text-{{ ai_gen_id }} {
       font-size: {{ block.settings.mobile_text_size }}px;
-      white-space: normal;
+      white-space: nowrap;
     }
 
     .ai-trust-bar-icon-{{ ai_gen_id }} {
@@ -70,7 +83,7 @@
   }
 {% endstyle %}
 
-<trust-bar-{{ ai_gen_id }} class="ai-trust-bar-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+<trust-bar-{{ ai_gen_id }} class="ai-trust-bar-{{ ai_gen_id }} os-trust-bar-compact" {{ block.shopify_attributes }}>
   <div class="ai-trust-bar-container-{{ ai_gen_id }}">
     <div class="ai-trust-bar-item-{{ ai_gen_id }}">
       <div class="ai-trust-bar-icon-{{ ai_gen_id }}">

@@ -1,0 +1,236 @@
+{%- liquid
+  assign columns = section.settings.columns | default: 3
+-%}
+
+<section
+  id="OsReviews-{{ section.id }}"
+  class="os-reviews os-reviews--cols-{{ columns }}"
+  style="
+    --os-reviews-pad-top: {{ section.settings.padding_top }}px;
+    --os-reviews-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --os-reviews-cols: {{ columns }};
+  "
+  {% if section.settings.title != blank %}
+    aria-labelledby="OsReviewsHeading-{{ section.id }}"
+  {% endif %}
+>
+  <div class="os-container">
+    <div class="os-reviews__header">
+      <div class="os-reviews__heading-wrap">
+        {%- if section.settings.title != blank -%}
+          <h2 id="OsReviewsHeading-{{ section.id }}" class="os-reviews__title">
+            {{ section.settings.title | escape }}
+          </h2>
+        {%- endif -%}
+
+        {%- if section.settings.subtitle != blank -%}
+          <p class="os-reviews__subtitle">{{ section.settings.subtitle | escape }}</p>
+        {%- endif -%}
+      </div>
+
+      {%- if section.settings.show_summary -%}
+        <div class="os-reviews__summary">
+          <span
+            class="os-reviews__stars"
+            style="--rating: {{ section.settings.summary_rating }};"
+            role="img"
+            aria-label="Rated {{ section.settings.summary_rating }} out of 5"
+          ></span>
+          {%- if section.settings.summary_text != blank -%}
+            <span class="os-reviews__summary-text">{{ section.settings.summary_text | escape }}</span>
+          {%- endif -%}
+        </div>
+      {%- endif -%}
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="os-reviews__grid" role="list">
+        {%- for block in section.blocks -%}
+          {%- case block.type -%}
+            {%- when '@app' -%}
+              <li class="os-reviews__item os-reviews__item--app" {{ block.shopify_attributes }}>
+                {% render block %}
+              </li>
+            {%- when 'review' -%}
+              <li class="os-reviews__item" {{ block.shopify_attributes }}>
+                <article class="os-review-card">
+                  {%- if block.settings.rating != blank -%}
+                    <p class="os-review-card__rating">
+                      <span
+                        class="os-reviews__stars"
+                        style="--rating: {{ block.settings.rating }};"
+                        role="img"
+                        aria-label="Rated {{ block.settings.rating }} out of 5"
+                      ></span>
+                    </p>
+                  {%- endif -%}
+
+                  {%- if block.settings.quote != blank -%}
+                    <blockquote class="os-review-card__quote">
+                      <p>{{ block.settings.quote | escape | newline_to_br }}</p>
+                    </blockquote>
+                  {%- endif -%}
+
+                  <footer class="os-review-card__footer">
+                    {%- if block.settings.author != blank -%}
+                      <cite class="os-review-card__author">{{ block.settings.author | escape }}</cite>
+                    {%- endif -%}
+                    {%- if block.settings.meta != blank -%}
+                      <span class="os-review-card__meta">{{ block.settings.meta | escape }}</span>
+                    {%- endif -%}
+                  </footer>
+                </article>
+              </li>
+          {%- endcase -%}
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Reviews",
+  "tag": "section",
+  "class": "section-os-reviews",
+  "max_blocks": 9,
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "What customers say"
+    },
+    {
+      "type": "text",
+      "id": "subtitle",
+      "label": "Subheading",
+      "default": "Real reviews from gardeners across the UK."
+    },
+    {
+      "type": "checkbox",
+      "id": "show_summary",
+      "label": "Show rating summary",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "summary_rating",
+      "min": 1,
+      "max": 5,
+      "step": 0.5,
+      "label": "Summary rating",
+      "default": 5
+    },
+    {
+      "type": "text",
+      "id": "summary_text",
+      "label": "Summary text",
+      "default": "4.9 / 5 from verified buyers"
+    },
+    {
+      "type": "select",
+      "id": "columns",
+      "label": "Desktop columns",
+      "options": [
+        { "value": "2", "label": "2" },
+        { "value": "3", "label": "3" }
+      ],
+      "default": "3"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    },
+    {
+      "type": "review",
+      "name": "Review",
+      "settings": [
+        {
+          "type": "range",
+          "id": "rating",
+          "min": 1,
+          "max": 5,
+          "step": 0.5,
+          "label": "Rating",
+          "default": 5
+        },
+        {
+          "type": "textarea",
+          "id": "quote",
+          "label": "Review text",
+          "default": "Excellent quality tools — arrived quickly and feel built to last."
+        },
+        {
+          "type": "text",
+          "id": "author",
+          "label": "Author",
+          "default": "Sarah M."
+        },
+        {
+          "type": "text",
+          "id": "meta",
+          "label": "Meta text",
+          "default": "Verified buyer",
+          "info": "e.g. Verified buyer, product name, or location"
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Reviews",
+      "blocks": [
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Brilliant pruners — sharp straight out of the box and comfortable for longer sessions in the garden.",
+            "author": "Sarah M.",
+            "meta": "Verified buyer"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Fast UK delivery and the Wolf-Garten tools are exactly as described. Will order again.",
+            "author": "James T.",
+            "meta": "Verified buyer"
+          }
+        },
+        {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Great service and solid Wilkinson Sword quality. Packaging was careful and everything arrived perfect.",
+            "author": "Helen R.",
+            "meta": "Verified buyer"
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

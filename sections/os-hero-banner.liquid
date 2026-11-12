@@ -1,0 +1,205 @@
+{%- liquid
+  assign fetch_priority = 'auto'
+  if section.index == 1
+    assign fetch_priority = 'high'
+  endif
+  assign hero_alt = section.settings.image.alt | default: section.settings.heading
+-%}
+
+<section
+  id="OsHero-{{ section.id }}"
+  class="os-hero"
+  style="
+    --os-hero-pad-top: {{ section.settings.padding_top }}px;
+    --os-hero-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+>
+  {%- if section.settings.image != blank -%}
+    {{
+      section.settings.image
+      | image_url: width: 2000
+      | image_tag:
+        class: 'os-hero__image',
+        widths: '750, 1100, 1500, 2000',
+        sizes: '(min-width: 990px) 62vw, 100vw',
+        loading: 'eager',
+        fetchpriority: fetch_priority,
+        alt: hero_alt
+    }}
+  {%- else -%}
+    <div class="os-hero__image os-hero__image--placeholder" aria-hidden="true">
+      {{ 'lifestyle-2' | placeholder_svg_tag }}
+    </div>
+  {%- endif -%}
+
+  <div class="os-hero__inner os-container">
+    <div class="os-hero__copy">
+      {%- if section.settings.eyebrow != blank -%}
+        <p class="os-hero__eyebrow">{{ section.settings.eyebrow | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.heading != blank -%}
+        <h1 class="os-hero__heading">{{ section.settings.heading | escape }}</h1>
+      {%- endif -%}
+
+      {%- if section.settings.text != blank -%}
+        <p class="os-hero__text">{{ section.settings.text | escape }}</p>
+      {%- endif -%}
+
+      {%- if section.settings.button_label != blank -%}
+        <a
+          {% if section.settings.button_link != blank %}
+            href="{{ section.settings.button_link }}"
+          {% else %}
+            role="link"
+            aria-disabled="true"
+          {% endif %}
+          class="os-hero__cta"
+        >
+          <span>{{ section.settings.button_label | escape }}</span>
+          <span class="svg-wrapper" aria-hidden="true">
+            {{- 'icon-arrow.svg' | inline_asset_content -}}
+          </span>
+        </a>
+      {%- endif -%}
+
+      {%- if section.settings.show_benefits -%}
+        <ul class="os-hero__benefits">
+          {%- if section.settings.benefit_1_text != blank -%}
+            <li class="os-hero__benefit">
+              <span class="os-hero__benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 2 8 0 5.5-4.78 10-10 10Z"></path>
+                  <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12"></path>
+                </svg>
+              </span>
+              <span>{{ section.settings.benefit_1_text | newline_to_br }}</span>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.benefit_2_text != blank -%}
+            <li class="os-hero__benefit">
+              <span class="os-hero__benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M15 21v-8a1 1 0 0 0-1-1h-4a1 1 0 0 0-1 1v8"></path>
+                  <path d="M3 10a2 2 0 0 1 .709-1.528l7-5.999a2 2 0 0 1 2.582 0l7 5.999A2 2 0 0 1 21 10v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                </svg>
+              </span>
+              <span>{{ section.settings.benefit_2_text | newline_to_br }}</span>
+            </li>
+          {%- endif -%}
+          {%- if section.settings.benefit_3_text != blank -%}
+            <li class="os-hero__benefit">
+              <span class="os-hero__benefit-icon" aria-hidden="true">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M19 14c1.49-1.46 3-3.21 3-5.5A5.5 5.5 0 0 0 16.5 3c-1.76 0-3 .5-4.5 2-1.5-1.5-2.74-2-4.5-2A5.5 5.5 0 0 0 2 8.5c0 2.3 1.5 4.05 3 5.5l7 7Z"></path>
+                </svg>
+              </span>
+              <span>{{ section.settings.benefit_3_text | newline_to_br }}</span>
+            </li>
+          {%- endif -%}
+        </ul>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Hero banner",
+  "tag": "section",
+  "class": "section-os-hero",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "text",
+      "id": "eyebrow",
+      "label": "Eyebrow",
+      "default": "Trusted tools. Better gardens."
+    },
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Outdoor Soul"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Quality garden tools from Wilkinson Sword and Wolf-Garten, with fast UK delivery."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop garden tools"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "header",
+      "content": "Benefits"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_benefits",
+      "label": "Show benefit icons",
+      "default": true
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_1_text",
+      "label": "Benefit 1",
+      "default": "Quality\ntools"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_2_text",
+      "label": "Benefit 2",
+      "default": "Fast UK\ndelivery"
+    },
+    {
+      "type": "textarea",
+      "id": "benefit_3_text",
+      "label": "Benefit 3",
+      "default": "Trusted\nbrands"
+    },
+    {
+      "type": "header",
+      "content": "Padding"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 120,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 64
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hero banner"
+    }
+  ]
+}
+{% endschema %}

@@ -17,28 +17,35 @@
         "announcement_WitPhW": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store 2",
+            "text": "Free shipping on orders over £75",
             "link": ""
           }
         },
         "announcement_bMihex": {
           "type": "announcement",
           "settings": {
-            "text": "Welcome to our store",
+            "text": "Next day delivery available",
+            "link": ""
+          }
+        },
+        "announcement_guarantee": {
+          "type": "announcement",
+          "settings": {
+            "text": "Trusted garden tools from Wilkinson Sword & Wolf-Garten",
             "link": ""
           }
         }
       },
       "block_order": [
         "announcement_WitPhW",
-        "announcement_bMihex"
+        "announcement_bMihex",
+        "announcement_guarantee"
       ],
-      "disabled": true,
       "settings": {
         "auto_rotate": true,
         "change_slides_speed": 5,
         "color_scheme": "scheme-1",
-        "show_line_separator": true,
+        "show_line_separator": false,
         "show_social": false,
         "enable_country_selector": false,
         "enable_language_selector": false
@@ -47,20 +54,29 @@
     "header": {
       "type": "header",
       "settings": {
-        "logo_position": "top-left",
+        "logo_position": "middle-left",
         "mobile_logo_position": "left",
         "menu": "main-menu",
         "menu_type_desktop": "mega",
-        "sticky_header_type": "on-scroll-up",
+        "sticky_header_type": "always",
         "show_line_separator": true,
         "color_scheme": "scheme-1",
         "menu_color_scheme": "scheme-1",
-        "enable_country_selector": true,
+        "enable_country_selector": false,
         "enable_language_selector": false,
         "enable_customer_avatar": true,
+        "mega_footer_text": "Free shipping on orders over £75",
+        "featured_card_1_heading": "",
+        "featured_card_1_subtext": "",
+        "featured_card_1_link": "",
+        "featured_card_2_heading": "",
+        "featured_card_2_subtext": "",
+        "featured_card_2_link": "",
+        "chat_label": "Contact",
+        "chat_link": "",
         "margin_bottom": 0,
-        "padding_top": 20,
-        "padding_bottom": 20
+        "padding_top": 8,
+        "padding_bottom": 8
       }
     },
     "blocks_XGhYaa": {
@@ -72,19 +88,19 @@
             "item_1_text": "Free Delivery",
             "item_2_text": "Next Day Delivery Available",
             "item_3_text": "Secure Checkout",
-            "background_color": "#6b8e6f",
-            "text_color": "#ffffff",
-            "icon_color": "#ffffff",
+            "background_color": "#f5efe7",
+            "text_color": "#1c1c1a",
+            "icon_color": "#23432f",
             "max_width": 1600,
-            "vertical_padding": 12,
-            "section_gap": 20,
+            "vertical_padding": 8,
+            "section_gap": 24,
             "icon_text_gap": 8,
-            "text_size": 14,
-            "text_weight": "600",
-            "icon_size": 20,
-            "mobile_text_size": 13,
-            "mobile_icon_size": 18,
-            "mobile_gap": 12
+            "text_size": 13,
+            "text_weight": "500",
+            "icon_size": 18,
+            "mobile_text_size": 12,
+            "mobile_icon_size": 16,
+            "mobile_gap": 16
           },
           "blocks": {}
         }
@@ -150,6 +166,7 @@
       "block_order": [
         "ai_gen_block_84bbea6_LMxR6i"
       ],
+      "disabled": true,
       "name": "Breadcrumb navigation",
       "settings": {}
     },

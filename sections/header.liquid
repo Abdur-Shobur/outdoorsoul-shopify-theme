@@ -143,10 +143,6 @@
       if section.settings.menu != blank
         render 'header-drawer'
       endif
-
-      if section.settings.logo_position == 'top-center' or section.settings.menu == blank
-        render 'header-search', input_id: 'Search-In-Modal-1'
-      endif
     -%}
 
     {%- if section.settings.logo_position != 'middle-center' -%}
@@ -249,12 +245,26 @@
           </localization-form>
         {%- endif -%}
       </div>
-      {% render 'header-search', input_id: 'Search-In-Modal' %}
+
+      {% render 'header-search', input_id: 'Search-In-Header-Inline', variant: 'inline' %}
+
+      <button
+        type="button"
+        class="os-search-toggle"
+        data-os-search-toggle
+        aria-expanded="false"
+        aria-controls="Os-Search-Row"
+        aria-label="{{ 'general.search.search' | t }}"
+      >
+        <span class="svg-wrapper">
+          {{- 'icon-search.svg' | inline_asset_content -}}
+        </span>
+      </button>
 
       {%- if shop.customer_accounts_enabled -%}
         <a
           href="{%- if customer -%}{{ routes.account_url }}{%- else -%}{{ routes.account_login_url }}{%- endif -%}"
-          class="header__icon header__icon--account link focus-inset{% if section.settings.menu != blank %} small-hide{% endif %}"
+          class="header__icon header__icon--account link focus-inset"
           rel="nofollow"
         >
           {%- if section.settings.enable_customer_avatar -%}
@@ -305,6 +315,12 @@
       </a>
     </div>
   </header>
+
+  <div id="Os-Search-Row" class="os-search-row" data-os-search-row>
+    <div class="os-search-row__inner">
+      {% render 'header-search', input_id: 'Search-In-Header-Row', variant: 'row' %}
+    </div>
+  </div>
 </{{ header_tag }}>
 
 {%- if settings.cart_type == 'notification' -%}
@@ -649,6 +665,72 @@
       "unit": "px",
       "label": "t:sections.all.padding.padding_bottom",
       "default": 20
+    },
+    {
+      "type": "header",
+      "content": "Mega menu featured cards"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_card_1_image",
+      "label": "Featured card 1 image"
+    },
+    {
+      "type": "text",
+      "id": "featured_card_1_heading",
+      "label": "Featured card 1 heading"
+    },
+    {
+      "type": "text",
+      "id": "featured_card_1_subtext",
+      "label": "Featured card 1 subtext"
+    },
+    {
+      "type": "url",
+      "id": "featured_card_1_link",
+      "label": "Featured card 1 link"
+    },
+    {
+      "type": "image_picker",
+      "id": "featured_card_2_image",
+      "label": "Featured card 2 image"
+    },
+    {
+      "type": "text",
+      "id": "featured_card_2_heading",
+      "label": "Featured card 2 heading"
+    },
+    {
+      "type": "text",
+      "id": "featured_card_2_subtext",
+      "label": "Featured card 2 subtext"
+    },
+    {
+      "type": "url",
+      "id": "featured_card_2_link",
+      "label": "Featured card 2 link"
+    },
+    {
+      "type": "text",
+      "id": "mega_footer_text",
+      "label": "Mega menu footer text",
+      "default": "Free shipping on orders over £75"
+    },
+    {
+      "type": "header",
+      "content": "Mobile drawer"
+    },
+    {
+      "type": "text",
+      "id": "chat_label",
+      "label": "Drawer secondary CTA label",
+      "default": "Contact"
+    },
+    {
+      "type": "url",
+      "id": "chat_link",
+      "label": "Drawer secondary CTA link",
+      "info": "Leave blank to hide. Use contact page or chat URL."
     }
   ],
   "blocks": [

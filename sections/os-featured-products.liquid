@@ -1,0 +1,161 @@
+{%- if section.settings.enable_quick_add -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
+{%- endif -%}
+
+{%- liquid
+  assign collection = section.settings.collection
+  assign products_to_show = section.settings.products_to_show | default: 4
+  assign view_all_url = section.settings.view_all_link
+  if view_all_url == blank and collection != blank
+    assign view_all_url = collection.url
+  endif
+-%}
+
+<section
+  id="OsFeatured-{{ section.id }}"
+  class="os-featured"
+  style="
+    --os-feat-pad-top: {{ section.settings.padding_top }}px;
+    --os-feat-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+  aria-labelledby="OsFeaturedHeading-{{ section.id }}"
+>
+  <div class="os-container">
+    <div class="os-featured__header">
+      {%- if section.settings.title != blank -%}
+        <h2 id="OsFeaturedHeading-{{ section.id }}" class="os-featured__title">
+          {{ section.settings.title | escape }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.show_view_all and view_all_url != blank -%}
+        <a href="{{ view_all_url }}" class="os-featured__view-all">
+          <span>{{ section.settings.view_all_label | default: 'View All' | escape }}</span>
+          {%- if section.settings.view_all_suffix != blank -%}
+            <span class="os-featured__view-all-extra">{{ section.settings.view_all_suffix | escape }}</span>
+          {%- endif -%}
+          <span class="svg-wrapper" aria-hidden="true">
+            {{- 'icon-arrow.svg' | inline_asset_content -}}
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if collection != blank and collection.products_count > 0 -%}
+      <ul class="os-featured__grid" role="list">
+        {%- for product in collection.products limit: products_to_show -%}
+          <li class="os-featured__item">
+            {% render 'os-product-card',
+              product: product,
+              section: section,
+              show_vendor: section.settings.show_vendor,
+              show_rating: section.settings.show_rating,
+              enable_quick_add: section.settings.enable_quick_add
+            %}
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <div class="os-featured__empty">
+        <p>Select a collection with products in the theme editor.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Featured products",
+  "tag": "section",
+  "class": "section-os-featured",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Featured products"
+    },
+    {
+      "type": "collection",
+      "id": "collection",
+      "label": "Collection"
+    },
+    {
+      "type": "range",
+      "id": "products_to_show",
+      "min": 2,
+      "max": 12,
+      "step": 1,
+      "label": "Products to show",
+      "default": 4
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "View All"
+    },
+    {
+      "type": "text",
+      "id": "view_all_suffix",
+      "label": "View all suffix (desktop)",
+      "default": "Products"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link",
+      "info": "Defaults to the selected collection"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_vendor",
+      "label": "Show vendor instead of description",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_rating",
+      "label": "Show product rating",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "label": "Enable quick add button",
+      "default": true
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Featured products"
+    }
+  ]
+}
+{% endschema %}

@@ -9,8 +9,26 @@
  */
 {
   "sections": {
+    "os_hero_banner": {
+      "type": "os-hero-banner",
+      "settings": {
+        "image": "shopify://shop_images/website_banner_file.jpg",
+        "eyebrow": "Trusted tools. Better gardens.",
+        "heading": "Outdoor Soul",
+        "text": "Quality garden tools from Wilkinson Sword and Wolf-Garten, with fast UK delivery.",
+        "button_label": "Shop garden tools",
+        "button_link": "shopify://collections/all",
+        "show_benefits": true,
+        "benefit_1_text": "Quality\ntools",
+        "benefit_2_text": "Fast UK\ndelivery",
+        "benefit_3_text": "Trusted\nbrands",
+        "padding_top": 40,
+        "padding_bottom": 64
+      }
+    },
     "1784486218094e13e6": {
       "type": "_blocks",
+      "disabled": true,
       "blocks": {
         "ai_gen_block_54d9efe_MC4gg8": {
           "type": "ai_gen_block_54d9efe",
@@ -204,8 +222,169 @@
       "disabled": true,
       "settings": {}
     },
+    "os_featured_products": {
+      "type": "os-featured-products",
+      "settings": {
+        "title": "Featured products",
+        "collection": "pruners",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_suffix": "Products",
+        "view_all_link": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "os_promo_banners": {
+      "type": "os-promo-banners",
+      "blocks": {
+        "promo_wilkinson": {
+          "type": "promo",
+          "settings": {
+            "title": "Wilkinson Sword",
+            "text": "Trusted garden tools",
+            "link": "shopify://collections/wilkinson-sword"
+          }
+        },
+        "promo_wolf": {
+          "type": "promo",
+          "settings": {
+            "title": "Wolf-Garten",
+            "text": "German-engineered quality",
+            "link": "shopify://collections/wolf-garten"
+          }
+        },
+        "promo_pruners": {
+          "type": "promo",
+          "settings": {
+            "title": "Pruners & shears",
+            "text": "Shop bestsellers",
+            "link": "shopify://collections/pruners"
+          }
+        }
+      },
+      "block_order": [
+        "promo_wilkinson",
+        "promo_wolf",
+        "promo_pruners"
+      ],
+      "settings": {
+        "columns": "3",
+        "padding_top": 16,
+        "padding_bottom": 36
+      }
+    },
+    "os_featured_products_2": {
+      "type": "os-featured-products",
+      "settings": {
+        "title": "Featured products",
+        "collection": "wilkinson-sword",
+        "products_to_show": 4,
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_suffix": "Products",
+        "view_all_link": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "os_promo_banners_2": {
+      "type": "os-promo-banners",
+      "blocks": {
+        "promo_2_left": {
+          "type": "promo",
+          "settings": {
+            "title": "New arrivals",
+            "text": "Fresh tools this season",
+            "link": "shopify://collections/all"
+          }
+        },
+        "promo_2_right": {
+          "type": "promo",
+          "settings": {
+            "title": "Best sellers",
+            "text": "Customer favourites",
+            "link": "shopify://collections/pruners"
+          }
+        }
+      },
+      "block_order": [
+        "promo_2_left",
+        "promo_2_right"
+      ],
+      "settings": {
+        "columns": "2",
+        "padding_top": 16,
+        "padding_bottom": 36
+      }
+    },
+    "os_shop_categories": {
+      "type": "os-shop-categories",
+      "blocks": {
+        "cat_wilkinson": {
+          "type": "category",
+          "settings": {
+            "collection": "wilkinson-sword",
+            "title": "Wilkinson Sword",
+            "image": "",
+            "link": ""
+          }
+        },
+        "cat_wolf": {
+          "type": "category",
+          "settings": {
+            "collection": "wolf-garten",
+            "title": "Wolf-Garten",
+            "image": "",
+            "link": ""
+          }
+        },
+        "cat_radiators": {
+          "type": "category",
+          "settings": {
+            "collection": "radiators",
+            "title": "Radiators",
+            "image": "",
+            "link": ""
+          }
+        },
+        "cat_handkerchief": {
+          "type": "category",
+          "settings": {
+            "collection": "handkerchief",
+            "title": "Hankies",
+            "image": "",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "cat_wilkinson",
+        "cat_wolf",
+        "cat_radiators",
+        "cat_handkerchief"
+      ],
+      "settings": {
+        "title": "Shop by Category",
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_suffix": "Categories",
+        "view_all_link": "shopify://collections",
+        "overlap_hero": true,
+        "padding_top": 16,
+        "padding_bottom": 24
+      }
+    },
     "collection_list_fM4mEX": {
       "type": "collection-list",
+      "disabled": true,
       "blocks": {
         "featured_collection_YpW4qD": {
           "type": "featured_collection",
@@ -255,6 +434,7 @@
     },
     "featured_blog_JFXgna": {
       "type": "featured-blog",
+      "disabled": true,
       "name": "t:sections.featured-blog.presets.name",
       "settings": {
         "blog": "garden-guides",
@@ -271,8 +451,117 @@
         "padding_bottom": 36
       }
     },
+    "os_reviews": {
+      "type": "os-reviews",
+      "blocks": {
+        "review_1": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Brilliant pruners — sharp straight out of the box and comfortable for longer sessions in the garden.",
+            "author": "Sarah M.",
+            "meta": "Verified buyer"
+          }
+        },
+        "review_2": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Fast UK delivery and the Wolf-Garten tools are exactly as described. Will order again.",
+            "author": "James T.",
+            "meta": "Verified buyer"
+          }
+        },
+        "review_3": {
+          "type": "review",
+          "settings": {
+            "rating": 5,
+            "quote": "Great service and solid Wilkinson Sword quality. Packaging was careful and everything arrived perfect.",
+            "author": "Helen R.",
+            "meta": "Verified buyer"
+          }
+        }
+      },
+      "block_order": [
+        "review_1",
+        "review_2",
+        "review_3"
+      ],
+      "settings": {
+        "title": "What customers say",
+        "subtitle": "Real reviews from gardeners across the UK.",
+        "show_summary": true,
+        "summary_rating": 5,
+        "summary_text": "4.9 / 5 from verified buyers",
+        "columns": "3",
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "os_featured_articles": {
+      "type": "os-featured-articles",
+      "settings": {
+        "title": "Latest articles",
+        "blog": "garden-guides",
+        "post_limit": 3,
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_suffix": "Articles",
+        "view_all_link": "",
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "show_excerpt": true,
+        "read_more_label": "Read more",
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "os_trust_band": {
+      "type": "os-trust-band",
+      "blocks": {
+        "trust_delivery": {
+          "type": "point",
+          "settings": {
+            "icon": "truck",
+            "title": "Free delivery",
+            "text": "On qualifying UK orders."
+          }
+        },
+        "trust_nextday": {
+          "type": "point",
+          "settings": {
+            "icon": "box",
+            "title": "Next-day options",
+            "text": "When you need tools fast."
+          }
+        },
+        "trust_secure": {
+          "type": "point",
+          "settings": {
+            "icon": "padlock",
+            "title": "Secure checkout",
+            "text": "Shop with confidence every time."
+          }
+        }
+      },
+      "block_order": [
+        "trust_delivery",
+        "trust_nextday",
+        "trust_secure"
+      ],
+      "settings": {
+        "heading": "Shop with\nconfidence",
+        "text": "Trusted brands, fast UK delivery and support when you need it.",
+        "button_label": "Shop garden tools",
+        "button_link": "shopify://collections/all",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
     "image_banner": {
       "type": "image-banner",
+      "disabled": true,
       "blocks": {
         "heading": {
           "type": "heading",
@@ -474,6 +763,12 @@
     }
   },
   "order": [
+    "os_hero_banner",
+    "os_shop_categories",
+    "os_featured_products",
+    "os_promo_banners",
+    "os_featured_products_2",
+    "os_promo_banners_2",
     "1784486218094e13e6",
     "blocks_cyYVBr",
     "blocks_KMnWtw",
@@ -482,6 +777,9 @@
     "1784034835399f9e0b",
     "collection_list_fM4mEX",
     "featured_blog_JFXgna",
+    "os_reviews",
+    "os_featured_articles",
+    "os_trust_band",
     "image_banner",
     "1784028821602ada39",
     "17844851525ae38352",

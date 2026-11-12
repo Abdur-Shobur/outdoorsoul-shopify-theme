@@ -1,0 +1,242 @@
+{%- liquid
+  assign heading = section.settings.heading
+  assign text = section.settings.text
+  assign button_label = section.settings.button_label
+  assign button_link = section.settings.button_link
+  assign image = section.settings.image
+  assign image_alt = heading
+  if image != blank and image.alt != blank
+    assign image_alt = image.alt
+  endif
+-%}
+
+<section
+  id="OsTrust-{{ section.id }}"
+  class="os-trust"
+  style="
+    --os-trust-pad-top: {{ section.settings.padding_top }}px;
+    --os-trust-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+  {% if heading != blank %}
+    aria-labelledby="OsTrustHeading-{{ section.id }}"
+  {% endif %}
+>
+  <div class="os-container os-trust__inner">
+    <div class="os-trust__intro">
+      <div class="os-trust__media">
+        {%- if image != blank -%}
+          {{
+            image
+            | image_url: width: 640
+            | image_tag:
+              class: 'os-trust__image',
+              loading: 'lazy',
+              widths: '280, 360, 480, 640',
+              sizes: '(min-width: 990px) 208px, (min-width: 750px) 192px, 100vw',
+              alt: image_alt
+          }}
+        {%- else -%}
+          {{ 'lifestyle-1' | placeholder_svg_tag: 'os-trust__image os-trust__image--placeholder' }}
+        {%- endif -%}
+      </div>
+
+      <div class="os-trust__copy">
+        {%- if heading != blank -%}
+          <h2 id="OsTrustHeading-{{ section.id }}" class="os-trust__heading">
+            {{ heading | newline_to_br }}
+          </h2>
+        {%- endif -%}
+
+        {%- if text != blank -%}
+          <p class="os-trust__text">{{ text | escape }}</p>
+        {%- endif -%}
+
+        {%- if button_label != blank -%}
+          <a
+            class="os-trust__cta"
+            {% if button_link != blank %}
+              href="{{ button_link }}"
+            {% else %}
+              role="link"
+              aria-disabled="true"
+            {% endif %}
+          >
+            {{ button_label | escape }}
+            <span class="svg-wrapper" aria-hidden="true">
+              {{- 'icon-arrow.svg' | inline_asset_content -}}
+            </span>
+          </a>
+        {%- endif -%}
+      </div>
+    </div>
+
+    {%- if section.blocks.size > 0 -%}
+      <ul class="os-trust__points" role="list">
+        {%- for block in section.blocks -%}
+          {%- liquid
+            assign icon = block.settings.icon | default: 'truck'
+            assign icon_file = 'icon-truck.svg'
+            case icon
+              when 'padlock'
+                assign icon_file = 'icon-padlock.svg'
+              when 'leaf'
+                assign icon_file = 'icon-leaf.svg'
+              when 'return'
+                assign icon_file = 'icon-return.svg'
+              when 'checkmark'
+                assign icon_file = 'icon-checkmark.svg'
+              when 'box'
+                assign icon_file = 'icon-box.svg'
+              when 'heart'
+                assign icon_file = 'icon-heart.svg'
+              when 'star'
+                assign icon_file = 'icon-star.svg'
+              when 'plant'
+                assign icon_file = 'icon-plant.svg'
+            endcase
+          -%}
+          <li class="os-trust__point" {{ block.shopify_attributes }}>
+            <span class="os-trust__icon svg-wrapper" aria-hidden="true">
+              {{- icon_file | inline_asset_content -}}
+            </span>
+            <div class="os-trust__point-copy">
+              {%- if block.settings.title != blank -%}
+                <h3 class="os-trust__point-title">{{ block.settings.title | escape }}</h3>
+              {%- endif -%}
+              {%- if block.settings.text != blank -%}
+                <p class="os-trust__point-text">{{ block.settings.text | escape }}</p>
+              {%- endif -%}
+            </div>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Trust band",
+  "tag": "section",
+  "class": "section-os-trust",
+  "max_blocks": 4,
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image"
+    },
+    {
+      "type": "textarea",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Shop with confidence"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "default": "Trusted brands, fast UK delivery and support when you need it."
+    },
+    {
+      "type": "text",
+      "id": "button_label",
+      "label": "Button label",
+      "default": "Shop garden tools"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 36
+    }
+  ],
+  "blocks": [
+    {
+      "type": "point",
+      "name": "Trust point",
+      "settings": [
+        {
+          "type": "select",
+          "id": "icon",
+          "label": "Icon",
+          "options": [
+            { "value": "truck", "label": "Truck" },
+            { "value": "padlock", "label": "Padlock" },
+            { "value": "leaf", "label": "Leaf" },
+            { "value": "return", "label": "Return" },
+            { "value": "checkmark", "label": "Checkmark" },
+            { "value": "box", "label": "Box" },
+            { "value": "heart", "label": "Heart" },
+            { "value": "star", "label": "Star" },
+            { "value": "plant", "label": "Plant" }
+          ],
+          "default": "truck"
+        },
+        {
+          "type": "text",
+          "id": "title",
+          "label": "Heading",
+          "default": "Free delivery"
+        },
+        {
+          "type": "text",
+          "id": "text",
+          "label": "Text",
+          "default": "On qualifying UK orders."
+        }
+      ]
+    }
+  ],
+  "presets": [
+    {
+      "name": "Trust band",
+      "blocks": [
+        {
+          "type": "point",
+          "settings": {
+            "icon": "truck",
+            "title": "Free delivery",
+            "text": "On qualifying UK orders."
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "icon": "box",
+            "title": "Next-day options",
+            "text": "When you need tools fast."
+          }
+        },
+        {
+          "type": "point",
+          "settings": {
+            "icon": "padlock",
+            "title": "Secure checkout",
+            "text": "Shop with confidence every time."
+          }
+        }
+      ]
+    }
+  ]
+}
+{% endschema %}

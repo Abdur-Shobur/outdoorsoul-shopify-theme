@@ -1,0 +1,185 @@
+{% comment %}
+  Outdoor Soul product card — matches Leaf & Loom featured card design.
+
+  Accepts:
+  - product: {Product}
+  - section: {Section} (for form ids / product-form)
+  - show_vendor: {Boolean}
+  - show_rating: {Boolean}
+  - enable_quick_add: {Boolean}
+{% endcomment %}
+{%- liquid
+  assign badge_label = blank
+  assign badge_style = 'peach'
+
+  if product.available == false
+    assign badge_label = 'Sold out'
+    assign badge_style = 'muted'
+  elsif product.compare_at_price > product.price
+    assign badge_label = 'Sale'
+    assign badge_style = 'peach'
+  elsif product.tags contains 'Bestseller' or product.tags contains 'bestseller'
+    assign badge_label = 'Bestseller'
+    assign badge_style = 'peach'
+  elsif product.tags contains 'New' or product.tags contains 'new'
+    assign badge_label = 'New'
+    assign badge_style = 'peach'
+  elsif product.tags contains 'Pet Friendly' or product.tags contains 'pet friendly'
+    assign badge_label = 'Pet Friendly'
+    assign badge_style = 'sage'
+  elsif product.tags contains 'Low Light' or product.tags contains 'low light'
+    assign badge_label = 'Low Light'
+    assign badge_style = 'sage'
+  endif
+
+  assign card_alt = product.title
+  if product.featured_media and product.featured_media.alt != blank
+    assign card_alt = product.featured_media.alt
+  endif
+
+  assign secondary_media = blank
+  if product.media.size > 1
+    for media in product.media
+      if media.media_type == 'image' and media.id != product.featured_media.id
+        assign secondary_media = media
+        break
+      endif
+    endfor
+  endif
+
+  assign secondary_alt = product.title
+  if secondary_media != blank and secondary_media.alt != blank
+    assign secondary_alt = secondary_media.alt
+  endif
+
+  assign form_id = 'OsCardAdd-' | append: section.id | append: '-' | append: product.id
+
+  assign money_price = product.price | money
+  if settings.currency_code_enabled
+    assign money_price = product.price | money_with_currency
+  endif
+  if product.price_varies
+    assign money_price = 'products.product.price.from_price_html' | t: price: money_price
+  endif
+-%}
+
+<article class="os-product-card{% if secondary_media != blank %} os-product-card--has-secondary{% endif %}">
+  <div class="os-product-card__media">
+    {%- if product.featured_media -%}
+      {{
+        product.featured_media
+        | image_url: width: 720
+        | image_tag:
+          class: 'os-product-card__image os-product-card__image--primary',
+          loading: 'lazy',
+          widths: '280, 360, 480, 720',
+          sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+          alt: card_alt
+      }}
+      {%- if secondary_media != blank -%}
+        {{
+          secondary_media
+          | image_url: width: 720
+          | image_tag:
+            class: 'os-product-card__image os-product-card__image--secondary',
+            loading: 'lazy',
+            widths: '280, 360, 480, 720',
+            sizes: '(min-width: 990px) 25vw, (min-width: 750px) 33vw, 50vw',
+            alt: secondary_alt
+        }}
+      {%- endif -%}
+    {%- else -%}
+      {{ 'product-1' | placeholder_svg_tag: 'os-product-card__image os-product-card__image--placeholder' }}
+    {%- endif -%}
+
+    {%- if badge_label != blank -%}
+      <span class="os-product-card__badge os-product-card__badge--{{ badge_style }}">
+        {{ badge_label }}
+      </span>
+    {%- endif -%}
+  </div>
+
+  <div class="os-product-card__body">
+    <h3 class="os-product-card__title">
+      <a href="{{ product.url }}" class="os-product-card__link">{{ product.title | escape }}</a>
+    </h3>
+
+    {%- if show_vendor and product.vendor != blank -%}
+      <p class="os-product-card__meta">{{ product.vendor | escape }}</p>
+    {%- elsif product.description != blank -%}
+      <p class="os-product-card__meta">{{ product.description | strip_html | truncate: 70 }}</p>
+    {%- endif -%}
+
+    {%- if show_rating and product.metafields.reviews.rating.value != blank -%}
+      {%- liquid
+        assign rating_value = product.metafields.reviews.rating.value.rating
+        assign rating_count = product.metafields.reviews.rating_count
+        assign rating_max = product.metafields.reviews.rating.value.scale_max
+      -%}
+      <p class="os-product-card__rating">
+        <span
+          class="os-product-card__stars"
+          style="--rating: {{ rating_value }};"
+          role="img"
+          aria-label="{{ 'accessibility.star_reviews_info' | t: rating_value: rating_value, rating_max: rating_max }}"
+        ></span>
+        {%- if rating_count != blank -%}
+          <span>({{ rating_count }})</span>
+        {%- endif -%}
+      </p>
+    {%- endif -%}
+
+    <div class="os-product-card__footer">
+      <p class="os-product-card__price">
+        {%- if product.compare_at_price > product.price -%}
+          <span class="os-product-card__price-sale">{{ money_price }}</span>
+          <s class="os-product-card__price-compare">
+            {%- if settings.currency_code_enabled -%}
+              {{ product.compare_at_price | money_with_currency }}
+            {%- else -%}
+              {{ product.compare_at_price | money }}
+            {%- endif -%}
+          </s>
+        {%- else -%}
+          {{ money_price }}
+        {%- endif -%}
+      </p>
+
+      {%- if enable_quick_add and product.available -%}
+        {%- if product.has_only_default_variant -%}
+          <product-form class="os-product-card__product-form" data-section-id="{{ section.id }}">
+            {%- form 'product', product, id: form_id, class: 'os-product-card__form', novalidate: 'novalidate', data-type: 'add-to-cart-form' -%}
+              <input
+                type="hidden"
+                name="id"
+                value="{{ product.selected_or_first_available_variant.id }}"
+                class="product-variant-id"
+              >
+              <button
+                type="submit"
+                name="add"
+                class="os-product-card__add"
+                aria-label="{{ 'products.product.add_to_cart' | t }} — {{ product.title | escape }}"
+              >
+                <span class="svg-wrapper" aria-hidden="true">
+                  {{- 'icon-cart.svg' | inline_asset_content -}}
+                </span>
+                {%- render 'loading-spinner' -%}
+              </button>
+            {%- endform -%}
+          </product-form>
+        {%- else -%}
+          <a
+            href="{{ product.url }}"
+            class="os-product-card__add"
+            aria-label="{{ product.title | escape }}"
+          >
+            <span class="svg-wrapper" aria-hidden="true">
+              {{- 'icon-cart.svg' | inline_asset_content -}}
+            </span>
+          </a>
+        {%- endif -%}
+      {%- endif -%}
+    </div>
+  </div>
+</article>

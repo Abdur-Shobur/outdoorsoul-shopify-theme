@@ -1,0 +1,223 @@
+{%- liquid
+  assign blog = section.settings.blog
+  assign post_limit = section.settings.post_limit | default: 3
+  assign view_all_url = section.settings.view_all_link
+  if view_all_url == blank and blog != blank
+    assign view_all_url = blog.url
+  endif
+-%}
+
+<section
+  id="OsArticles-{{ section.id }}"
+  class="os-articles"
+  style="
+    --os-articles-pad-top: {{ section.settings.padding_top }}px;
+    --os-articles-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+  aria-labelledby="OsArticlesHeading-{{ section.id }}"
+>
+  <div class="os-container">
+    <div class="os-articles__header">
+      {%- if section.settings.title != blank -%}
+        <h2 id="OsArticlesHeading-{{ section.id }}" class="os-articles__title">
+          {{ section.settings.title | escape }}
+        </h2>
+      {%- endif -%}
+
+      {%- if section.settings.show_view_all and view_all_url != blank -%}
+        <a href="{{ view_all_url }}" class="os-articles__view-all">
+          <span>{{ section.settings.view_all_label | default: 'View All' | escape }}</span>
+          {%- if section.settings.view_all_suffix != blank -%}
+            <span class="os-articles__view-all-extra">{{ section.settings.view_all_suffix | escape }}</span>
+          {%- endif -%}
+          <span class="svg-wrapper" aria-hidden="true">
+            {{- 'icon-arrow.svg' | inline_asset_content -}}
+          </span>
+        </a>
+      {%- endif -%}
+    </div>
+
+    {%- if blog != blank and blog.articles_count > 0 -%}
+      <ul class="os-articles__grid" role="list">
+        {%- for article in blog.articles limit: post_limit -%}
+          {%- liquid
+            assign image_alt = article.title
+            if article.image and article.image.alt != blank
+              assign image_alt = article.image.alt
+            endif
+          -%}
+          <li class="os-articles__item">
+            <article class="os-article-card">
+              {%- if section.settings.show_image -%}
+                <div class="os-article-card__media">
+                  {%- if article.image -%}
+                    {{
+                      article.image
+                      | image_url: width: 900
+                      | image_tag:
+                        class: 'os-article-card__image',
+                        loading: 'lazy',
+                        widths: '360, 540, 720, 900',
+                        sizes: '(min-width: 990px) 33vw, (min-width: 750px) 50vw, 100vw',
+                        alt: image_alt
+                    }}
+                  {%- else -%}
+                    {{ 'blog-apparel-1' | placeholder_svg_tag: 'os-article-card__image os-article-card__image--placeholder' }}
+                  {%- endif -%}
+                </div>
+              {%- endif -%}
+
+              <div class="os-article-card__body">
+                {%- if section.settings.show_date or section.settings.show_author -%}
+                  <p class="os-article-card__meta">
+                    {%- if section.settings.show_date -%}
+                      {{ article.published_at | time_tag: format: 'date' }}
+                    {%- endif -%}
+                    {%- if section.settings.show_date and section.settings.show_author and article.author != blank -%}
+                      <span aria-hidden="true"> · </span>
+                    {%- endif -%}
+                    {%- if section.settings.show_author and article.author != blank -%}
+                      <span>{{ article.author | escape }}</span>
+                    {%- endif -%}
+                  </p>
+                {%- endif -%}
+
+                <h3 class="os-article-card__title">
+                  <a href="{{ article.url }}" class="os-article-card__link">
+                    {{ article.title | escape }}
+                  </a>
+                </h3>
+
+                {%- if section.settings.show_excerpt and article.excerpt_or_content != blank -%}
+                  <p class="os-article-card__excerpt">
+                    {{ article.excerpt_or_content | strip_html | truncate: 110 }}
+                  </p>
+                {%- endif -%}
+
+                <span class="os-article-card__read">
+                  {{ section.settings.read_more_label | default: 'Read more' | escape }}
+                  <span class="svg-wrapper" aria-hidden="true">
+                    {{- 'icon-arrow.svg' | inline_asset_content -}}
+                  </span>
+                </span>
+              </div>
+            </article>
+          </li>
+        {%- endfor -%}
+      </ul>
+    {%- else -%}
+      <div class="os-articles__empty">
+        <p>Select a blog with articles in the theme editor.</p>
+      </div>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Latest articles",
+  "tag": "section",
+  "class": "section-os-articles",
+  "settings": [
+    {
+      "type": "text",
+      "id": "title",
+      "label": "Heading",
+      "default": "Latest articles"
+    },
+    {
+      "type": "blog",
+      "id": "blog",
+      "label": "Blog"
+    },
+    {
+      "type": "range",
+      "id": "post_limit",
+      "min": 2,
+      "max": 6,
+      "step": 1,
+      "label": "Posts to show",
+      "default": 3
+    },
+    {
+      "type": "checkbox",
+      "id": "show_view_all",
+      "label": "Show view all link",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "view_all_label",
+      "label": "View all label",
+      "default": "View All"
+    },
+    {
+      "type": "text",
+      "id": "view_all_suffix",
+      "label": "View all suffix (desktop)",
+      "default": "Articles"
+    },
+    {
+      "type": "url",
+      "id": "view_all_link",
+      "label": "View all link",
+      "info": "Defaults to the selected blog"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_image",
+      "label": "Show featured image",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_date",
+      "label": "Show date",
+      "default": true
+    },
+    {
+      "type": "checkbox",
+      "id": "show_author",
+      "label": "Show author",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "show_excerpt",
+      "label": "Show excerpt",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "read_more_label",
+      "label": "Read more label",
+      "default": "Read more"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Top padding",
+      "default": 36
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Bottom padding",
+      "default": 48
+    }
+  ],
+  "presets": [
+    {
+      "name": "Latest articles"
+    }
+  ]
+}
+{% endschema %}
