@@ -1,0 +1,491 @@
+{% doc %}
+  @prompt
+    I want a black border to the filter buttons with rounded cornors and a white background.  Can the filter bar have a muted grey background
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-filter-bar-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+  }
+
+  .ai-filter-bar-container-{{ ai_gen_id }} {
+    background-color: {{ block.settings.filter_bar_background }};
+    padding: {{ block.settings.filter_bar_padding }}px;
+    border-radius: {{ block.settings.filter_bar_radius }}px;
+  }
+
+  .ai-filter-bar-heading-{{ ai_gen_id }} {
+    margin: 0 0 {{ block.settings.heading_spacing }}px;
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+  }
+
+  .ai-filter-buttons-{{ ai_gen_id }} {
+    display: flex;
+    flex-wrap: wrap;
+    gap: {{ block.settings.button_gap }}px;
+  }
+
+  .ai-filter-button-{{ ai_gen_id }} {
+    padding: {{ block.settings.button_padding_vertical }}px {{ block.settings.button_padding_horizontal }}px;
+    background-color: {{ block.settings.button_background }};
+    color: {{ block.settings.button_text_color }};
+    border: {{ block.settings.button_border_width }}px solid {{ block.settings.button_border_color }};
+    border-radius: {{ block.settings.button_border_radius }}px;
+    font-size: {{ block.settings.button_font_size }}px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+  }
+
+  .ai-filter-button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_background }};
+    color: {{ block.settings.button_hover_text_color }};
+    border-color: {{ block.settings.button_hover_border_color }};
+  }
+
+  .ai-filter-button-{{ ai_gen_id }}.active {
+    background-color: {{ block.settings.button_active_background }};
+    color: {{ block.settings.button_active_text_color }};
+    border-color: {{ block.settings.button_active_border_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-filter-bar-container-{{ ai_gen_id }} {
+      padding: {{ block.settings.filter_bar_padding | times: 0.75 }}px;
+    }
+
+    .ai-filter-button-{{ ai_gen_id }} {
+      font-size: {{ block.settings.button_font_size | times: 0.9 }}px;
+    }
+  }
+{% endstyle %}
+
+<collection-filter-bar-{{ ai_gen_id }}
+  class="ai-filter-bar-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <div class="ai-filter-bar-container-{{ ai_gen_id }}">
+    {% if block.settings.heading != blank %}
+      <h3 class="ai-filter-bar-heading-{{ ai_gen_id }}">{{ block.settings.heading }}</h3>
+    {% endif %}
+
+    <div class="ai-filter-buttons-{{ ai_gen_id }}">
+      {% if block.settings.show_all_button %}
+        <button
+          class="ai-filter-button-{{ ai_gen_id }} active"
+          data-filter="all"
+        >
+          {{ block.settings.all_button_text }}
+        </button>
+      {% endif %}
+
+      {% if block.settings.filter_1_enabled and block.settings.filter_1_label != blank %}
+        <button
+          class="ai-filter-button-{{ ai_gen_id }}"
+          data-filter="filter-1"
+        >
+          {{ block.settings.filter_1_label }}
+        </button>
+      {% endif %}
+
+      {% if block.settings.filter_2_enabled and block.settings.filter_2_label != blank %}
+        <button
+          class="ai-filter-button-{{ ai_gen_id }}"
+          data-filter="filter-2"
+        >
+          {{ block.settings.filter_2_label }}
+        </button>
+      {% endif %}
+
+      {% if block.settings.filter_3_enabled and block.settings.filter_3_label != blank %}
+        <button
+          class="ai-filter-button-{{ ai_gen_id }}"
+          data-filter="filter-3"
+        >
+          {{ block.settings.filter_3_label }}
+        </button>
+      {% endif %}
+
+      {% if block.settings.filter_4_enabled and block.settings.filter_4_label != blank %}
+        <button
+          class="ai-filter-button-{{ ai_gen_id }}"
+          data-filter="filter-4"
+        >
+          {{ block.settings.filter_4_label }}
+        </button>
+      {% endif %}
+
+      {% if block.settings.filter_5_enabled and block.settings.filter_5_label != blank %}
+        <button
+          class="ai-filter-button-{{ ai_gen_id }}"
+          data-filter="filter-5"
+        >
+          {{ block.settings.filter_5_label }}
+        </button>
+      {% endif %}
+
+      {% if block.settings.filter_6_enabled and block.settings.filter_6_label != blank %}
+        <button
+          class="ai-filter-button-{{ ai_gen_id }}"
+          data-filter="filter-6"
+        >
+          {{ block.settings.filter_6_label }}
+        </button>
+      {% endif %}
+    </div>
+  </div>
+</collection-filter-bar-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CollectionFilterBar{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.buttons = this.querySelectorAll('.ai-filter-button-{{ ai_gen_id }}');
+        this.setupEventListeners();
+      }
+
+      setupEventListeners() {
+        this.buttons.forEach((button) => {
+          button.addEventListener('click', () => {
+            this.buttons.forEach((btn) => btn.classList.remove('active'));
+            button.classList.add('active');
+            
+            const filterValue = button.getAttribute('data-filter');
+            this.dispatchEvent(new CustomEvent('filter-change', {
+              detail: { filter: filterValue },
+              bubbles: true
+            }));
+          });
+        });
+      }
+    }
+
+    customElements.define('collection-filter-bar-{{ ai_gen_id }}', CollectionFilterBar{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collection filter bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Filter bar"
+    },
+    {
+      "type": "inline_richtext",
+      "id": "heading",
+      "label": "Heading",
+      "default": "Filter by"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Heading size",
+      "min": 12,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 18
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Heading color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "heading_spacing",
+      "label": "Heading spacing",
+      "min": 8,
+      "max": 32,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "filter_bar_background",
+      "label": "Background color",
+      "default": "#e8e8e8"
+    },
+    {
+      "type": "range",
+      "id": "filter_bar_padding",
+      "label": "Padding",
+      "min": 8,
+      "max": 48,
+      "step": 4,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "filter_bar_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    },
+    {
+      "type": "header",
+      "content": "Filter buttons"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_all_button",
+      "label": "Show all button",
+      "default": true
+    },
+    {
+      "type": "inline_richtext",
+      "id": "all_button_text",
+      "label": "All button text",
+      "default": "All"
+    },
+    {
+      "type": "range",
+      "id": "button_gap",
+      "label": "Gap between buttons",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 12
+    },
+    {
+      "type": "range",
+      "id": "button_padding_vertical",
+      "label": "Vertical padding",
+      "min": 4,
+      "max": 24,
+      "step": 2,
+      "unit": "px",
+      "default": 10
+    },
+    {
+      "type": "range",
+      "id": "button_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 8,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "button_font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 14
+    },
+    {
+      "type": "color",
+      "id": "button_background",
+      "label": "Background color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_border_color",
+      "label": "Border color",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "button_border_width",
+      "label": "Border width",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 2
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "header",
+      "content": "Button hover state"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_background",
+      "label": "Background color",
+      "default": "#f3f3f3"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_text_color",
+      "label": "Text color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_border_color",
+      "label": "Border color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Button active state"
+    },
+    {
+      "type": "color",
+      "id": "button_active_background",
+      "label": "Background color",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "button_active_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "button_active_border_color",
+      "label": "Border color",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Filter 1"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_1_enabled",
+      "label": "Enable filter 1",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "filter_1_label",
+      "label": "Label",
+      "default": "Category 1"
+    },
+    {
+      "type": "header",
+      "content": "Filter 2"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_2_enabled",
+      "label": "Enable filter 2",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "filter_2_label",
+      "label": "Label",
+      "default": "Category 2"
+    },
+    {
+      "type": "header",
+      "content": "Filter 3"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_3_enabled",
+      "label": "Enable filter 3",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "filter_3_label",
+      "label": "Label",
+      "default": "Category 3"
+    },
+    {
+      "type": "header",
+      "content": "Filter 4"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_4_enabled",
+      "label": "Enable filter 4",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "filter_4_label",
+      "label": "Label"
+    },
+    {
+      "type": "header",
+      "content": "Filter 5"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_5_enabled",
+      "label": "Enable filter 5",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "filter_5_label",
+      "label": "Label"
+    },
+    {
+      "type": "header",
+      "content": "Filter 6"
+    },
+    {
+      "type": "checkbox",
+      "id": "filter_6_enabled",
+      "label": "Enable filter 6",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "filter_6_label",
+      "label": "Label"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection filter bar"
+    }
+  ]
+}
+{% endschema %}

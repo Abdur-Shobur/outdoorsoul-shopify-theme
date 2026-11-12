@@ -1,0 +1,288 @@
+{% doc %}
+  @prompt
+    Create a breadcrumb navigation block for product pages that displays the navigation path above the product title. The breadcrumbs should show the hierarchy like "Home / Collection Name / Product Name" with each item being a clickable link except the current product page. Style it to match a clean, minimal design with small grey text, a "/" separator between items, and the current page shown in a slightly darker colour. The block should use Liquid to dynamically pull the product title and its parent collection, linking back through the hierarchy.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-breadcrumb-{{ ai_gen_id }} {
+    display: block;
+    width: {{ block.settings.desktop_width_percent }}%;
+    max-width: 100%;
+    margin-bottom: {{ block.settings.spacing_bottom }}px;
+    padding-left: 50px;
+  }
+
+  .ai-breadcrumb-nav-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: {{ block.settings.item_spacing }}px;
+    font-size: {{ block.settings.font_size }}px;
+    line-height: 1.5;
+  }
+
+  .ai-breadcrumb-item-{{ ai_gen_id }} {
+    display: flex;
+    align-items: center;
+    gap: {{ block.settings.item_spacing }}px;
+  }
+
+  .ai-breadcrumb-link-{{ ai_gen_id }} {
+    color: {{ block.settings.link_color }};
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .ai-breadcrumb-link-{{ ai_gen_id }}:hover {
+    color: {{ block.settings.link_hover_color }};
+    text-decoration: {{ block.settings.hover_underline }};
+  }
+
+  .ai-breadcrumb-separator-{{ ai_gen_id }} {
+    color: {{ block.settings.separator_color }};
+    user-select: none;
+  }
+
+  .ai-breadcrumb-current-{{ ai_gen_id }} {
+    color: {{ block.settings.current_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-breadcrumb-{{ ai_gen_id }} {
+      width: 100%;
+    }
+  }
+{% endstyle %}
+
+<breadcrumb-navigation-{{ ai_gen_id }}
+  class="ai-breadcrumb-{{ ai_gen_id }}"
+  {{ block.shopify_attributes }}
+>
+  <nav
+    class="ai-breadcrumb-nav-{{ ai_gen_id }}"
+    aria-label="Breadcrumb"
+  >
+    {%- assign t = template | split: '.' | first -%}
+
+    {%- comment -%} HOME {%- endcomment -%}
+    <div class="ai-breadcrumb-item-{{ ai_gen_id }}">
+      <a href="/" class="ai-breadcrumb-link-{{ ai_gen_id }}">
+        {% if block.settings.show_home_icon %}
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path><polyline points="9 22 9 12 15 12 15 22"></polyline></svg>
+        {% else %}
+          {{ block.settings.home_text }}
+        {% endif %}
+      </a>
+      {%- unless t == 'index' -%}
+        <span class="ai-breadcrumb-separator-{{ ai_gen_id }}" aria-hidden="true">{{ block.settings.separator }}</span>
+      {%- endunless -%}
+    </div>
+
+    {%- case t -%}
+      {%- when 'product' -%}
+        {%- if product.collections.size > 0 -%}
+          {%- assign breadcrumb_collection = product.collections.first -%}
+          {%- if block.settings.use_product_type and product.type != blank -%}
+            {%- assign product_type_handle = product.type | handleize -%}
+            {%- for collection in product.collections -%}
+              {%- if collection.handle == product_type_handle -%}
+                {%- assign breadcrumb_collection = collection -%}
+                {%- break -%}
+              {%- endif -%}
+            {%- endfor -%}
+          {%- endif -%}
+          <div class="ai-breadcrumb-item-{{ ai_gen_id }}">
+            <a href="{{ breadcrumb_collection.url }}" class="ai-breadcrumb-link-{{ ai_gen_id }}">{{ breadcrumb_collection.title }}</a>
+            <span class="ai-breadcrumb-separator-{{ ai_gen_id }}" aria-hidden="true">{{ block.settings.separator }}</span>
+          </div>
+        {%- endif -%}
+        <div class="ai-breadcrumb-item-{{ ai_gen_id }}">
+          <span class="ai-breadcrumb-current-{{ ai_gen_id }}" aria-current="page">{{ product.title }}</span>
+        </div>
+
+      {%- when 'collection' -%}
+        <div class="ai-breadcrumb-item-{{ ai_gen_id }}">
+          <span class="ai-breadcrumb-current-{{ ai_gen_id }}" aria-current="page">
+            {%- if collection.handle == 'all' -%}
+              Catalog
+            {%- else -%}
+              {{ collection.title }}
+            {%- endif -%}
+          </span>
+        </div>
+
+      {%- when 'list-collections' -%}
+        <div class="ai-breadcrumb-item-{{ ai_gen_id }}">
+          <span class="ai-breadcrumb-current-{{ ai_gen_id }}" aria-current="page">Collections</span>
+        </div>
+
+      {%- when 'page' -%}
+        <div class="ai-breadcrumb-item-{{ ai_gen_id }}">
+          <span class="ai-breadcrumb-current-{{ ai_gen_id }}" aria-current="page">{{ page.title }}</span>
+        </div>
+
+      {%- else -%}
+        {%- unless t == 'index' -%}
+          <div class="ai-breadcrumb-item-{{ ai_gen_id }}">
+            <span class="ai-breadcrumb-current-{{ ai_gen_id }}" aria-current="page">{{ page_title }}</span>
+          </div>
+        {%- endunless -%}
+    {%- endcase -%}
+  </nav>
+</breadcrumb-navigation-{{ ai_gen_id }}>
+
+<script>
+  (function () {
+    class BreadcrumbNavigation{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.style.display = 'block';
+      }
+    }
+
+    customElements.define(
+      'breadcrumb-navigation-{{ ai_gen_id }}',
+      BreadcrumbNavigation{{ ai_gen_id }}
+    );
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Breadcrumb navigation",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Content"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_home_icon",
+      "label": "Show home icon",
+      "default": false
+    },
+    {
+      "type": "text",
+      "id": "home_text",
+      "label": "Home text",
+      "default": "Home"
+    },
+    {
+      "type": "text",
+      "id": "separator",
+      "label": "Separator",
+      "default": "/"
+    },
+    {
+      "type": "checkbox",
+      "id": "use_product_type",
+      "label": "Use product type for collection",
+      "info": "If enabled, will try to match collection to product type",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Style"
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 10,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 13
+    },
+    {
+      "type": "range",
+      "id": "item_spacing",
+      "label": "Item spacing",
+      "min": 4,
+      "max": 16,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "spacing_bottom",
+      "label": "Bottom spacing",
+      "min": 0,
+      "max": 40,
+      "step": 4,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "link_color",
+      "label": "Link color",
+      "default": "#757575"
+    },
+    {
+      "type": "color",
+      "id": "link_hover_color",
+      "label": "Link hover color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "select",
+      "id": "hover_underline",
+      "label": "Hover underline",
+      "options": [
+        {
+          "value": "none",
+          "label": "None"
+        },
+        {
+          "value": "underline",
+          "label": "Underline"
+        }
+      ],
+      "default": "none"
+    },
+    {
+      "type": "color",
+      "id": "separator_color",
+      "label": "Separator color",
+      "default": "#757575"
+    },
+    {
+      "type": "color",
+      "id": "current_color",
+      "label": "Current page color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "range",
+      "id": "desktop_width_percent",
+      "label": "Desktop width",
+      "min": 50,
+      "max": 100,
+      "step": 5,
+      "unit": "%",
+      "default": 100
+    }
+  ],
+  "presets": [
+    {
+      "name": "Breadcrumb navigation"
+    }
+  ]
+}
+{% endschema %}
+{% comment %}
+
+This file has been rewritten to preserve the original behavior.
+
+---
+Changes:
+- from: "{%- when 'collection' and collection.handle -%}"
+  to: "{%- when 'collection' -%}"
+  position: 4134..4159
+{% endcomment %}

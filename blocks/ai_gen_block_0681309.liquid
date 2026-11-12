@@ -1,0 +1,507 @@
+{% doc %}
+  @prompt
+    Create a dynamic "Image with Text" section that automatically changes its content (heading, text, and image) based on which collection page is being viewed. The section should display the collection's featured image, title, and description by default, but also allow custom overrides per collection using metafields if available. The layout should match a typical image-with-text format with the image on one side and heading + body text on the other.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% liquid
+  if collection
+    if block.settings.use_metafield_heading and collection.metafields.custom.heading != blank
+      assign heading = collection.metafields.custom.heading
+    else
+      assign heading = collection.title
+    endif
+
+    if block.settings.use_metafield_text and collection.metafields.custom.description != blank
+      assign description = collection.metafields.custom.description
+    else
+      assign description = collection.description
+    endif
+
+    if block.settings.use_metafield_image and collection.metafields.custom.image != blank
+      assign image = collection.metafields.custom.image
+    elsif collection.image
+      assign image = collection.image
+    else
+      assign image = blank
+    endif
+  else
+    assign heading = block.settings.fallback_heading
+    assign description = block.settings.fallback_text
+    assign image = block.settings.fallback_image
+  endif
+%}
+
+{% style %}
+  .ai-collection-image-text-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.padding_top }}px 0 {{ block.settings.padding_bottom }}px;
+  }
+
+  .ai-collection-image-text__container-{{ ai_gen_id }} {
+    max-width: {{ block.settings.container_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-collection-image-text__grid-{{ ai_gen_id }} {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: {{ block.settings.content_gap }}px;
+    align-items: center;
+  }
+
+  @media screen and (min-width: 750px) {
+    .ai-collection-image-text__grid-{{ ai_gen_id }} {
+      grid-template-columns: {% if block.settings.layout == 'image_first' %}1fr 1fr{% else %}1fr 1fr{% endif %};
+    }
+
+    .ai-collection-image-text__grid-{{ ai_gen_id }}--image-first .ai-collection-image-text__image-wrapper-{{ ai_gen_id }} {
+      order: 1;
+    }
+
+    .ai-collection-image-text__grid-{{ ai_gen_id }}--image-first .ai-collection-image-text__content-{{ ai_gen_id }} {
+      order: 2;
+    }
+
+    .ai-collection-image-text__grid-{{ ai_gen_id }}--text-first .ai-collection-image-text__image-wrapper-{{ ai_gen_id }} {
+      order: 2;
+    }
+
+    .ai-collection-image-text__grid-{{ ai_gen_id }}--text-first .ai-collection-image-text__content-{{ ai_gen_id }} {
+      order: 1;
+    }
+  }
+
+  .ai-collection-image-text__image-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+    overflow: hidden;
+    border-radius: {{ block.settings.image_border_radius }}px;
+  }
+
+  .ai-collection-image-text__image-{{ ai_gen_id }} {
+    width: 100%;
+    height: auto;
+    display: block;
+    object-fit: cover;
+  }
+
+  .ai-collection-image-text__placeholder-{{ ai_gen_id }} {
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    background-color: #f4f4f4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: {{ block.settings.image_border_radius }}px;
+    position: relative;
+  }
+
+  .ai-collection-image-text__placeholder-{{ ai_gen_id }} svg {
+    width: 100%;
+    height: 100%;
+    max-width: 400px;
+    max-height: 400px;
+  }
+
+  .ai-collection-image-text__empty-state-{{ ai_gen_id }} {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    padding: 12px 20px;
+    font-size: 14px;
+    color: #666;
+    text-align: center;
+    pointer-events: none;
+  }
+
+  .ai-collection-image-text__content-{{ ai_gen_id }} {
+    display: flex;
+    flex-direction: column;
+    gap: {{ block.settings.text_gap }}px;
+    text-align: {{ block.settings.text_alignment }};
+  }
+
+  .ai-collection-image-text__heading-{{ ai_gen_id }} {
+    margin: 0;
+    font-size: {{ block.settings.heading_size }}px;
+    color: {{ block.settings.heading_color }};
+    line-height: 1.2;
+  }
+
+  .ai-collection-image-text__text-{{ ai_gen_id }} {
+    margin: 0;
+    font-size: {{ block.settings.text_size }}px;
+    color: {{ block.settings.text_color }};
+    line-height: 1.6;
+  }
+
+  .ai-collection-image-text__button-{{ ai_gen_id }} {
+    display: inline-block;
+    padding: 12px 24px;
+    background-color: {{ block.settings.button_bg_color }};
+    color: {{ block.settings.button_text_color }};
+    text-decoration: none;
+    border-radius: {{ block.settings.button_border_radius }}px;
+    transition: background-color 0.3s ease;
+    border: none;
+    cursor: pointer;
+    font-size: {{ block.settings.button_text_size }}px;
+  }
+
+  .ai-collection-image-text__button-{{ ai_gen_id }}:hover {
+    background-color: {{ block.settings.button_hover_bg_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-collection-image-text__heading-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.heading_size }}px * 0.8);
+    }
+
+    .ai-collection-image-text__text-{{ ai_gen_id }} {
+      font-size: calc({{ block.settings.text_size }}px * 0.9);
+    }
+  }
+{% endstyle %}
+
+<collection-image-text-{{ ai_gen_id }} class="ai-collection-image-text-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-collection-image-text__container-{{ ai_gen_id }}">
+    <div class="ai-collection-image-text__grid-{{ ai_gen_id }} ai-collection-image-text__grid-{{ ai_gen_id }}--{{ block.settings.layout }}">
+      <div class="ai-collection-image-text__image-wrapper-{{ ai_gen_id }}">
+        {% if image != blank %}
+          <img
+            src="{{ image | image_url: width: 1200 }}"
+            alt="{{ image.alt | escape }}"
+            loading="lazy"
+            width="{{ image.width }}"
+            height="{{ image.height }}"
+            class="ai-collection-image-text__image-{{ ai_gen_id }}"
+          >
+        {% else %}
+          <div class="ai-collection-image-text__placeholder-{{ ai_gen_id }}">
+            {{ 'collection-apparel-1' | placeholder_svg_tag }}
+            <div class="ai-collection-image-text__empty-state-{{ ai_gen_id }}">
+              {% if collection %}
+                Add a featured image to this collection
+              {% else %}
+                Preview on a collection page or add a fallback image
+              {% endif %}
+            </div>
+          </div>
+        {% endif %}
+      </div>
+
+      <div class="ai-collection-image-text__content-{{ ai_gen_id }}">
+        {% if heading != blank %}
+          <h2 class="ai-collection-image-text__heading-{{ ai_gen_id }}">{{ heading }}</h2>
+        {% endif %}
+
+        {% if description != blank %}
+          <div class="ai-collection-image-text__text-{{ ai_gen_id }}">{{ description }}</div>
+        {% endif %}
+
+        {% if block.settings.show_button and block.settings.button_text != blank %}
+          {% if collection %}
+            <div>
+              <a href="{{ collection.url }}" class="ai-collection-image-text__button-{{ ai_gen_id }}">
+                {{ block.settings.button_text }}
+              </a>
+            </div>
+          {% elsif block.settings.button_link != blank %}
+            <div>
+              <a href="{{ block.settings.button_link }}" class="ai-collection-image-text__button-{{ ai_gen_id }}">
+                {{ block.settings.button_text }}
+              </a>
+            </div>
+          {% endif %}
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</collection-image-text-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class CollectionImageText{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+      }
+    }
+
+    customElements.define('collection-image-text-{{ ai_gen_id }}', CollectionImageText{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Collection image text",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "select",
+      "id": "layout",
+      "label": "Image position",
+      "options": [
+        {
+          "value": "image_first",
+          "label": "Image first"
+        },
+        {
+          "value": "text_first",
+          "label": "Text first"
+        }
+      ],
+      "default": "image_first"
+    },
+    {
+      "type": "range",
+      "id": "container_width",
+      "label": "Container width",
+      "min": 800,
+      "max": 1600,
+      "step": 100,
+      "unit": "px",
+      "default": 1200
+    },
+    {
+      "type": "range",
+      "id": "content_gap",
+      "label": "Space between image and text",
+      "min": 20,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "label": "Top padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "label": "Bottom padding",
+      "min": 0,
+      "max": 100,
+      "step": 10,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Image"
+    },
+    {
+      "type": "range",
+      "id": "image_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Heading"
+    },
+    {
+      "type": "range",
+      "id": "heading_size",
+      "label": "Size",
+      "min": 20,
+      "max": 60,
+      "step": 2,
+      "unit": "px",
+      "default": 36
+    },
+    {
+      "type": "color",
+      "id": "heading_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Text"
+    },
+    {
+      "type": "select",
+      "id": "text_alignment",
+      "label": "Alignment",
+      "options": [
+        {
+          "value": "left",
+          "label": "Left"
+        },
+        {
+          "value": "center",
+          "label": "Center"
+        },
+        {
+          "value": "right",
+          "label": "Right"
+        }
+      ],
+      "default": "left"
+    },
+    {
+      "type": "range",
+      "id": "text_gap",
+      "label": "Space between elements",
+      "min": 10,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "text_size",
+      "label": "Size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Color",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "header",
+      "content": "Button"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_button",
+      "label": "Show button",
+      "default": true
+    },
+    {
+      "type": "text",
+      "id": "button_text",
+      "label": "Button text",
+      "default": "Shop collection"
+    },
+    {
+      "type": "range",
+      "id": "button_text_size",
+      "label": "Text size",
+      "min": 12,
+      "max": 20,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "color",
+      "id": "button_bg_color",
+      "label": "Background color",
+      "default": "#459a2b"
+    },
+    {
+      "type": "color",
+      "id": "button_hover_bg_color",
+      "label": "Hover background color",
+      "default": "#3a8224"
+    },
+    {
+      "type": "color",
+      "id": "button_text_color",
+      "label": "Text color",
+      "default": "#ffffff"
+    },
+    {
+      "type": "range",
+      "id": "button_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 0
+    },
+    {
+      "type": "header",
+      "content": "Metafield overrides"
+    },
+    {
+      "type": "paragraph",
+      "content": "Enable metafield overrides to use custom content per collection. Create metafields: custom.heading (single line text), custom.description (multi-line text), custom.image (file reference)."
+    },
+    {
+      "type": "checkbox",
+      "id": "use_metafield_heading",
+      "label": "Use metafield for heading",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "use_metafield_text",
+      "label": "Use metafield for text",
+      "default": false
+    },
+    {
+      "type": "checkbox",
+      "id": "use_metafield_image",
+      "label": "Use metafield for image",
+      "default": false
+    },
+    {
+      "type": "header",
+      "content": "Fallback content"
+    },
+    {
+      "type": "paragraph",
+      "content": "This content displays when not on a collection page or when collection data is missing."
+    },
+    {
+      "type": "text",
+      "id": "fallback_heading",
+      "label": "Heading",
+      "default": "Explore our collection"
+    },
+    {
+      "type": "textarea",
+      "id": "fallback_text",
+      "label": "Text",
+      "default": "Discover our curated selection of premium outdoor gear and accessories."
+    },
+    {
+      "type": "image_picker",
+      "id": "fallback_image",
+      "label": "Image"
+    },
+    {
+      "type": "url",
+      "id": "button_link",
+      "label": "Button link (fallback only)"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection image text"
+    }
+  ]
+}
+{% endschema %}

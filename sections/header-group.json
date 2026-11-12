@@ -1,0 +1,210 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "name": "t:sections.header.name",
+  "type": "header",
+  "sections": {
+    "announcement-bar": {
+      "type": "announcement-bar",
+      "blocks": {
+        "announcement_WitPhW": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store 2",
+            "link": ""
+          }
+        },
+        "announcement_bMihex": {
+          "type": "announcement",
+          "settings": {
+            "text": "Welcome to our store",
+            "link": ""
+          }
+        }
+      },
+      "block_order": [
+        "announcement_WitPhW",
+        "announcement_bMihex"
+      ],
+      "disabled": true,
+      "settings": {
+        "auto_rotate": true,
+        "change_slides_speed": 5,
+        "color_scheme": "scheme-1",
+        "show_line_separator": true,
+        "show_social": false,
+        "enable_country_selector": false,
+        "enable_language_selector": false
+      }
+    },
+    "header": {
+      "type": "header",
+      "settings": {
+        "logo_position": "top-left",
+        "mobile_logo_position": "left",
+        "menu": "main-menu",
+        "menu_type_desktop": "mega",
+        "sticky_header_type": "on-scroll-up",
+        "show_line_separator": true,
+        "color_scheme": "scheme-1",
+        "menu_color_scheme": "scheme-1",
+        "enable_country_selector": true,
+        "enable_language_selector": false,
+        "enable_customer_avatar": true,
+        "margin_bottom": 0,
+        "padding_top": 20,
+        "padding_bottom": 20
+      }
+    },
+    "blocks_XGhYaa": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_748c3ea_QaaKaL": {
+          "type": "ai_gen_block_748c3ea",
+          "settings": {
+            "item_1_text": "Free Delivery",
+            "item_2_text": "Next Day Delivery Available",
+            "item_3_text": "Secure Checkout",
+            "background_color": "#6b8e6f",
+            "text_color": "#ffffff",
+            "icon_color": "#ffffff",
+            "max_width": 1600,
+            "vertical_padding": 12,
+            "section_gap": 20,
+            "icon_text_gap": 8,
+            "text_size": 14,
+            "text_weight": "600",
+            "icon_size": 20,
+            "mobile_text_size": 13,
+            "mobile_icon_size": 18,
+            "mobile_gap": 12
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_748c3ea_QaaKaL"
+      ],
+      "name": "Trust bar",
+      "settings": {}
+    },
+    "blocks_yqecVq": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_16fb147_kAT4rF": {
+          "type": "ai_gen_block_16fb147",
+          "settings": {
+            "home_text": "Home",
+            "parent_collection": "",
+            "separator": "/",
+            "font_size": 13,
+            "item_spacing": 16,
+            "spacing_bottom": 16,
+            "link_color": "#757575",
+            "link_hover_color": "#1a1a1a",
+            "hover_underline": "none",
+            "separator_color": "#757575",
+            "current_page_color": "#1a1a1a",
+            "current_page_weight": "500"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_16fb147_kAT4rF"
+      ],
+      "disabled": true,
+      "name": "Breadcrumb navigation",
+      "settings": {}
+    },
+    "blocks_a8x4ct": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_84bbea6_LMxR6i": {
+          "type": "ai_gen_block_84bbea6",
+          "settings": {
+            "show_home_icon": false,
+            "home_text": "Home",
+            "separator": "/",
+            "use_product_type": true,
+            "font_size": 13,
+            "item_spacing": 8,
+            "spacing_bottom": 16,
+            "link_color": "#757575",
+            "link_hover_color": "#1a1a1a",
+            "hover_underline": "none",
+            "separator_color": "#757575",
+            "current_color": "#1a1a1a",
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_84bbea6_LMxR6i"
+      ],
+      "name": "Breadcrumb navigation",
+      "settings": {}
+    },
+    "blocks_DiHVPW": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_54d9efe_y9FJRE": {
+          "type": "ai_gen_block_54d9efe",
+          "name": "Search bar",
+          "settings": {
+            "max_width": 1200,
+            "padding_vertical": 30,
+            "placeholder_text": "I'm looking for...",
+            "font_size": 16,
+            "input_padding_vertical": 16,
+            "input_padding_horizontal": 20,
+            "border_radius": 50,
+            "border_thickness": 1,
+            "icon_size": 20,
+            "icon_spacing": 20,
+            "icon_color": "#666666",
+            "show_submit_button": true,
+            "button_text": "Search",
+            "button_font_size": 14,
+            "button_padding_vertical": 10,
+            "button_padding_horizontal": 24,
+            "button_border_radius": 40,
+            "button_spacing": 8,
+            "background_color": "#ffffff",
+            "input_background_color": "#f3f3f3",
+            "border_color": "#e0e0e0",
+            "focus_border_color": "#459a2b",
+            "text_color": "#1a1a1a",
+            "placeholder_color": "#999999",
+            "button_color": "#000000",
+            "button_hover_color": "#3a8224",
+            "button_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_54d9efe_y9FJRE"
+      ],
+      "disabled": true,
+      "name": "Search bar",
+      "settings": {}
+    }
+  },
+  "order": [
+    "announcement-bar",
+    "header",
+    "blocks_XGhYaa",
+    "blocks_yqecVq",
+    "blocks_a8x4ct",
+    "blocks_DiHVPW"
+  ]
+}

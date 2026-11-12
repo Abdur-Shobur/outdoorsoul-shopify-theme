@@ -1,0 +1,315 @@
+{% doc %}
+  @prompt
+    Create a search bar section with a pill-shaped input field with a magnifying glass SVG icon on the left inside the input, and placeholder text "I'm looking for...". The search bar should be centred on the page, set to 50% of the page width (half width), have a subtle border, and submit to the store's native search results page (/search?q=). Make it responsive and style it to feel clean and modern, suitable for a garden and outdoor products store.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-search-bar-container-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+    padding: {{ block.settings.section_padding_top }}px 0 {{ block.settings.section_padding_bottom }}px;
+  }
+
+  .ai-search-bar-wrapper-{{ ai_gen_id }} {
+    max-width: {{ block.settings.max_width }}px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .ai-search-form-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  .ai-search-input-wrapper-{{ ai_gen_id }} {
+    position: relative;
+    width: 100%;
+  }
+
+  .ai-search-icon-{{ ai_gen_id }} {
+    position: absolute;
+    left: {{ block.settings.icon_spacing }}px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: {{ block.settings.icon_size }}px;
+    height: {{ block.settings.icon_size }}px;
+    pointer-events: none;
+    color: {{ block.settings.icon_color }};
+  }
+
+  .ai-search-input-{{ ai_gen_id }} {
+    width: 100%;
+    padding: {{ block.settings.input_padding_vertical }}px {{ block.settings.input_padding_horizontal }}px {{ block.settings.input_padding_vertical }}px calc({{ block.settings.icon_spacing }}px + {{ block.settings.icon_size }}px + {{ block.settings.icon_spacing }}px);
+    border: {{ block.settings.border_thickness }}px solid {{ block.settings.border_color }};
+    border-radius: {{ block.settings.border_radius }}px;
+    font-size: {{ block.settings.font_size }}px;
+    background-color: {{ block.settings.background_color }};
+    color: {{ block.settings.text_color }};
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .ai-search-input-{{ ai_gen_id }}::placeholder {
+    color: {{ block.settings.placeholder_color }};
+    opacity: 1;
+  }
+
+  .ai-search-input-{{ ai_gen_id }}:focus {
+    outline: none;
+    border-color: {{ block.settings.focus_border_color }};
+    box-shadow: 0 0 0 {{ block.settings.focus_ring_width }}px {{ block.settings.focus_ring_color }};
+  }
+
+  @media screen and (max-width: 749px) {
+    .ai-search-bar-wrapper-{{ ai_gen_id }} {
+      max-width: 100%;
+    }
+
+    .ai-search-input-{{ ai_gen_id }} {
+      font-size: {{ block.settings.font_size | times: 0.9 }}px;
+      padding: {{ block.settings.input_padding_vertical | times: 0.85 }}px {{ block.settings.input_padding_horizontal | times: 0.85 }}px {{ block.settings.input_padding_vertical | times: 0.85 }}px calc({{ block.settings.icon_spacing | times: 0.85 }}px + {{ block.settings.icon_size | times: 0.85 }}px + {{ block.settings.icon_spacing | times: 0.85 }}px);
+    }
+
+    .ai-search-icon-{{ ai_gen_id }} {
+      width: {{ block.settings.icon_size | times: 0.85 }}px;
+      height: {{ block.settings.icon_size | times: 0.85 }}px;
+      left: {{ block.settings.icon_spacing | times: 0.85 }}px;
+    }
+  }
+{% endstyle %}
+
+<search-bar-{{ ai_gen_id }} class="ai-search-bar-container-{{ ai_gen_id }}" {{ block.shopify_attributes }}>
+  <div class="ai-search-bar-wrapper-{{ ai_gen_id }}">
+    <form action="/search" method="get" role="search" class="ai-search-form-{{ ai_gen_id }}">
+      <div class="ai-search-input-wrapper-{{ ai_gen_id }}">
+        <svg class="ai-search-icon-{{ ai_gen_id }}" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <circle cx="11" cy="11" r="8"></circle>
+          <path d="m21 21-4.35-4.35"></path>
+        </svg>
+        <input
+          type="search"
+          name="q"
+          class="ai-search-input-{{ ai_gen_id }}"
+          placeholder="{{ block.settings.placeholder_text }}"
+          aria-label="Search"
+          autocomplete="off"
+        >
+      </div>
+    </form>
+  </div>
+</search-bar-{{ ai_gen_id }}>
+
+<script>
+  (function() {
+    class SearchBar{{ ai_gen_id }} extends HTMLElement {
+      constructor() {
+        super();
+      }
+
+      connectedCallback() {
+        this.form = this.querySelector('.ai-search-form-{{ ai_gen_id }}');
+        this.input = this.querySelector('.ai-search-input-{{ ai_gen_id }}');
+        
+        if (this.form && this.input) {
+          this.form.addEventListener('submit', this.handleSubmit.bind(this));
+        }
+      }
+
+      handleSubmit(event) {
+        if (!this.input.value.trim()) {
+          event.preventDefault();
+        }
+      }
+    }
+
+    customElements.define('search-bar-{{ ai_gen_id }}', SearchBar{{ ai_gen_id }});
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Search bar",
+  "tag": null,
+  "settings": [
+    {
+      "type": "header",
+      "content": "Layout"
+    },
+    {
+      "type": "range",
+      "id": "max_width",
+      "label": "Maximum width",
+      "min": 400,
+      "max": 1200,
+      "step": 50,
+      "unit": "px",
+      "default": 800
+    },
+    {
+      "type": "range",
+      "id": "section_padding_top",
+      "label": "Padding top",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "range",
+      "id": "section_padding_bottom",
+      "label": "Padding bottom",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "unit": "px",
+      "default": 40
+    },
+    {
+      "type": "header",
+      "content": "Input field"
+    },
+    {
+      "type": "text",
+      "id": "placeholder_text",
+      "label": "Placeholder text",
+      "default": "I'm looking for..."
+    },
+    {
+      "type": "range",
+      "id": "input_padding_vertical",
+      "label": "Vertical padding",
+      "min": 8,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "input_padding_horizontal",
+      "label": "Horizontal padding",
+      "min": 10,
+      "max": 40,
+      "step": 2,
+      "unit": "px",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "font_size",
+      "label": "Font size",
+      "min": 12,
+      "max": 24,
+      "step": 1,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "range",
+      "id": "border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 2,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "border_thickness",
+      "label": "Border thickness",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "header",
+      "content": "Icon"
+    },
+    {
+      "type": "range",
+      "id": "icon_size",
+      "label": "Icon size",
+      "min": 16,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "range",
+      "id": "icon_spacing",
+      "label": "Icon spacing",
+      "min": 10,
+      "max": 30,
+      "step": 2,
+      "unit": "px",
+      "default": 20
+    },
+    {
+      "type": "color",
+      "id": "icon_color",
+      "label": "Icon color",
+      "default": "#6b7280"
+    },
+    {
+      "type": "header",
+      "content": "Colors"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#1a1a1a"
+    },
+    {
+      "type": "color",
+      "id": "placeholder_color",
+      "label": "Placeholder",
+      "default": "#9ca3af"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#d1d5db"
+    },
+    {
+      "type": "color",
+      "id": "focus_border_color",
+      "label": "Focus border",
+      "default": "#459a2b"
+    },
+    {
+      "type": "color",
+      "id": "focus_ring_color",
+      "label": "Focus ring",
+      "default": "rgba(69, 154, 43, 0.2)"
+    },
+    {
+      "type": "range",
+      "id": "focus_ring_width",
+      "label": "Focus ring width",
+      "min": 0,
+      "max": 6,
+      "step": 1,
+      "unit": "px",
+      "default": 3
+    }
+  ],
+  "presets": [
+    {
+      "name": "Search bar"
+    }
+  ]
+}
+{% endschema %}

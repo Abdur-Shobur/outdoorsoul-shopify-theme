@@ -1,0 +1,45 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "image_with_text_c3CyCQ": {
+      "type": "image-with-text",
+      "custom_css": [
+        "/* Force the container from a 2-column split into a single centered block */.image-with-text__grid {display: flex !important; flex-direction: column !important; align-items: center !important;}",
+        " /* Contain the image wrapper */.image-with-text__media-item {width: 100% !important; max-width: 400px !important; /* Adjust 600px to whatever max width you want */ margin: 0 auto !important;}",
+        " /* Ensure the image scales properly without stretching */.image-with-text__media {width: 100% !important; height: auto !important;}"
+      ],
+      "name": "t:sections.image-with-text.presets.name",
+      "settings": {
+        "image": "shopify://shop_images/404_image_7f655fa3-a329-4bb7-9551-ecb078493591.jpg",
+        "height": "adapt",
+        "desktop_image_width": "small",
+        "layout": "image_first",
+        "image_behavior": "none",
+        "content_layout": "no-overlap",
+        "desktop_content_position": "top",
+        "desktop_content_alignment": "left",
+        "mobile_content_alignment": "left",
+        "section_color_scheme": "",
+        "color_scheme": "",
+        "padding_top": 0,
+        "padding_bottom": 0
+      }
+    },
+    "main": {
+      "type": "main-404",
+      "settings": {}
+    }
+  },
+  "order": [
+    "image_with_text_c3CyCQ",
+    "main"
+  ]
+}

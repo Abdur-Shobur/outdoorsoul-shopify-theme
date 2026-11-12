@@ -1,0 +1,189 @@
+{% doc %}
+  @prompt
+    Add custom CSS to style the collection page filter buttons to match this design: pill-shaped buttons (fully rounded corners) with a thin black border and white background for unselected filters; solid black background with white text for the active/selected filter button; yellow/gold background for active filter tags like "Clear All" and applied filter pills. Keep the filter dropdown row (Brand, Price, Product Type, More Filters, Sort by) unstyled.
+{% enddoc %}
+{% assign ai_gen_id = block.id | replace: '_', '' | downcase %}
+
+{% style %}
+  .ai-collection-filter-styles-{{ ai_gen_id }} {
+    display: block;
+    width: 100%;
+  }
+
+  .facets__form .facet-filters__field input[type="checkbox"] + label,
+  .facets__form .facet-filters__field input[type="radio"] + label,
+  .facets__form .facet-filters__pill,
+  .facets__form .facet-filters__label,
+  .facets__form .facet-checkbox input[type="checkbox"] + label,
+  .facets__form .facet-checkbox label,
+  .facets__form .active-facets__button,
+  .facets__form .active-facets__button-inner {
+    border-radius: {{ block.settings.pill_border_radius }}px !important;
+    border: {{ block.settings.border_thickness }}px solid {{ block.settings.border_color }} !important;
+    background-color: {{ block.settings.background_color }} !important;
+    color: {{ block.settings.text_color }} !important;
+    padding: {{ block.settings.vertical_padding }}px {{ block.settings.horizontal_padding }}px !important;
+    transition: all 0.2s ease !important;
+  }
+
+  .facets__form .facet-filters__field input[type="checkbox"]:checked + label,
+  .facets__form .facet-filters__field input[type="radio"]:checked + label,
+  .facets__form .facet-checkbox input[type="checkbox"]:checked + label {
+    background-color: {{ block.settings.active_background_color }} !important;
+    color: {{ block.settings.active_text_color }} !important;
+    border-color: {{ block.settings.active_border_color }} !important;
+  }
+
+  .facets__form .active-facets__button,
+  .facets__form .active-facets__button-inner,
+  .facets__form .active-facets__button-remove {
+    background-color: {{ block.settings.tag_background_color }} !important;
+    color: {{ block.settings.tag_text_color }} !important;
+    border-color: {{ block.settings.tag_border_color }} !important;
+  }
+
+  .facets__form .active-facets__button:hover,
+  .facets__form .facet-filters__field input[type="checkbox"] + label:hover,
+  .facets__form .facet-filters__field input[type="radio"] + label:hover,
+  .facets__form .facet-checkbox input[type="checkbox"] + label:hover {
+    opacity: 0.8;
+  }
+
+  .facets__form .active-facets__button svg {
+    fill: {{ block.settings.tag_text_color }} !important;
+  }
+
+  .facets__form .facet-filters__field input[type="checkbox"]:checked + label svg,
+  .facets__form .facet-filters__field input[type="radio"]:checked + label svg {
+    fill: {{ block.settings.active_text_color }} !important;
+  }
+{% endstyle %}
+
+<div class="ai-collection-filter-styles-{{ ai_gen_id }}" {{ block.shopify_attributes }}></div>
+
+{% schema %}
+{
+  "name": "Collection filter styles",
+  "settings": [
+    {
+      "type": "header",
+      "content": "Filter button style"
+    },
+    {
+      "type": "range",
+      "id": "pill_border_radius",
+      "label": "Border radius",
+      "min": 0,
+      "max": 50,
+      "step": 5,
+      "unit": "px",
+      "default": 50
+    },
+    {
+      "type": "range",
+      "id": "border_thickness",
+      "label": "Border thickness",
+      "min": 1,
+      "max": 4,
+      "step": 1,
+      "unit": "px",
+      "default": 1
+    },
+    {
+      "type": "range",
+      "id": "vertical_padding",
+      "label": "Vertical padding",
+      "min": 4,
+      "max": 20,
+      "step": 2,
+      "unit": "px",
+      "default": 8
+    },
+    {
+      "type": "range",
+      "id": "horizontal_padding",
+      "label": "Horizontal padding",
+      "min": 8,
+      "max": 32,
+      "step": 2,
+      "unit": "px",
+      "default": 16
+    },
+    {
+      "type": "header",
+      "content": "Unselected filter buttons"
+    },
+    {
+      "type": "color",
+      "id": "background_color",
+      "label": "Background",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "border_color",
+      "label": "Border",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Active/selected filter buttons"
+    },
+    {
+      "type": "color",
+      "id": "active_background_color",
+      "label": "Background",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "active_text_color",
+      "label": "Text",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "active_border_color",
+      "label": "Border",
+      "default": "#000000"
+    },
+    {
+      "type": "header",
+      "content": "Active filter tags"
+    },
+    {
+      "type": "paragraph",
+      "content": "Styles for 'Clear All' and applied filter pills"
+    },
+    {
+      "type": "color",
+      "id": "tag_background_color",
+      "label": "Background",
+      "default": "#FFD700"
+    },
+    {
+      "type": "color",
+      "id": "tag_text_color",
+      "label": "Text",
+      "default": "#000000"
+    },
+    {
+      "type": "color",
+      "id": "tag_border_color",
+      "label": "Border",
+      "default": "#FFD700"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection filter styles"
+    }
+  ]
+}
+{% endschema %}

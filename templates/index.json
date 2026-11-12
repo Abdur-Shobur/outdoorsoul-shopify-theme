@@ -1,0 +1,492 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "1784486218094e13e6": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_54d9efe_MC4gg8": {
+          "type": "ai_gen_block_54d9efe",
+          "settings": {
+            "max_width": 1200,
+            "padding_vertical": 30,
+            "placeholder_text": "I'm looking for...",
+            "font_size": 16,
+            "input_padding_vertical": 16,
+            "input_padding_horizontal": 20,
+            "border_radius": 50,
+            "border_thickness": 1,
+            "icon_size": 20,
+            "icon_spacing": 20,
+            "icon_color": "#666666",
+            "show_submit_button": true,
+            "button_text": "Search",
+            "button_font_size": 14,
+            "button_padding_vertical": 10,
+            "button_padding_horizontal": 24,
+            "button_border_radius": 40,
+            "button_spacing": 8,
+            "background_color": "#ffffff",
+            "input_background_color": "#f3f3f3",
+            "border_color": "#e0e0e0",
+            "focus_border_color": "#459a2b",
+            "text_color": "#1a1a1a",
+            "placeholder_color": "#999999",
+            "button_color": "#459a2b",
+            "button_hover_color": "#3a8224",
+            "button_text_color": "#ffffff"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_54d9efe_MC4gg8"
+      ],
+      "settings": {}
+    },
+    "blocks_cyYVBr": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_748c3ea_gPCFfy": {
+          "type": "ai_gen_block_748c3ea",
+          "disabled": true,
+          "settings": {
+            "item_1_text": "Free Delivery",
+            "item_2_text": "Next Day Delivery Available",
+            "item_3_text": "Secure Checkout",
+            "background_color": "#6b8e6f",
+            "text_color": "#ffffff",
+            "icon_color": "#ffffff",
+            "max_width": 1600,
+            "vertical_padding": 12,
+            "section_gap": 20,
+            "icon_text_gap": 8,
+            "text_size": 14,
+            "text_weight": "600",
+            "icon_size": 20,
+            "mobile_text_size": 13,
+            "mobile_icon_size": 18,
+            "mobile_gap": 12
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_748c3ea_gPCFfy"
+      ],
+      "name": "Trust bar",
+      "settings": {}
+    },
+    "blocks_KMnWtw": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_748c3ea_H4y4kz": {
+          "type": "ai_gen_block_748c3ea",
+          "disabled": true,
+          "settings": {
+            "item_1_text": "Free Delivery",
+            "item_2_text": "Next Day Delivery Available",
+            "item_3_text": "Secure Checkout",
+            "background_color": "#6b8e6f",
+            "text_color": "#ffffff",
+            "icon_color": "#ffffff",
+            "max_width": 1600,
+            "vertical_padding": 12,
+            "section_gap": 20,
+            "icon_text_gap": 8,
+            "text_size": 14,
+            "text_weight": "600",
+            "icon_size": 20,
+            "mobile_text_size": 13,
+            "mobile_icon_size": 18,
+            "mobile_gap": 12
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_748c3ea_H4y4kz"
+      ],
+      "name": "Trust bar",
+      "settings": {}
+    },
+    "1784491482d7b6e8c4": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_748c3ea_eqwzFR": {
+          "type": "ai_gen_block_748c3ea",
+          "disabled": true,
+          "settings": {
+            "item_1_text": "Free Delivery",
+            "item_2_text": "Next Day Delivery Available",
+            "item_3_text": "Secure Checkout",
+            "background_color": "#6b8e6f",
+            "text_color": "#ffffff",
+            "icon_color": "#ffffff",
+            "max_width": 1600,
+            "vertical_padding": 12,
+            "section_gap": 20,
+            "icon_text_gap": 8,
+            "text_size": 14,
+            "text_weight": "600",
+            "icon_size": 20,
+            "mobile_text_size": 13,
+            "mobile_icon_size": 18,
+            "mobile_gap": 12
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_748c3ea_eqwzFR"
+      ],
+      "settings": {}
+    },
+    "featured_collection": {
+      "type": "featured-collection",
+      "disabled": true,
+      "settings": {
+        "collection": "pruners",
+        "products_to_show": 25,
+        "title": "",
+        "heading_size": "h2",
+        "description": "",
+        "show_description": true,
+        "description_style": "body",
+        "columns_desktop": 4,
+        "enable_desktop_slider": true,
+        "full_width": true,
+        "show_view_all": true,
+        "view_all_style": "solid",
+        "color_scheme": "scheme-1",
+        "image_ratio": "square",
+        "image_shape": "default",
+        "show_secondary_image": true,
+        "show_vendor": false,
+        "show_rating": false,
+        "quick_add": "standard",
+        "columns_mobile": "2",
+        "swipe_on_mobile": false,
+        "padding_top": 44,
+        "padding_bottom": 36
+      }
+    },
+    "1784034835399f9e0b": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_b3ab1bc_NeEfLd": {
+          "type": "ai_gen_block_b3ab1bc",
+          "settings": {
+            "desktop_width_percent": 100,
+            "text_alignment": "left",
+            "padding_top": 40,
+            "padding_bottom": 40,
+            "padding_horizontal": 20,
+            "font_size": 16,
+            "line_height": 1.6,
+            "background_color": "#ffffff",
+            "text_color": "#1a1a1a",
+            "link_color": "#459a2b"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_b3ab1bc_NeEfLd"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "collection_list_fM4mEX": {
+      "type": "collection-list",
+      "blocks": {
+        "featured_collection_YpW4qD": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "wilkinson-sword"
+          }
+        },
+        "featured_collection_nMm87Y": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "wolf-garten"
+          }
+        },
+        "featured_collection_6bJ4k4": {
+          "type": "featured_collection",
+          "settings": {
+            "collection": "radiators"
+          }
+        },
+        "featured_collection_AqG3L7": {
+          "type": "featured_collection",
+          "disabled": true,
+          "settings": {
+            "collection": "handkerchief"
+          }
+        }
+      },
+      "block_order": [
+        "featured_collection_YpW4qD",
+        "featured_collection_nMm87Y",
+        "featured_collection_6bJ4k4",
+        "featured_collection_AqG3L7"
+      ],
+      "name": "t:sections.collection-list.presets.name",
+      "settings": {
+        "title": "Our Most Popular Departments",
+        "heading_size": "h1",
+        "image_ratio": "square",
+        "columns_desktop": 3,
+        "color_scheme": "",
+        "show_view_all": false,
+        "columns_mobile": "1",
+        "swipe_on_mobile": true,
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "featured_blog_JFXgna": {
+      "type": "featured-blog",
+      "name": "t:sections.featured-blog.presets.name",
+      "settings": {
+        "blog": "garden-guides",
+        "post_limit": 3,
+        "heading": "Latest articles",
+        "heading_size": "h1",
+        "columns_desktop": 3,
+        "show_view_all": true,
+        "show_image": true,
+        "show_date": true,
+        "show_author": false,
+        "color_scheme": "",
+        "padding_top": 36,
+        "padding_bottom": 36
+      }
+    },
+    "image_banner": {
+      "type": "image-banner",
+      "blocks": {
+        "heading": {
+          "type": "heading",
+          "settings": {
+            "heading": "Wilkinson Sword Lawn Care",
+            "heading_size": "h1"
+          }
+        },
+        "button": {
+          "type": "buttons",
+          "settings": {
+            "button_label_1": "Shop Lawn Care",
+            "button_link_1": "shopify://collections/all",
+            "button_style_secondary_1": false,
+            "button_label_2": "Shop Wilkinson Sword",
+            "button_link_2": "shopify://collections/wilkinson-sword",
+            "button_style_secondary_2": false
+          }
+        }
+      },
+      "block_order": [
+        "heading",
+        "button"
+      ],
+      "settings": {
+        "image": "shopify://shop_images/website_banner_file.jpg",
+        "image_overlay_opacity": 10,
+        "image_height": "adapt",
+        "image_behavior": "none",
+        "desktop_content_position": "bottom-center",
+        "desktop_content_alignment": "center",
+        "show_text_box": true,
+        "color_scheme": "scheme-3",
+        "stack_images_on_mobile": false,
+        "mobile_content_alignment": "center",
+        "show_text_below": true
+      }
+    },
+    "1784028821602ada39": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_0681309_wF6nGU": {
+          "type": "ai_gen_block_0681309",
+          "disabled": true,
+          "settings": {
+            "layout": "image_first",
+            "container_width": 1200,
+            "content_gap": 40,
+            "padding_top": 40,
+            "padding_bottom": 40,
+            "image_border_radius": 0,
+            "heading_size": 36,
+            "heading_color": "#1a1a1a",
+            "text_alignment": "left",
+            "text_gap": 20,
+            "text_size": 16,
+            "text_color": "#1a1a1a",
+            "show_button": true,
+            "button_text": "Shop collection",
+            "button_text_size": 16,
+            "button_bg_color": "#459a2b",
+            "button_hover_bg_color": "#3a8224",
+            "button_text_color": "#ffffff",
+            "button_border_radius": 0,
+            "use_metafield_heading": false,
+            "use_metafield_text": false,
+            "use_metafield_image": false,
+            "fallback_heading": "Explore our collection",
+            "fallback_text": "Discover our curated selection of premium outdoor gear and accessories.",
+            "button_link": ""
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_0681309_wF6nGU"
+      ],
+      "settings": {}
+    },
+    "17844851525ae38352": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_16fb147_zj9FNV": {
+          "type": "ai_gen_block_16fb147",
+          "disabled": true,
+          "settings": {
+            "home_text": "Home",
+            "parent_collection": "",
+            "separator": "/",
+            "font_size": 13,
+            "item_spacing": 8,
+            "spacing_bottom": 16,
+            "link_color": "#757575",
+            "link_hover_color": "#1a1a1a",
+            "hover_underline": "none",
+            "separator_color": "#757575",
+            "current_page_color": "#1a1a1a",
+            "current_page_weight": "500"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_16fb147_zj9FNV"
+      ],
+      "settings": {}
+    },
+    "1784485416d7358769": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_84bbea6_pPijft": {
+          "type": "ai_gen_block_84bbea6",
+          "disabled": true,
+          "settings": {
+            "show_home_icon": false,
+            "home_text": "Home",
+            "separator": "/",
+            "use_product_type": false,
+            "font_size": 13,
+            "item_spacing": 8,
+            "spacing_bottom": 16,
+            "link_color": "#757575",
+            "link_hover_color": "#1a1a1a",
+            "hover_underline": "none",
+            "separator_color": "#757575",
+            "current_color": "#1a1a1a",
+            "desktop_width_percent": 100
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_84bbea6_pPijft"
+      ],
+      "settings": {}
+    },
+    "1784486499b542b711": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_57ba3f6_BYTCPY": {
+          "type": "ai_gen_block_57ba3f6",
+          "settings": {
+            "max_width": 800,
+            "section_padding_top": 40,
+            "section_padding_bottom": 40,
+            "placeholder_text": "I'm looking for...",
+            "input_padding_vertical": 16,
+            "input_padding_horizontal": 24,
+            "font_size": 16,
+            "border_radius": 50,
+            "border_thickness": 1,
+            "icon_size": 20,
+            "icon_spacing": 20,
+            "icon_color": "#6b7280",
+            "background_color": "#ffffff",
+            "text_color": "#1a1a1a",
+            "placeholder_color": "#9ca3af",
+            "border_color": "#d1d5db",
+            "focus_border_color": "#459a2b",
+            "focus_ring_color": "#459a2b33",
+            "focus_ring_width": 3
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_57ba3f6_BYTCPY"
+      ],
+      "disabled": true,
+      "settings": {}
+    },
+    "17845323115e11022c": {
+      "type": "_blocks",
+      "blocks": {
+        "ai_gen_block_2e6b969_jKXDAX": {
+          "type": "ai_gen_block_2e6b969",
+          "settings": {
+            "pill_border_radius": 50,
+            "border_thickness": 1,
+            "vertical_padding": 8,
+            "horizontal_padding": 16,
+            "background_color": "#ffffff",
+            "text_color": "#000000",
+            "border_color": "#000000",
+            "active_background_color": "#000000",
+            "active_text_color": "#ffffff",
+            "active_border_color": "#000000",
+            "tag_background_color": "#ffd700",
+            "tag_text_color": "#000000",
+            "tag_border_color": "#ffd700"
+          },
+          "blocks": {}
+        }
+      },
+      "block_order": [
+        "ai_gen_block_2e6b969_jKXDAX"
+      ],
+      "settings": {}
+    }
+  },
+  "order": [
+    "1784486218094e13e6",
+    "blocks_cyYVBr",
+    "blocks_KMnWtw",
+    "1784491482d7b6e8c4",
+    "featured_collection",
+    "1784034835399f9e0b",
+    "collection_list_fM4mEX",
+    "featured_blog_JFXgna",
+    "image_banner",
+    "1784028821602ada39",
+    "17844851525ae38352",
+    "1784485416d7358769",
+    "1784486499b542b711",
+    "17845323115e11022c"
+  ]
+}
