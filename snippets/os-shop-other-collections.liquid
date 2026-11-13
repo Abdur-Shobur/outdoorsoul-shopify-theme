@@ -1,0 +1,46 @@
+{% comment %}
+  Sidebar “Other collections” links for shop/collection pages.
+
+  Accepts:
+  - heading: {String}
+  - collections: {Array} collection_list setting
+  - current_collection: {Object} current collection (optional)
+{% endcomment %}
+
+{%- liquid
+  assign os_other_heading = heading | default: 'Other collections'
+  assign os_other_count = 0
+  if collections != blank
+    for coll in collections
+      if current_collection == blank or coll.handle != current_collection.handle
+        assign os_other_count = os_other_count | plus: 1
+      endif
+    endfor
+  endif
+-%}
+
+{%- if os_other_count > 0 -%}
+  <nav class="os-shop-other-collections small-hide" aria-label="{{ os_other_heading | escape }}">
+    <details class="os-shop-other-collections__details" open>
+      <summary class="os-shop-other-collections__summary">
+        <span>{{ os_other_heading | escape }}</span>
+        <span class="svg-wrapper" aria-hidden="true">
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </span>
+      </summary>
+      <ul class="os-shop-other-collections__list list-unstyled" role="list">
+        {%- for coll in collections -%}
+          {%- if current_collection != blank and coll.handle == current_collection.handle -%}
+            {%- continue -%}
+          {%- endif -%}
+          <li>
+            <a class="os-shop-other-collections__link" href="{{ coll.url }}">
+              <span class="os-shop-other-collections__title">{{ coll.title | escape }}</span>
+              <span class="os-shop-other-collections__count">({{ coll.all_products_count }})</span>
+            </a>
+          </li>
+        {%- endfor -%}
+      </ul>
+    </details>
+  </nav>
+{%- endif -%}

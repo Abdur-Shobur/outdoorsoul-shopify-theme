@@ -137,18 +137,27 @@
     const menus = $$('.section-header header-menu');
     if (!menus.length) return;
 
-    let closeTimer;
+    let closeTimer = null;
     let openMenu = null;
+    const CLOSE_DELAY = 500;
 
     const isDesktop = () => matchMedia('(min-width: 990px)').matches;
+
+    const getPanel = (menu) =>
+      menu?.querySelector('details.mega-menu .mega-menu__content, details .mega-menu__content');
+
+    const isPointerOverMega = () =>
+      Boolean(
+        document.querySelector('.section-header header-menu:hover') ||
+          document.querySelector('.section-header .mega-menu[open] > .mega-menu__content:hover')
+      );
 
     const closeAll = () => {
       menus.forEach((menu) => {
         const details = menu.querySelector('details.mega-menu, details');
         if (!details) return;
         details.removeAttribute('open');
-        const summary = details.querySelector('summary');
-        summary?.setAttribute('aria-expanded', 'false');
+        details.querySelector('summary')?.setAttribute('aria-expanded', 'false');
       });
       openMenu = null;
     };
@@ -157,8 +166,17 @@
       const details = menu.querySelector('details.mega-menu, details');
       if (!details) return;
       clearTimeout(closeTimer);
+      closeTimer = null;
       if (openMenu === menu && details.hasAttribute('open')) return;
-      closeAll();
+
+      menus.forEach((other) => {
+        if (other === menu) return;
+        const otherDetails = other.querySelector('details.mega-menu, details');
+        if (!otherDetails) return;
+        otherDetails.removeAttribute('open');
+        otherDetails.querySelector('summary')?.setAttribute('aria-expanded', 'false');
+      });
+
       details.setAttribute('open', '');
       details.querySelector('summary')?.setAttribute('aria-expanded', 'true');
       openMenu = menu;
@@ -168,33 +186,46 @@
       clearTimeout(closeTimer);
       closeTimer = setTimeout(() => {
         if (!isDesktop()) return;
+        if (isPointerOverMega()) return;
         closeAll();
-      }, 320);
+      }, CLOSE_DELAY);
+    };
+
+    const cancelClose = () => {
+      clearTimeout(closeTimer);
+      closeTimer = null;
     };
 
     menus.forEach((menu) => {
       const details = menu.querySelector('details');
       if (!details) return;
+      const panel = getPanel(menu);
 
       menu.addEventListener('mouseenter', () => {
         if (!isDesktop()) return;
         open(menu);
       });
 
-      menu.addEventListener('mouseleave', () => {
+      menu.addEventListener('mouseleave', (event) => {
         if (!isDesktop()) return;
+        if (panel && event.relatedTarget && panel.contains(event.relatedTarget)) {
+          cancelClose();
+          return;
+        }
         scheduleClose();
       });
 
-      /* Panel is often position:absolute outside the trigger box — keep open while over it */
-      const panel = details.querySelector('.mega-menu__content');
+      /* Panel sits outside the trigger box — keep open while over it / the bridge */
       panel?.addEventListener('mouseenter', () => {
         if (!isDesktop()) return;
-        clearTimeout(closeTimer);
         open(menu);
       });
-      panel?.addEventListener('mouseleave', () => {
+      panel?.addEventListener('mouseleave', (event) => {
         if (!isDesktop()) return;
+        if (menu.contains(event.relatedTarget)) {
+          cancelClose();
+          return;
+        }
         scheduleClose();
       });
     });

@@ -1255,33 +1255,3 @@ input.mobile-facets__checkbox {
     padding: 0 1rem 1rem;
   }
 }
-
-/* Full-width container background */
-.facets-container {
-  background-color: #f3f3f3;
-  width: 100vw;
-  position: relative;
-  left: 50%;
-  right: 50%;
-  margin-left: -50vw;
-  margin-right: -50vw;
-  padding-top: 1.5rem;
-  padding-bottom: 0.5rem;
-}
-
-/* Centralized Inner Content Wrapper */
-.facets__form, 
-.mobile-facets__wrapper {
-  max-width: var(--page-width); /* Uses your theme's default content width */
-  margin: 0 auto;
-  padding: 0 1.5rem; /* Matches your theme's typical side-paddings */
-  width: 100%;
-  background-color: transparent !important; /* Prevents nested color layering */
-}
-
-/* Mobile specific alignment cleanups */
-@media screen and (max-width: 749px) {
-  .mobile-facets__wrapper {
-    justify-content: flex-start;
-  }
-}

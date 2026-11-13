@@ -1,0 +1,51 @@
+{% comment %}
+  Outdoor Soul collection card — image + title + text + arrow (reference layout).
+
+  Accepts:
+  - collection: {Collection}
+  - text: {String} optional subtitle (defaults to product count)
+{% endcomment %}
+{%- liquid
+  assign card_title = collection.title
+  assign card_text = text
+  if card_text == blank
+    assign card_text = 'products.facets.product_count_simple' | t: count: collection.all_products_count
+  endif
+  assign image_alt = card_title
+  if collection.featured_image and collection.featured_image.alt != blank
+    assign image_alt = collection.featured_image.alt
+  endif
+-%}
+
+<a href="{{ collection.url }}" class="os-collection-card">
+  <span class="os-collection-card__media">
+    {%- if collection.featured_image -%}
+      {{
+        collection.featured_image
+        | image_url: width: 800
+        | image_tag:
+          class: 'os-collection-card__image',
+          loading: 'lazy',
+          widths: '280, 400, 560, 800',
+          sizes: '(min-width: 990px) 16vw, (min-width: 750px) 33vw, 50vw',
+          alt: image_alt
+      }}
+    {%- else -%}
+      {{ 'collection-1' | placeholder_svg_tag: 'os-collection-card__image os-collection-card__image--placeholder' }}
+    {%- endif -%}
+  </span>
+
+  <span class="os-collection-card__body">
+    <span class="os-collection-card__copy">
+      <span class="os-collection-card__title">{{ card_title | escape }}</span>
+      {%- if card_text != blank -%}
+        <span class="os-collection-card__text">{{ card_text | escape }}</span>
+      {%- endif -%}
+    </span>
+    <span class="os-collection-card__arrow" aria-hidden="true">
+      <span class="svg-wrapper">
+        {{- 'icon-arrow.svg' | inline_asset_content -}}
+      </span>
+    </span>
+  </span>
+</a>

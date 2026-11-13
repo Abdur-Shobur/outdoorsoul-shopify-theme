@@ -11,7 +11,6 @@
 {%- endunless -%}
 
 {%- if section.settings.quick_add == 'standard' -%}
-  <script src="{{ 'quick-add.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
@@ -36,7 +35,7 @@
   }
 {%- endstyle -%}
 
-<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }}">
+<div class="section-{{ section.id }}-padding gradient color-{{ section.settings.color_scheme }} os-collection">
   {%- paginate collection.products by section.settings.products_per_page -%}
     {% comment %} Sort is the first tabbable element when filter type is vertical {% endcomment %}
     {%- if section.settings.enable_sorting and section.settings.filter_type == 'vertical' -%}
@@ -97,9 +96,9 @@
       </facet-filters-form>
     {%- endif -%}
 
-    <div class="{% if section.settings.filter_type == 'vertical' %} facets-vertical page-width{% endif %}">
-      {{ 'component-facets.css' | asset_url | stylesheet_tag }}
-      <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+    {{ 'component-facets.css' | asset_url | stylesheet_tag }}
+    <script src="{{ 'facets.js' | asset_url }}" defer="defer"></script>
+    <div class="{% if section.settings.filter_type == 'vertical' %}facets-vertical page-width{% endif %}">
       {%- if section.settings.enable_filtering or section.settings.enable_sorting -%}
         <aside
           aria-labelledby="verticalTitle"
@@ -114,6 +113,56 @@
             filter_type: section.settings.filter_type,
             paginate: paginate
           %}
+
+          {%- if section.settings.filter_type == 'vertical'
+            and section.settings.show_other_collections
+            and section.settings.other_collections != blank
+          -%}
+            {% render 'os-shop-other-collections',
+              heading: section.settings.other_collections_heading,
+              collections: section.settings.other_collections,
+              current_collection: collection
+            %}
+          {%- endif -%}
+
+          {%- if section.settings.filter_type == 'vertical' and section.settings.show_sidebar_promo -%}
+            {%- assign promo_alt = section.settings.sidebar_promo_heading -%}
+            <aside class="os-shop-promo small-hide">
+              {%- if section.settings.sidebar_promo_image != blank -%}
+                {{
+                  section.settings.sidebar_promo_image
+                  | image_url: width: 160
+                  | image_tag:
+                    class: 'os-shop-promo__image',
+                    loading: 'lazy',
+                    widths: '80, 120, 160',
+                    alt: promo_alt
+                }}
+              {%- endif -%}
+              {%- if section.settings.sidebar_promo_heading != blank -%}
+                <h2 class="os-shop-promo__title">{{ section.settings.sidebar_promo_heading | escape }}</h2>
+              {%- endif -%}
+              {%- if section.settings.sidebar_promo_text != blank -%}
+                <p class="os-shop-promo__text">{{ section.settings.sidebar_promo_text | escape }}</p>
+              {%- endif -%}
+              {%- if section.settings.sidebar_promo_label != blank -%}
+                <a
+                  class="os-shop-promo__cta"
+                  {% if section.settings.sidebar_promo_link != blank %}
+                    href="{{ section.settings.sidebar_promo_link }}"
+                  {% else %}
+                    role="link"
+                    aria-disabled="true"
+                  {% endif %}
+                >
+                  {{ section.settings.sidebar_promo_label | escape }}
+                  <span class="svg-wrapper" aria-hidden="true">
+                    {{- 'icon-arrow.svg' | inline_asset_content -}}
+                  </span>
+                </a>
+              {%- endif -%}
+            </aside>
+          {%- endif -%}
         </aside>
       {%- endif -%}
 
@@ -147,38 +196,49 @@
               id="product-grid"
               data-id="{{ section.id }}"
               class="
-                grid product-grid grid--{{ section.settings.columns_mobile }}-col-tablet-down
+                grid product-grid os-collection__grid
+                grid--{{ section.settings.columns_mobile }}-col-tablet-down
                 grid--{{ section.settings.columns_desktop }}-col-desktop
                 {% if section.settings.quick_add == 'bulk' %} collection-quick-add-bulk{% endif %}
               "
             >
-              {% assign skip_card_product_styles = false %}
+              {%- liquid
+                assign os_enable_quick_add = false
+                if section.settings.quick_add == 'standard'
+                  assign os_enable_quick_add = true
+                endif
+              -%}
               {%- for product in collection.products -%}
-                {% assign lazy_load = false %}
-                {%- if forloop.index > 2 -%}
-                  {%- assign lazy_load = true -%}
-                {%- endif -%}
                 <li
-                  class="grid__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
+                  class="grid__item os-collection__item{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
                   {% if settings.animations_reveal_on_scroll %}
                     data-cascade
                     style="--animation-order: {{ forloop.index }};"
                   {% endif %}
                 >
-                  {% render 'card-product',
-                    card_product: product,
-                    media_aspect_ratio: section.settings.image_ratio,
-                    image_shape: section.settings.image_shape,
-                    show_secondary_image: section.settings.show_secondary_image,
-                    show_vendor: section.settings.show_vendor,
-                    show_rating: section.settings.show_rating,
-                    lazy_load: lazy_load,
-                    skip_styles: skip_card_product_styles,
-                    quick_add: section.settings.quick_add,
-                    section_id: section.id
-                  %}
+                  {%- if section.settings.quick_add == 'bulk' -%}
+                    {% render 'card-product',
+                      card_product: product,
+                      media_aspect_ratio: section.settings.image_ratio,
+                      image_shape: section.settings.image_shape,
+                      show_secondary_image: section.settings.show_secondary_image,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      lazy_load: true,
+                      skip_styles: false,
+                      quick_add: section.settings.quick_add,
+                      section_id: section.id
+                    %}
+                  {%- else -%}
+                    {% render 'os-product-card',
+                      product: product,
+                      section: section,
+                      show_vendor: section.settings.show_vendor,
+                      show_rating: section.settings.show_rating,
+                      enable_quick_add: os_enable_quick_add
+                    %}
+                  {%- endif -%}
                 </li>
-                {%- assign skip_card_product_styles = true -%}
               {%- endfor -%}
             </ul>
 
@@ -380,6 +440,69 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
+    },
+    {
+      "type": "header",
+      "content": "Other collections"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_other_collections",
+      "default": true,
+      "label": "Show other collections",
+      "info": "Shown at the bottom of the vertical sidebar"
+    },
+    {
+      "type": "text",
+      "id": "other_collections_heading",
+      "label": "Heading",
+      "default": "Other collections"
+    },
+    {
+      "type": "collection_list",
+      "id": "other_collections",
+      "label": "Collections",
+      "info": "Pick collections shoppers can jump to from the sidebar",
+      "limit": 12
+    },
+    {
+      "type": "header",
+      "content": "Sidebar promo"
+    },
+    {
+      "type": "checkbox",
+      "id": "show_sidebar_promo",
+      "default": true,
+      "label": "Show sidebar promo card",
+      "info": "Shown under vertical filters on desktop"
+    },
+    {
+      "type": "image_picker",
+      "id": "sidebar_promo_image",
+      "label": "Promo image"
+    },
+    {
+      "type": "text",
+      "id": "sidebar_promo_heading",
+      "label": "Promo heading",
+      "default": "Not sure where to start?"
+    },
+    {
+      "type": "textarea",
+      "id": "sidebar_promo_text",
+      "label": "Promo text",
+      "default": "Browse our trusted brands and find the right garden tools for your space."
+    },
+    {
+      "type": "text",
+      "id": "sidebar_promo_label",
+      "label": "Promo button label",
+      "default": "Shop all tools"
+    },
+    {
+      "type": "url",
+      "id": "sidebar_promo_link",
+      "label": "Promo button link"
     },
     {
       "type": "header",

@@ -9,6 +9,10 @@
  */
 {
   "sections": {
+    "os_collection_hero": {
+      "type": "os-collection-hero",
+      "settings": {}
+    },
     "blocks_fD49xV": {
       "type": "_blocks",
       "blocks": {
@@ -41,29 +45,34 @@
     },
     "product-grid": {
       "type": "main-collection-product-grid",
-      "custom_css": [
-        ".quick-add__submit {background: #267a25 !important; color: #fff !important; --color-button: 38, 122, 37; --color-button-text: 255, 255, 255; --alpha-button-background: 1;}"
-      ],
       "settings": {
         "products_per_page": 16,
-        "columns_desktop": 4,
+        "columns_desktop": 3,
         "columns_mobile": "2",
         "color_scheme": "scheme-1",
         "image_ratio": "square",
         "image_shape": "default",
         "show_secondary_image": true,
         "show_vendor": false,
-        "show_rating": false,
+        "show_rating": true,
         "quick_add": "standard",
         "enable_filtering": true,
-        "filter_type": "horizontal",
+        "filter_type": "vertical",
         "enable_sorting": true,
-        "padding_top": 0,
-        "padding_bottom": 36
+        "show_other_collections": true,
+        "other_collections_heading": "Other collections",
+        "show_sidebar_promo": true,
+        "sidebar_promo_heading": "Not sure where to start?",
+        "sidebar_promo_text": "Browse our trusted brands and find the right garden tools for your space.",
+        "sidebar_promo_label": "Shop all tools",
+        "sidebar_promo_link": "shopify://collections/all",
+        "padding_top": 20,
+        "padding_bottom": 48
       }
     },
     "custom_liquid_qJHpMC": {
       "type": "custom-liquid",
+      "disabled": true,
       "name": "t:sections.custom-liquid.presets.name",
       "settings": {
         "custom_liquid": "{{ collection.description }}",
@@ -169,6 +178,7 @@
     }
   },
   "order": [
+    "os_collection_hero",
     "blocks_fD49xV",
     "product-grid",
     "custom_liquid_qJHpMC",

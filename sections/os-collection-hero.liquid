@@ -1,0 +1,89 @@
+{%- liquid
+  assign heading = section.settings.heading
+  if heading == blank
+    assign heading = collection.title
+  endif
+  assign text = section.settings.text
+  if text == blank and collection.description != blank
+    assign text = collection.description | strip_html | truncate: 160
+  endif
+  assign image = section.settings.image
+  if image == blank and collection.image
+    assign image = collection.image
+  endif
+  assign image_alt = heading
+  if image != blank and image.alt != blank
+    assign image_alt = image.alt
+  endif
+-%}
+
+<section
+  id="OsCollectionHero-{{ section.id }}"
+  class="os-collection-hero{% if image != blank %} os-collection-hero--has-image{% endif %}"
+>
+  {%- if image != blank -%}
+    {{
+      image
+      | image_url: width: 1600
+      | image_tag:
+        class: 'os-collection-hero__image',
+        widths: '750, 1100, 1600',
+        sizes: '(min-width: 990px) 52vw, 100vw',
+        loading: 'eager',
+        alt: image_alt
+    }}
+  {%- endif -%}
+
+  <div class="os-container os-collection-hero__inner">
+    <nav class="os-collection-hero__breadcrumb" aria-label="Breadcrumb">
+      <ol class="os-collection-hero__crumbs">
+        <li>
+          <a href="{{ routes.root_url }}">Home</a>
+        </li>
+        <li aria-hidden="true">
+          <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
+        </li>
+        <li aria-current="page">{{ collection.title | escape }}</li>
+      </ol>
+    </nav>
+
+    <h1 class="os-collection-hero__title">{{ heading | escape }}</h1>
+
+    {%- if text != blank -%}
+      <p class="os-collection-hero__text">{{ text | escape }}</p>
+    {%- endif -%}
+  </div>
+</section>
+
+{% schema %}
+{
+  "name": "Collection hero",
+  "tag": "section",
+  "class": "section-os-collection-hero",
+  "settings": [
+    {
+      "type": "text",
+      "id": "heading",
+      "label": "Heading",
+      "info": "Defaults to the collection title"
+    },
+    {
+      "type": "textarea",
+      "id": "text",
+      "label": "Text",
+      "info": "Defaults to a short collection description"
+    },
+    {
+      "type": "image_picker",
+      "id": "image",
+      "label": "Image",
+      "info": "Defaults to the collection image"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Collection hero"
+    }
+  ]
+}
+{% endschema %}
