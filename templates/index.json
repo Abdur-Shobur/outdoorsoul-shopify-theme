@@ -373,6 +373,12 @@
       ],
       "settings": {
         "title": "Shop by Category",
+        "collections": [
+          "wilkinson-sword",
+          "wolf-garten",
+          "radiators",
+          "handkerchief"
+        ],
         "show_view_all": true,
         "view_all_label": "View All",
         "view_all_suffix": "Categories",

@@ -36,7 +36,14 @@
         {%- endif -%}
       </div>
 
-      {%- if section.blocks.size > 0 -%}
+      {%- liquid
+        assign use_collection_list = false
+        if section.settings.collections != blank and section.settings.collections.size > 0
+          assign use_collection_list = true
+        endif
+      -%}
+
+      {%- if use_collection_list or section.blocks.size > 0 -%}
         <div
           class="os-categories__slider"
           data-os-categories-slick
@@ -44,56 +51,99 @@
           data-slides-tablet="{{ section.settings.slides_tablet }}"
           data-slides-mobile="{{ section.settings.slides_mobile }}"
         >
-          {%- for block in section.blocks -%}
-            {%- liquid
-              assign collection = block.settings.collection
-              assign title = block.settings.title
-              if title == blank and collection != blank
+          {%- if use_collection_list -%}
+            {%- for collection in section.settings.collections -%}
+              {%- liquid
                 assign title = collection.title
-              endif
-              assign link_url = block.settings.link
-              if link_url == blank and collection != blank
                 assign link_url = collection.url
-              endif
-              assign image = block.settings.image
-              if image == blank and collection != blank
                 assign image = collection.featured_image
-              endif
-            -%}
-            <div class="os-categories__item" {{ block.shopify_attributes }}>
-              <a
-                class="os-categories__card"
-                {% if link_url != blank %}
-                  href="{{ link_url }}"
-                {% else %}
-                  role="link"
-                  aria-disabled="true"
-                {% endif %}
-              >
-                <span class="os-categories__media">
-                  {%- if image != blank -%}
-                    {{
-                      image
-                      | image_url: width: 280
-                      | image_tag:
-                        class: 'os-categories__image',
-                        loading: 'lazy',
-                        widths: '120, 160, 200, 280',
-                        sizes: '(min-width: 990px) 7rem, 6.5rem',
-                        alt: title
-                    }}
-                  {%- else -%}
-                    <span class="os-categories__image os-categories__image--placeholder" aria-hidden="true">
-                      {{ 'collection-1' | placeholder_svg_tag }}
-                    </span>
+              -%}
+              <div class="os-categories__item">
+                <a
+                  class="os-categories__card"
+                  {% if link_url != blank %}
+                    href="{{ link_url }}"
+                  {% else %}
+                    role="link"
+                    aria-disabled="true"
+                  {% endif %}
+                >
+                  <span class="os-categories__media">
+                    {%- if image != blank -%}
+                      {{
+                        image
+                        | image_url: width: 280
+                        | image_tag:
+                          class: 'os-categories__image',
+                          loading: 'lazy',
+                          widths: '120, 160, 200, 280',
+                          sizes: '(min-width: 990px) 7rem, 6.5rem',
+                          alt: title
+                      }}
+                    {%- else -%}
+                      <span class="os-categories__image os-categories__image--placeholder" aria-hidden="true">
+                        {{ 'collection-1' | placeholder_svg_tag }}
+                      </span>
+                    {%- endif -%}
+                  </span>
+                  {%- if title != blank -%}
+                    <span class="os-categories__label">{{ title | escape }}</span>
                   {%- endif -%}
-                </span>
-                {%- if title != blank -%}
-                  <span class="os-categories__label">{{ title | escape }}</span>
-                {%- endif -%}
-              </a>
-            </div>
-          {%- endfor -%}
+                </a>
+              </div>
+            {%- endfor -%}
+          {%- else -%}
+            {%- for block in section.blocks -%}
+              {%- liquid
+                assign collection = block.settings.collection
+                assign title = block.settings.title
+                if title == blank and collection != blank
+                  assign title = collection.title
+                endif
+                assign link_url = block.settings.link
+                if link_url == blank and collection != blank
+                  assign link_url = collection.url
+                endif
+                assign image = block.settings.image
+                if image == blank and collection != blank
+                  assign image = collection.featured_image
+                endif
+              -%}
+              <div class="os-categories__item" {{ block.shopify_attributes }}>
+                <a
+                  class="os-categories__card"
+                  {% if link_url != blank %}
+                    href="{{ link_url }}"
+                  {% else %}
+                    role="link"
+                    aria-disabled="true"
+                  {% endif %}
+                >
+                  <span class="os-categories__media">
+                    {%- if image != blank -%}
+                      {{
+                        image
+                        | image_url: width: 280
+                        | image_tag:
+                          class: 'os-categories__image',
+                          loading: 'lazy',
+                          widths: '120, 160, 200, 280',
+                          sizes: '(min-width: 990px) 7rem, 6.5rem',
+                          alt: title
+                      }}
+                    {%- else -%}
+                      <span class="os-categories__image os-categories__image--placeholder" aria-hidden="true">
+                        {{ 'collection-1' | placeholder_svg_tag }}
+                      </span>
+                    {%- endif -%}
+                  </span>
+                  {%- if title != blank -%}
+                    <span class="os-categories__label">{{ title | escape }}</span>
+                  {%- endif -%}
+                </a>
+              </div>
+            {%- endfor -%}
+          {%- endif -%}
         </div>
       {%- endif -%}
     </div>
@@ -115,6 +165,13 @@
       "id": "title",
       "label": "Heading",
       "default": "Shop by Category"
+    },
+    {
+      "type": "collection_list",
+      "id": "collections",
+      "label": "Collections",
+      "limit": 12,
+      "info": "Select the collections to show. When set, this overrides category blocks."
     },
     {
       "type": "checkbox",

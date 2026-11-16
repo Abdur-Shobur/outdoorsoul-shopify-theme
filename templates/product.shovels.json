@@ -118,8 +118,6 @@
     },
     "os_product_tabs": {
       "type": "os-product-tabs",
-      "blocks": {},
-      "block_order": [],
       "settings": {
         "description_label": "Description",
         "reviews_label": "Reviews",
