@@ -1,0 +1,177 @@
+{%- liquid
+  assign desc_label = section.settings.description_label | default: 'Description'
+  assign reviews_label = section.settings.reviews_label | default: 'Reviews'
+  assign has_app_reviews = false
+  if section.blocks.size > 0
+    assign has_app_reviews = true
+  endif
+-%}
+
+<section
+  id="OsProductTabs-{{ section.id }}"
+  class="os-product-tabs"
+  style="
+    --os-tabs-pad-top: {{ section.settings.padding_top }}px;
+    --os-tabs-pad-bottom: {{ section.settings.padding_bottom }}px;
+  "
+  data-os-product-tabs
+>
+  <div class="os-container">
+    <div class="os-product-tabs__nav" role="tablist" aria-label="Product details">
+      <button
+        type="button"
+        class="os-product-tabs__tab"
+        id="OsProductTab-desc-{{ section.id }}"
+        role="tab"
+        aria-selected="true"
+        aria-controls="OsProductPanel-desc-{{ section.id }}"
+        data-os-tab="description"
+      >
+        {{ desc_label | escape }}
+      </button>
+      <button
+        type="button"
+        class="os-product-tabs__tab"
+        id="OsProductTab-reviews-{{ section.id }}"
+        role="tab"
+        aria-selected="false"
+        aria-controls="OsProductPanel-reviews-{{ section.id }}"
+        data-os-tab="reviews"
+        tabindex="-1"
+      >
+        {{ reviews_label | escape }}
+      </button>
+    </div>
+
+    <div
+      class="os-product-tabs__panel os-product-tabs__panel--description rte"
+      id="OsProductPanel-desc-{{ section.id }}"
+      role="tabpanel"
+      aria-labelledby="OsProductTab-desc-{{ section.id }}"
+      data-os-panel="description"
+    >
+      {%- if product.description != blank -%}
+        {{ product.description }}
+      {%- else -%}
+        <p class="os-product-tabs__empty">No description available for this product.</p>
+      {%- endif -%}
+    </div>
+
+    <div
+      class="os-product-tabs__panel os-product-tabs__panel--reviews"
+      id="OsProductPanel-reviews-{{ section.id }}"
+      role="tabpanel"
+      aria-labelledby="OsProductTab-reviews-{{ section.id }}"
+      data-os-panel="reviews"
+      hidden
+    >
+      {%- if has_app_reviews -%}
+        {%- for block in section.blocks -%}
+          <div class="os-product-tabs__app" {{ block.shopify_attributes }}>
+            {% render block %}
+          </div>
+        {%- endfor -%}
+      {%- else -%}
+        <div
+          id="judgeme_product_reviews"
+          class="jdgm-widget jdgm-review-widget"
+          data-id="{{ product.id }}"
+          data-product-title="{{ product.title | escape }}"
+        ></div>
+      {%- endif -%}
+    </div>
+  </div>
+</section>
+
+<script>
+  (() => {
+    const root = document.getElementById('OsProductTabs-{{ section.id }}');
+    if (!root) return;
+    const tabs = [...root.querySelectorAll('[data-os-tab]')];
+    const panels = [...root.querySelectorAll('[data-os-panel]')];
+
+    const activate = (name) => {
+      tabs.forEach((tab) => {
+        const selected = tab.dataset.osTab === name;
+        tab.setAttribute('aria-selected', selected ? 'true' : 'false');
+        tab.tabIndex = selected ? 0 : -1;
+      });
+      panels.forEach((panel) => {
+        const match = panel.dataset.osPanel === name;
+        if (match) panel.removeAttribute('hidden');
+        else panel.setAttribute('hidden', '');
+      });
+    };
+
+    tabs.forEach((tab) => {
+      tab.addEventListener('click', () => activate(tab.dataset.osTab));
+      tab.addEventListener('keydown', (event) => {
+        const index = tabs.indexOf(tab);
+        let next = null;
+        if (event.key === 'ArrowRight' || event.key === 'ArrowDown') next = tabs[(index + 1) % tabs.length];
+        if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') next = tabs[(index - 1 + tabs.length) % tabs.length];
+        if (event.key === 'Home') next = tabs[0];
+        if (event.key === 'End') next = tabs[tabs.length - 1];
+        if (!next) return;
+        event.preventDefault();
+        next.focus();
+        activate(next.dataset.osTab);
+      });
+    });
+  })();
+</script>
+
+{% schema %}
+{
+  "name": "Product tabs",
+  "tag": "section",
+  "class": "section os-product-tabs-section",
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "settings": [
+    {
+      "type": "text",
+      "id": "description_label",
+      "label": "Description tab label",
+      "default": "Description"
+    },
+    {
+      "type": "text",
+      "id": "reviews_label",
+      "label": "Reviews tab label",
+      "default": "Reviews"
+    },
+    {
+      "type": "range",
+      "id": "padding_top",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding top",
+      "default": 24
+    },
+    {
+      "type": "range",
+      "id": "padding_bottom",
+      "min": 0,
+      "max": 100,
+      "step": 4,
+      "unit": "px",
+      "label": "Padding bottom",
+      "default": 40
+    }
+  ],
+  "blocks": [
+    {
+      "type": "@app"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Product tabs"
+    }
+  ]
+}
+{% endschema %}

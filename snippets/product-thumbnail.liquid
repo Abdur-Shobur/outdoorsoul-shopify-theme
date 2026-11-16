@@ -60,6 +60,23 @@
     class="product__modal-opener product__modal-opener--{{ media.media_type }}"
     data-modal="#ProductModal-{{ modal_id }}"
   >
+    {%- if position == 1 -%}
+      {%- liquid
+        assign os_gallery_badge = blank
+        if product.available == false
+          assign os_gallery_badge = 'Sold out'
+        elsif product.compare_at_price > product.price
+          assign os_gallery_badge = 'Sale'
+        elsif product.tags contains 'Bestseller' or product.tags contains 'bestseller'
+          assign os_gallery_badge = 'Bestseller'
+        elsif product.tags contains 'New' or product.tags contains 'new'
+          assign os_gallery_badge = 'New'
+        endif
+      -%}
+      {%- if os_gallery_badge != blank -%}
+        <span class="os-product-gallery__badge">{{ os_gallery_badge }}</span>
+      {%- endif -%}
+    {%- endif -%}
     <span
       class="product__media-icon motion-reduce quick-add-hidden{% if media.media_type == 'image' %} product__media-icon--{{ section.settings.image_zoom }}{% endif %}"
       aria-hidden="true"

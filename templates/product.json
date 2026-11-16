@@ -97,30 +97,40 @@
 				"share"
 			],
 			"settings": {
-				"enable_sticky_info": false,
+				"enable_sticky_info": true,
 				"color_scheme": "scheme-1",
 				"media_size": "large",
-				"constrain_to_viewport": true,
-				"media_fit": "contain",
-				"gallery_layout": "thumbnail",
-				"mobile_thumbnails": "hide",
+				"constrain_to_viewport": false,
+				"media_fit": "cover",
+				"gallery_layout": "thumbnail_slider",
+				"mobile_thumbnails": "show",
 				"media_position": "left",
-				"image_zoom": "hover",
+				"image_zoom": "lightbox",
 				"hide_variants": true,
 				"enable_video_looping": false,
-				"padding_top": 44,
-				"padding_bottom": 12
+				"padding_top": 16,
+				"padding_bottom": 36
 			}
 		},
-		"custom_liquid_jK6pPX": {
-			"type": "custom-liquid",
-			"custom_css": [],
-			"name": "t:sections.custom-liquid.presets.name",
+		"os_product_tabs": {
+			"type": "os-product-tabs",
+			"blocks": {
+				"judge_me_reviews_review_widget_crVrh9": {
+					"type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+					"settings": {
+						"review_data": "sample_data",
+						"max_width": 1200,
+						"show_shop_reviews": false,
+						"empty_state": "empty_widget"
+					}
+				}
+			},
+			"block_order": ["judge_me_reviews_review_widget_crVrh9"],
 			"settings": {
-				"custom_liquid": "<div class=\"page-width sections-padding\">\n  {{ product.description }}\n</div>",
-				"color_scheme": "",
-				"padding_top": 40,
-				"padding_bottom": 52
+				"description_label": "Description",
+				"reviews_label": "Reviews",
+				"padding_top": 24,
+				"padding_bottom": 40
 			}
 		},
 		"related-products": {
@@ -140,31 +150,12 @@
 				"padding_top": 36,
 				"padding_bottom": 28
 			}
-		},
-		"17877501880aebbb60": {
-			"type": "apps",
-			"blocks": {
-				"judge_me_reviews_review_widget_crVrh9": {
-					"type": "shopify://apps/judge-me-reviews/blocks/review_widget/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
-					"settings": {
-						"review_data": "sample_data",
-						"max_width": 1200,
-						"show_shop_reviews": false,
-						"empty_state": "empty_widget"
-					}
-				}
-			},
-			"block_order": ["judge_me_reviews_review_widget_crVrh9"],
-			"settings": {
-				"include_margins": true
-			}
 		}
 	},
 	"order": [
 		"blocks_gCG4ii",
 		"main",
-		"custom_liquid_jK6pPX",
-		"related-products",
-		"17877501880aebbb60"
+		"os_product_tabs",
+		"related-products"
 	]
 }

@@ -190,7 +190,7 @@
         class="slider-button slider-button--prev{% if media_count <= 3 %} small-hide{% endif %}{% if media_count <= 4 %} medium-hide large-up-hide{% endif %}"
         name="previous"
         aria-label="{{ 'general.slider.previous_slide' | t }}"
-        aria-controls="GalleryThumbnails-{{ section.id }}"
+        aria-controls="GalleryViewer-{{ section.id }}"
         data-step="3"
       >
         <span class="svg-wrapper">
@@ -320,7 +320,7 @@
         class="slider-button slider-button--next{% if media_count <= 3 %} small-hide{% endif %}{% if media_count <= 4 %} medium-hide large-up-hide{% endif %}"
         name="next"
         aria-label="{{ 'general.slider.next_slide' | t }}"
-        aria-controls="GalleryThumbnails-{{ section.id }}"
+        aria-controls="GalleryViewer-{{ section.id }}"
         data-step="3"
       >
         <span class="svg-wrapper">
