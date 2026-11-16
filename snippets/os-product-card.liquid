@@ -162,7 +162,7 @@
                 aria-label="{{ 'products.product.add_to_cart' | t }} — {{ product.title | escape }}"
               >
                 <span class="svg-wrapper" aria-hidden="true">
-                  {{- 'icon-cart.svg' | inline_asset_content -}}
+                  {{- 'icon-cart-add.svg' | inline_asset_content -}}
                 </span>
                 {%- render 'loading-spinner' -%}
               </button>
@@ -175,7 +175,7 @@
             aria-label="{{ product.title | escape }}"
           >
             <span class="svg-wrapper" aria-hidden="true">
-              {{- 'icon-cart.svg' | inline_asset_content -}}
+              {{- 'icon-cart-add.svg' | inline_asset_content -}}
             </span>
           </a>
         {%- endif -%}

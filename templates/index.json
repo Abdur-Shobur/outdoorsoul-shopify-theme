@@ -12,7 +12,7 @@
     "os_hero_banner": {
       "type": "os-hero-banner",
       "settings": {
-        "image": "shopify://shop_images/website_banner_file.jpg",
+        "image": "shopify://shop_images/banner-image-2.webp",
         "eyebrow": "Trusted tools. Better gardens.",
         "heading": "Outdoor Soul",
         "text": "Quality garden tools from Wilkinson Sword and Wolf-Garten, with fast UK delivery.",
@@ -26,9 +26,165 @@
         "padding_bottom": 64
       }
     },
+    "os_shop_categories": {
+      "type": "os-shop-categories",
+      "settings": {
+        "title": "Shop by Category",
+        "collections": [
+          "wilkinson-sword",
+          "wolf-garten",
+          "radiators",
+          "brands",
+          "brushes",
+          "clogs",
+          "cultivators",
+          "soft-toys",
+          "footwear",
+          "forks",
+          "spades",
+          "digging-shovelling"
+        ],
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_suffix": "Categories",
+        "view_all_link": "shopify://collections",
+        "overlap_hero": true,
+        "slides_desktop": 8,
+        "slides_tablet": 4,
+        "slides_mobile": 3,
+        "padding_top": 16,
+        "padding_bottom": 24
+      }
+    },
+    "os_featured_products": {
+      "type": "os-featured-products",
+      "settings": {
+        "title": "Featured products",
+        "collection": "pruners",
+        "products_to_show": 8,
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_suffix": "Products",
+        "view_all_link": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "os_banner_products": {
+      "type": "os-banner-products",
+      "settings": {
+        "title": "Featured picks",
+        "layout": "banner_left",
+        "banner_eyebrow": "Offer",
+        "banner_heading": "Spring garden deals",
+        "banner_text": "Save on essential tools for the season ahead.",
+        "banner_button_label": "Shop now",
+        "banner_link": "shopify://collections/all",
+        "collection": "pruners",
+        "products_to_show": 3,
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_link": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "os_promo_banners": {
+      "type": "os-promo-banners",
+      "blocks": {
+        "promo_wilkinson": {
+          "type": "promo",
+          "settings": {
+            "title": "Wilkinson Sword",
+            "text": "Trusted garden tools",
+            "link": "shopify://collections/wilkinson-sword"
+          }
+        },
+        "promo_wolf": {
+          "type": "promo",
+          "settings": {
+            "title": "Wolf-Garten",
+            "text": "German-engineered quality",
+            "link": "shopify://collections/wolf-garten"
+          }
+        },
+        "promo_pruners": {
+          "type": "promo",
+          "settings": {
+            "title": "Pruners & shears",
+            "text": "Shop bestsellers",
+            "link": "shopify://collections/pruners"
+          }
+        }
+      },
+      "block_order": [
+        "promo_wilkinson",
+        "promo_wolf",
+        "promo_pruners"
+      ],
+      "settings": {
+        "heading": "",
+        "columns": "3",
+        "padding_top": 16,
+        "padding_bottom": 36
+      }
+    },
+    "os_featured_products_2": {
+      "type": "os-featured-products",
+      "settings": {
+        "title": "Featured products",
+        "collection": "wilkinson-sword",
+        "products_to_show": 8,
+        "show_view_all": true,
+        "view_all_label": "View All",
+        "view_all_suffix": "Products",
+        "view_all_link": "",
+        "show_vendor": false,
+        "show_rating": true,
+        "enable_quick_add": true,
+        "padding_top": 36,
+        "padding_bottom": 48
+      }
+    },
+    "os_promo_banners_2": {
+      "type": "os-promo-banners",
+      "blocks": {
+        "promo_2_left": {
+          "type": "promo",
+          "settings": {
+            "title": "New arrivals",
+            "text": "Fresh tools this season",
+            "link": "shopify://collections/all"
+          }
+        },
+        "promo_2_right": {
+          "type": "promo",
+          "settings": {
+            "title": "Best sellers",
+            "text": "Customer favourites",
+            "link": "shopify://collections/pruners"
+          }
+        }
+      },
+      "block_order": [
+        "promo_2_left",
+        "promo_2_right"
+      ],
+      "settings": {
+        "heading": "",
+        "columns": "2",
+        "padding_top": 16,
+        "padding_bottom": 36
+      }
+    },
     "1784486218094e13e6": {
       "type": "_blocks",
-      "disabled": true,
       "blocks": {
         "ai_gen_block_54d9efe_MC4gg8": {
           "type": "ai_gen_block_54d9efe",
@@ -67,6 +223,7 @@
       "block_order": [
         "ai_gen_block_54d9efe_MC4gg8"
       ],
+      "disabled": true,
       "settings": {}
     },
     "blocks_cyYVBr": {
@@ -222,175 +379,8 @@
       "disabled": true,
       "settings": {}
     },
-    "os_featured_products": {
-      "type": "os-featured-products",
-      "settings": {
-        "title": "Featured products",
-        "collection": "pruners",
-        "products_to_show": 4,
-        "show_view_all": true,
-        "view_all_label": "View All",
-        "view_all_suffix": "Products",
-        "view_all_link": "",
-        "show_vendor": false,
-        "show_rating": true,
-        "enable_quick_add": true,
-        "padding_top": 36,
-        "padding_bottom": 48
-      }
-    },
-    "os_promo_banners": {
-      "type": "os-promo-banners",
-      "blocks": {
-        "promo_wilkinson": {
-          "type": "promo",
-          "settings": {
-            "title": "Wilkinson Sword",
-            "text": "Trusted garden tools",
-            "link": "shopify://collections/wilkinson-sword"
-          }
-        },
-        "promo_wolf": {
-          "type": "promo",
-          "settings": {
-            "title": "Wolf-Garten",
-            "text": "German-engineered quality",
-            "link": "shopify://collections/wolf-garten"
-          }
-        },
-        "promo_pruners": {
-          "type": "promo",
-          "settings": {
-            "title": "Pruners & shears",
-            "text": "Shop bestsellers",
-            "link": "shopify://collections/pruners"
-          }
-        }
-      },
-      "block_order": [
-        "promo_wilkinson",
-        "promo_wolf",
-        "promo_pruners"
-      ],
-      "settings": {
-        "columns": "3",
-        "padding_top": 16,
-        "padding_bottom": 36
-      }
-    },
-    "os_featured_products_2": {
-      "type": "os-featured-products",
-      "settings": {
-        "title": "Featured products",
-        "collection": "wilkinson-sword",
-        "products_to_show": 4,
-        "show_view_all": true,
-        "view_all_label": "View All",
-        "view_all_suffix": "Products",
-        "view_all_link": "",
-        "show_vendor": false,
-        "show_rating": true,
-        "enable_quick_add": true,
-        "padding_top": 36,
-        "padding_bottom": 48
-      }
-    },
-    "os_promo_banners_2": {
-      "type": "os-promo-banners",
-      "blocks": {
-        "promo_2_left": {
-          "type": "promo",
-          "settings": {
-            "title": "New arrivals",
-            "text": "Fresh tools this season",
-            "link": "shopify://collections/all"
-          }
-        },
-        "promo_2_right": {
-          "type": "promo",
-          "settings": {
-            "title": "Best sellers",
-            "text": "Customer favourites",
-            "link": "shopify://collections/pruners"
-          }
-        }
-      },
-      "block_order": [
-        "promo_2_left",
-        "promo_2_right"
-      ],
-      "settings": {
-        "columns": "2",
-        "padding_top": 16,
-        "padding_bottom": 36
-      }
-    },
-    "os_shop_categories": {
-      "type": "os-shop-categories",
-      "blocks": {
-        "cat_wilkinson": {
-          "type": "category",
-          "settings": {
-            "collection": "wilkinson-sword",
-            "title": "Wilkinson Sword",
-            "image": "",
-            "link": ""
-          }
-        },
-        "cat_wolf": {
-          "type": "category",
-          "settings": {
-            "collection": "wolf-garten",
-            "title": "Wolf-Garten",
-            "image": "",
-            "link": ""
-          }
-        },
-        "cat_radiators": {
-          "type": "category",
-          "settings": {
-            "collection": "radiators",
-            "title": "Radiators",
-            "image": "",
-            "link": ""
-          }
-        },
-        "cat_handkerchief": {
-          "type": "category",
-          "settings": {
-            "collection": "handkerchief",
-            "title": "Hankies",
-            "image": "",
-            "link": ""
-          }
-        }
-      },
-      "block_order": [
-        "cat_wilkinson",
-        "cat_wolf",
-        "cat_radiators",
-        "cat_handkerchief"
-      ],
-      "settings": {
-        "title": "Shop by Category",
-        "collections": [
-          "wilkinson-sword",
-          "wolf-garten",
-          "radiators",
-          "handkerchief"
-        ],
-        "show_view_all": true,
-        "view_all_label": "View All",
-        "view_all_suffix": "Categories",
-        "view_all_link": "shopify://collections",
-        "overlap_hero": true,
-        "padding_top": 16,
-        "padding_bottom": 24
-      }
-    },
     "collection_list_fM4mEX": {
       "type": "collection-list",
-      "disabled": true,
       "blocks": {
         "featured_collection_YpW4qD": {
           "type": "featured_collection",
@@ -424,6 +414,7 @@
         "featured_collection_6bJ4k4",
         "featured_collection_AqG3L7"
       ],
+      "disabled": true,
       "name": "t:sections.collection-list.presets.name",
       "settings": {
         "title": "Our Most Popular Departments",
@@ -567,7 +558,6 @@
     },
     "image_banner": {
       "type": "image-banner",
-      "disabled": true,
       "blocks": {
         "heading": {
           "type": "heading",
@@ -592,6 +582,7 @@
         "heading",
         "button"
       ],
+      "disabled": true,
       "settings": {
         "image": "shopify://shop_images/website_banner_file.jpg",
         "image_overlay_opacity": 10,
@@ -772,6 +763,7 @@
     "os_hero_banner",
     "os_shop_categories",
     "os_featured_products",
+    "os_banner_products",
     "os_promo_banners",
     "os_featured_products_2",
     "os_promo_banners_2",

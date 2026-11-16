@@ -62,6 +62,13 @@
         speed: reduceMotion ? 0 : 400,
         cssEase: 'ease',
         adaptiveHeight: false,
+        draggable: true,
+        swipe: true,
+        swipeToSlide: true,
+        touchMove: true,
+        touchThreshold: 5,
+        waitForAnimate: false,
+        accessibility: true,
         prevArrow: '<button type="button" class="slick-prev" aria-label="Previous categories"></button>',
         nextArrow: '<button type="button" class="slick-next" aria-label="Next categories"></button>',
         responsive: [
@@ -70,6 +77,8 @@
             settings: {
               slidesToShow: tablet,
               slidesToScroll: 1,
+              swipeToSlide: true,
+              draggable: true,
             },
           },
           {
@@ -77,13 +86,70 @@
             settings: {
               slidesToShow: mobile,
               slidesToScroll: 1,
+              swipeToSlide: true,
+              draggable: true,
             },
           },
         ],
       });
+
+      bindCategoriesDrag(el);
     });
 
     return ready;
+  };
+
+  /* Allow free grab-drag; block accidental link clicks after a drag */
+  const bindCategoriesDrag = (el) => {
+    if (el.dataset.osCatDragBound === 'true') return;
+    el.dataset.osCatDragBound = 'true';
+
+    const list = el.querySelector('.slick-list') || el;
+    let dragging = false;
+    let startX = 0;
+    let startY = 0;
+    const DRAG_THRESHOLD = 6;
+
+    const setGrabbing = (on) => {
+      list.classList.toggle('is-grabbing', on);
+      el.classList.toggle('is-grabbing', on);
+    };
+
+    list.addEventListener('mousedown', (event) => {
+      if (event.button !== 0) return;
+      dragging = false;
+      startX = event.clientX;
+      startY = event.clientY;
+      setGrabbing(true);
+    });
+
+    list.addEventListener('mousemove', (event) => {
+      if (!list.classList.contains('is-grabbing')) return;
+      const dx = Math.abs(event.clientX - startX);
+      const dy = Math.abs(event.clientY - startY);
+      if (dx > DRAG_THRESHOLD || dy > DRAG_THRESHOLD) dragging = true;
+    });
+
+    const endGrab = () => setGrabbing(false);
+    list.addEventListener('mouseup', endGrab);
+    list.addEventListener('mouseleave', endGrab);
+
+    el.addEventListener(
+      'click',
+      (event) => {
+        if (!dragging) return;
+        const link = event.target.closest('a');
+        if (!link || !el.contains(link)) return;
+        event.preventDefault();
+        event.stopPropagation();
+        dragging = false;
+      },
+      true
+    );
+
+    el.addEventListener('dragstart', (event) => {
+      if (event.target.closest('a, img')) event.preventDefault();
+    });
   };
 
   const initAllSlick = () => {

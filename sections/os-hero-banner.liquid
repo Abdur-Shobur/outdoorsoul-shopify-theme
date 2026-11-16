@@ -6,7 +6,7 @@
   assign hero_alt = section.settings.image.alt | default: section.settings.heading
 -%}
 
-<section
+<div
   id="OsHero-{{ section.id }}"
   class="os-hero"
   style="
@@ -21,7 +21,7 @@
       | image_tag:
         class: 'os-hero__image',
         widths: '750, 1100, 1500, 2000',
-        sizes: '(min-width: 990px) 62vw, 100vw',
+        sizes: '100vw',
         loading: 'eager',
         fetchpriority: fetch_priority,
         alt: hero_alt
@@ -101,7 +101,7 @@
       {%- endif -%}
     </div>
   </div>
-</section>
+</div>
 
 {% schema %}
 {

@@ -7,7 +7,7 @@
   endif
 -%}
 
-<section
+<div
   id="OsCategories-{{ section.id }}"
   class="os-categories{% if section.settings.overlap_hero %} os-categories--overlap{% endif %}"
   style="
@@ -151,7 +151,7 @@
 
   <script src="{{ 'jquery.min.js' | asset_url }}" defer="defer"></script>
   <script src="{{ 'slick.min.js' | asset_url }}" defer="defer"></script>
-</section>
+</div>
 
 {% schema %}
 {

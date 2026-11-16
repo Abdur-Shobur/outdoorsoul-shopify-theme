@@ -17,7 +17,7 @@
   endif
 -%}
 
-<section
+<div
   id="OsCollectionHero-{{ section.id }}"
   class="os-collection-hero{% if image != blank %} os-collection-hero--has-image{% endif %}"
 >
@@ -53,7 +53,7 @@
       <p class="os-collection-hero__text">{{ text | escape }}</p>
     {%- endif -%}
   </div>
-</section>
+</div>
 
 {% schema %}
 {

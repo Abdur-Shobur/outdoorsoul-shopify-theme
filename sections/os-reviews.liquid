@@ -2,7 +2,7 @@
   assign columns = section.settings.columns | default: 3
 -%}
 
-<section
+<div
   id="OsReviews-{{ section.id }}"
   class="os-reviews os-reviews--cols-{{ columns }}"
   style="
@@ -86,7 +86,7 @@
       </ul>
     {%- endif -%}
   </div>
-</section>
+</div>
 
 {% schema %}
 {
