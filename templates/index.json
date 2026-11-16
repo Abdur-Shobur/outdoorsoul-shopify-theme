@@ -61,7 +61,7 @@
       "settings": {
         "title": "Featured products",
         "collection": "pruners",
-        "products_to_show": 8,
+        "products_to_show": 12,
         "show_view_all": true,
         "view_all_label": "View All",
         "view_all_suffix": "Products",
@@ -78,13 +78,14 @@
       "settings": {
         "title": "Featured picks",
         "layout": "banner_left",
+        "banner_image": "shopify://shop_images/banner-image.webp",
         "banner_eyebrow": "Offer",
         "banner_heading": "Spring garden deals",
         "banner_text": "Save on essential tools for the season ahead.",
         "banner_button_label": "Shop now",
         "banner_link": "shopify://collections/all",
         "collection": "pruners",
-        "products_to_show": 3,
+        "products_to_show": 6,
         "show_view_all": true,
         "view_all_label": "View All",
         "view_all_link": "",
@@ -101,6 +102,7 @@
         "promo_wilkinson": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/town-country-mastergrip-superior-grip-gloves.jpg_a68eaee4-985d-4ccb-b072-997af4329d82.jpg",
             "title": "Wilkinson Sword",
             "text": "Trusted garden tools",
             "link": "shopify://collections/wilkinson-sword"
@@ -109,6 +111,7 @@
         "promo_wolf": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/img_7434_Hi.jpg",
             "title": "Wolf-Garten",
             "text": "German-engineered quality",
             "link": "shopify://collections/wolf-garten"
@@ -117,6 +120,7 @@
         "promo_pruners": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/town-country-master-gardener-lite-gardening-gloves-small-medium.jpg_14de96fa-89c1-4bb8-88ad-b15f32627377.jpg",
             "title": "Pruners & shears",
             "text": "Shop bestsellers",
             "link": "shopify://collections/pruners"
@@ -158,6 +162,7 @@
         "promo_2_left": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/town-country-mastergrip-superior-grip-gloves.jpg_a68eaee4-985d-4ccb-b072-997af4329d82.jpg",
             "title": "New arrivals",
             "text": "Fresh tools this season",
             "link": "shopify://collections/all"
@@ -166,6 +171,7 @@
         "promo_2_right": {
           "type": "promo",
           "settings": {
+            "image": "shopify://shop_images/SG1050115MODOLSHEEPred_smart-garden-solar-dolly-sheep-silhouette-redlight.jpg_8659d3e9-a418-45a5-86f4-1e9539d1e615.webp",
             "title": "Best sellers",
             "text": "Customer favourites",
             "link": "shopify://collections/pruners"
@@ -548,6 +554,7 @@
         "trust_secure"
       ],
       "settings": {
+        "image": "shopify://shop_images/banner-image.webp",
         "heading": "Shop with\nconfidence",
         "text": "Trusted brands, fast UK delivery and support when you need it.",
         "button_label": "Shop garden tools",
