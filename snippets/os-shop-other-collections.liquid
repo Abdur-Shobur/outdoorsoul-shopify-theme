@@ -1,46 +1,94 @@
 {% comment %}
-  Sidebar “Other collections” links for shop/collection pages.
+  Collections filter links for shop/collection sidebar.
+  Rendered inside the main facets card so it matches Colour / other filters.
 
   Accepts:
   - heading: {String}
-  - collections: {Array} collection_list setting
+  - collection_list: {Array} optional curated list; falls back to all store collections
   - current_collection: {Object} current collection (optional)
+  - mobile: {Boolean} when true, styles for mobile filter drawer
 {% endcomment %}
 
 {%- liquid
-  assign os_other_heading = heading | default: 'Other collections'
-  assign os_other_count = 0
-  if collections != blank
-    for coll in collections
-      if current_collection == blank or coll.handle != current_collection.handle
-        assign os_other_count = os_other_count | plus: 1
-      endif
-    endfor
+  assign os_other_heading = heading | default: 'Collections'
+  assign os_is_mobile = mobile | default: false
+  assign os_use_curated = false
+
+  if collection_list != blank and collection_list.size > 0
+    assign os_use_curated = true
   endif
 -%}
 
-{%- if os_other_count > 0 -%}
-  <nav class="os-shop-other-collections small-hide" aria-label="{{ os_other_heading | escape }}">
-    <details class="os-shop-other-collections__details" open>
-      <summary class="os-shop-other-collections__summary">
-        <span>{{ os_other_heading | escape }}</span>
-        <span class="svg-wrapper" aria-hidden="true">
+{%- capture os_collections_items -%}
+  {%- if os_use_curated -%}
+    {%- for coll in collection_list -%}
+      <li class="os-shop-other-collections__item">
+        <a
+          class="os-shop-other-collections__link{% if current_collection != blank and coll.handle == current_collection.handle %} is-active{% endif %}"
+          href="{{ coll.url }}"
+          {% if current_collection != blank and coll.handle == current_collection.handle %}
+            aria-current="page"
+          {% endif %}
+        >
+          <span class="os-shop-other-collections__title">{{ coll.title | escape }}</span>
+          <span class="os-shop-other-collections__count">({{ coll.all_products_count }})</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- else -%}
+    {%- for coll in collections -%}
+      <li class="os-shop-other-collections__item">
+        <a
+          class="os-shop-other-collections__link{% if current_collection != blank and coll.handle == current_collection.handle %} is-active{% endif %}"
+          href="{{ coll.url }}"
+          {% if current_collection != blank and coll.handle == current_collection.handle %}
+            aria-current="page"
+          {% endif %}
+        >
+          <span class="os-shop-other-collections__title">{{ coll.title | escape }}</span>
+          <span class="os-shop-other-collections__count">({{ coll.all_products_count }})</span>
+        </a>
+      </li>
+    {%- endfor -%}
+  {%- endif -%}
+{%- endcapture -%}
+
+{%- if os_collections_items != blank -%}
+  {%- if os_is_mobile -%}
+    <details
+      id="Details-CollectionsFilter-Mobile-{{ section.id }}"
+      class="mobile-facets__details os-shop-other-collections os-shop-other-collections--mobile"
+      open
+    >
+      <summary class="mobile-facets__summary focus-offset">
+        <div>
+          <span>{{ os_other_heading | escape }}</span>
           {{- 'icon-caret.svg' | inline_asset_content -}}
-        </span>
+        </div>
       </summary>
-      <ul class="os-shop-other-collections__list list-unstyled" role="list">
-        {%- for coll in collections -%}
-          {%- if current_collection != blank and coll.handle == current_collection.handle -%}
-            {%- continue -%}
-          {%- endif -%}
-          <li>
-            <a class="os-shop-other-collections__link" href="{{ coll.url }}">
-              <span class="os-shop-other-collections__title">{{ coll.title | escape }}</span>
-              <span class="os-shop-other-collections__count">({{ coll.all_products_count }})</span>
-            </a>
-          </li>
-        {%- endfor -%}
-      </ul>
+      <div class="mobile-facets__submenu">
+        <ul class="os-shop-other-collections__list list-unstyled" role="list">
+          {{ os_collections_items }}
+        </ul>
+      </div>
     </details>
-  </nav>
+  {%- else -%}
+    <details
+      id="Details-CollectionsFilter-{{ section.id }}"
+      class="facets__disclosure-vertical os-shop-other-collections small-hide"
+      open
+    >
+      <summary class="facets__summary caption-large focus-offset">
+        <div>
+          <span class="facets__summary-label">{{ os_other_heading | escape }}</span>
+          {{- 'icon-caret.svg' | inline_asset_content -}}
+        </div>
+      </summary>
+      <div class="facets__display-vertical">
+        <ul class="os-shop-other-collections__list list-unstyled" role="list">
+          {{ os_collections_items }}
+        </ul>
+      </div>
+    </details>
+  {%- endif -%}
 {%- endif -%}

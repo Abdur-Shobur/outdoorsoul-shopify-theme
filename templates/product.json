@@ -146,7 +146,8 @@
 				"image_shape": "default",
 				"show_secondary_image": true,
 				"show_vendor": false,
-				"show_rating": false,
+				"show_rating": true,
+				"enable_quick_add": true,
 				"padding_top": 36,
 				"padding_bottom": 28
 			}

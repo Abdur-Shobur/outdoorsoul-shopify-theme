@@ -111,19 +111,12 @@
             enable_filtering: section.settings.enable_filtering,
             enable_sorting: section.settings.enable_sorting,
             filter_type: section.settings.filter_type,
-            paginate: paginate
+            paginate: paginate,
+            show_collections_filter: section.settings.show_other_collections,
+            collections_filter_heading: section.settings.other_collections_heading,
+            collections_filter_list: section.settings.other_collections,
+            current_collection: collection
           %}
-
-          {%- if section.settings.filter_type == 'vertical'
-            and section.settings.show_other_collections
-            and section.settings.other_collections != blank
-          -%}
-            {% render 'os-shop-other-collections',
-              heading: section.settings.other_collections_heading,
-              collections: section.settings.other_collections,
-              current_collection: collection
-            %}
-          {%- endif -%}
 
           {%- if section.settings.filter_type == 'vertical' and section.settings.show_sidebar_promo -%}
             {%- assign promo_alt = section.settings.sidebar_promo_heading -%}
@@ -443,27 +436,27 @@
     },
     {
       "type": "header",
-      "content": "Other collections"
+      "content": "Collections filter"
     },
     {
       "type": "checkbox",
       "id": "show_other_collections",
       "default": true,
-      "label": "Show other collections",
-      "info": "Shown at the bottom of the vertical sidebar"
+      "label": "Show collections in filter sidebar",
+      "info": "Adds a Collections list under the filters in the left sidebar"
     },
     {
       "type": "text",
       "id": "other_collections_heading",
       "label": "Heading",
-      "default": "Other collections"
+      "default": "Collections"
     },
     {
       "type": "collection_list",
       "id": "other_collections",
       "label": "Collections",
-      "info": "Pick collections shoppers can jump to from the sidebar",
-      "limit": 12
+      "info": "Optional. Leave empty to show all collections automatically.",
+      "limit": 50
     },
     {
       "type": "header",

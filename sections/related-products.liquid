@@ -1,68 +1,97 @@
-{{ 'component-card.css' | asset_url | stylesheet_tag }}
-{{ 'component-price.css' | asset_url | stylesheet_tag }}
-{{ 'section-related-products.css' | asset_url | stylesheet_tag }}
-
-{% if section.settings.image_shape == 'blob' %}
-  {{ 'mask-blobs.css' | asset_url | stylesheet_tag }}
+{%- if section.settings.enable_quick_add -%}
+  <script src="{{ 'product-form.js' | asset_url }}" defer="defer"></script>
 {%- endif -%}
 
-{%- style -%}
-  .section-{{ section.id }}-padding {
-    padding-top: {{ section.settings.padding_top | times: 0.75 | round: 0 }}px;
-    padding-bottom: {{ section.settings.padding_bottom | times: 0.75 | round: 0 }}px;
-  }
+{%- liquid
+  assign products_to_show = section.settings.products_to_show | default: 4
+  assign columns_desktop = section.settings.columns_desktop | default: 4
+  assign related_count = 0
+  assign fallback_collection = blank
 
-  @media screen and (min-width: 750px) {
-    .section-{{ section.id }}-padding {
-      padding-top: {{ section.settings.padding_top }}px;
-      padding-bottom: {{ section.settings.padding_bottom }}px;
-    }
-  }
-{%- endstyle -%}
+  if recommendations.performed and recommendations.products_count > 0
+    assign related_count = recommendations.products_count
+  elsif recommendations.performed
+    for coll in product.collections
+      if coll.handle != 'all' and coll.handle != 'frontpage' and coll.all_products_count > 1
+        assign fallback_collection = coll
+        break
+      endif
+    endfor
+    if fallback_collection == blank
+      assign fallback_collection = collections.all
+    endif
+  endif
+-%}
 
-<div class="color-{{ section.settings.color_scheme }} gradient">
+<div
+  class="os-related"
+  style="
+    --os-related-pad-top: {{ section.settings.padding_top }}px;
+    --os-related-pad-bottom: {{ section.settings.padding_bottom }}px;
+    --os-related-cols: {{ columns_desktop }};
+  "
+>
   <product-recommendations
-    class="related-products page-width section-{{ section.id }}-padding isolate{% if settings.animations_reveal_on_scroll %} scroll-trigger animate--slide-in{% endif %}"
-    data-url="{{ routes.product_recommendations_url }}?limit={{ section.settings.products_to_show }}"
+    class="os-related__recommendations related-products"
+    data-url="{{ routes.product_recommendations_url }}?section_id={{ section.id }}&product_id={{ product.id }}&limit={{ products_to_show }}&intent=related"
     data-section-id="{{ section.id }}"
     data-product-id="{{ product.id }}"
   >
-    {% if recommendations.performed and recommendations.products_count > 0 %}
-      <h2 class="related-products__heading inline-richtext {{ section.settings.heading_size }}">
-        {{ section.settings.heading }}
-      </h2>
-      <ul
-        class="grid product-grid grid--{{ section.settings.columns_desktop }}-col-desktop grid--{{ section.settings.columns_mobile }}-col-tablet-down"
-        role="list"
-      >
-        {% assign skip_card_product_styles = false %}
-        {% for recommendation in recommendations.products %}
-          <li class="grid__item">
-            {% render 'card-product',
-              card_product: recommendation,
-              media_aspect_ratio: section.settings.image_ratio,
-              image_shape: section.settings.image_shape,
-              show_secondary_image: section.settings.show_secondary_image,
-              show_vendor: section.settings.show_vendor,
-              show_rating: section.settings.show_rating,
-              skip_styles: skip_card_product_styles
-            %}
-          </li>
-          {%- assign skip_card_product_styles = true -%}
-        {% endfor %}
-      </ul>
-    {% endif %}
+    {%- if recommendations.performed -%}
+      <div class="os-container">
+        {%- if section.settings.heading != blank -%}
+          <div class="os-related__header">
+            <h2 class="os-related__heading">{{ section.settings.heading }}</h2>
+          </div>
+        {%- endif -%}
+
+        {%- if related_count > 0 -%}
+          <ul class="os-related__grid" role="list">
+            {%- for recommendation in recommendations.products limit: products_to_show -%}
+              <li class="os-related__item grid__item">
+                {% render 'os-product-card',
+                  product: recommendation,
+                  section: section,
+                  show_vendor: section.settings.show_vendor,
+                  show_rating: section.settings.show_rating,
+                  enable_quick_add: section.settings.enable_quick_add
+                %}
+              </li>
+            {%- endfor -%}
+          </ul>
+        {%- elsif fallback_collection != blank -%}
+          <ul class="os-related__grid" role="list">
+            {%- assign shown = 0 -%}
+            {%- for related_product in fallback_collection.products -%}
+              {%- if related_product.id == product.id -%}
+                {%- continue -%}
+              {%- endif -%}
+              {%- if shown >= products_to_show -%}
+                {%- break -%}
+              {%- endif -%}
+              <li class="os-related__item">
+                {% render 'os-product-card',
+                  product: related_product,
+                  section: section,
+                  show_vendor: section.settings.show_vendor,
+                  show_rating: section.settings.show_rating,
+                  enable_quick_add: section.settings.enable_quick_add
+                %}
+              </li>
+              {%- assign shown = shown | plus: 1 -%}
+            {%- endfor -%}
+          </ul>
+        {%- endif -%}
+      </div>
+    {%- endif -%}
   </product-recommendations>
-  {% if section.settings.image_shape == 'arch' %}
-    {{ 'mask-arch.svg' | inline_asset_content }}
-  {%- endif -%}
 </div>
 
 {% schema %}
 {
   "name": "t:sections.related-products.name",
   "tag": "section",
-  "class": "section",
+  "class": "section-os-related",
   "settings": [
     {
       "type": "paragraph",
@@ -71,7 +100,7 @@
     {
       "type": "inline_richtext",
       "id": "heading",
-      "default": "t:sections.related-products.settings.paragraph__1.default",
+      "default": "You may also like",
       "label": "t:sections.related-products.settings.heading.label"
     },
     {
@@ -99,7 +128,7 @@
           "label": "t:sections.all.heading_size.options__5.label"
         }
       ],
-      "default": "h1",
+      "default": "h2",
       "label": "t:sections.all.heading_size.label"
     },
     {
@@ -134,7 +163,7 @@
           "value": "2",
           "label": "t:sections.related-products.settings.columns_mobile.options__2.label"
         }
-      ]    
+      ]
     },
     {
       "type": "color_scheme",
@@ -164,7 +193,7 @@
           "label": "t:sections.related-products.settings.image_ratio.options__3.label"
         }
       ],
-      "default": "adapt",
+      "default": "square",
       "label": "t:sections.related-products.settings.image_ratio.label"
     },
     {
@@ -210,7 +239,7 @@
     {
       "type": "checkbox",
       "id": "show_secondary_image",
-      "default": false,
+      "default": true,
       "label": "t:sections.related-products.settings.show_secondary_image.label"
     },
     {
@@ -222,9 +251,15 @@
     {
       "type": "checkbox",
       "id": "show_rating",
-      "default": false,
+      "default": true,
       "label": "t:sections.related-products.settings.show_rating.label",
       "info": "t:sections.related-products.settings.show_rating.info"
+    },
+    {
+      "type": "checkbox",
+      "id": "enable_quick_add",
+      "default": true,
+      "label": "Enable quick add button"
     },
     {
       "type": "header",

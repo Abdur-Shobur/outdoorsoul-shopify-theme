@@ -334,6 +334,14 @@
                   </details>
               {% endcase %}
             {%- endfor -%}
+
+            {%- if show_collections_filter and filter_type == 'vertical' -%}
+              {% render 'os-shop-other-collections',
+                heading: collections_filter_heading,
+                collection_list: collections_filter_list,
+                current_collection: current_collection
+              %}
+            {%- endif -%}
           </div>
           {% comment %} Pills after filtes on filter type horizontal {% endcomment %}
           {%- if filter_type == 'horizontal' -%}
@@ -714,6 +722,15 @@
                       </details>
                   {% endcase %}
                 {%- endfor -%}
+              {%- endif -%}
+
+              {%- if show_collections_filter -%}
+                {% render 'os-shop-other-collections',
+                  heading: collections_filter_heading,
+                  collection_list: collections_filter_list,
+                  current_collection: current_collection,
+                  mobile: true
+                %}
               {%- endif -%}
 
               {%- if enable_sorting -%}
