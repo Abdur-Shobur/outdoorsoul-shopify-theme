@@ -1843,6 +1843,10 @@ h5,
 .os-related__item {
 	min-width: 0;
 }
+.os-related__item.grid__item {
+	width: 100%;
+	max-width: 100%;
+}
 
 /* ---------- Banner + products ---------- */
 .os-banner-products {
