@@ -1,5 +1,8 @@
 {% comment %}
-  Renders a megamenu for the header.
+  Outdoor Soul megamenu — supports 3-level Shopify menus as columns.
+  Level 1 = top nav (Garden Tools, Shop by Brand, …)
+  Level 2 = column headings (Digging & Shovelling, …)
+  Level 3 = links inside each column
 
   Usage:
   {% render 'header-mega-menu' %}
@@ -25,6 +28,15 @@
     {%- for link in section.settings.menu.links -%}
       <li>
         {%- if link.links != blank -%}
+          {%- liquid
+            assign mega_cols = link.links.size
+            if mega_cols > 4
+              assign mega_cols = 4
+            endif
+            if mega_cols < 1
+              assign mega_cols = 1
+            endif
+          -%}
           <header-menu>
             <details id="Details-HeaderMenu-{{ forloop.index }}" class="mega-menu">
               <summary
@@ -45,25 +57,45 @@
                 class="mega-menu__content color-{{ section.settings.menu_color_scheme }} gradient motion-reduce global-settings-popup"
                 tabindex="-1"
               >
-                <div class="os-mega-inner{% if show_featured %} has-featured{% endif %}">
+                <div
+                  class="os-mega-inner{% if show_featured %} has-featured{% endif %} os-mega-inner--cols-{{ mega_cols }}"
+                >
                   <ul
-                    class="mega-menu__list{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
+                    class="mega-menu__list mega-menu__list--cols-{{ mega_cols }}{% if link.levels == 1 %} mega-menu__list--condensed{% endif %}"
                     role="list"
+                    style="--os-mega-cols: {{ mega_cols }};"
                   >
                     {%- for childlink in link.links -%}
-                      <li>
-                        <a
-                          id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
-                          href="{{ childlink.url }}"
-                          class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}"
-                          {% if childlink.current %}
-                            aria-current="page"
-                          {% endif %}
-                        >
-                          {{ childlink.title | escape }}
-                        </a>
+                      {%- liquid
+                        assign child_is_heading = false
+                        if childlink.links != blank
+                          assign child_is_heading = true
+                        endif
+                        assign child_url_blank = false
+                        if childlink.url == blank or childlink.url == '#' or childlink.url == '/#'
+                          assign child_url_blank = true
+                        endif
+                      -%}
+                      <li class="mega-menu__column">
+                        {%- if child_is_heading and child_url_blank -%}
+                          <span class="mega-menu__link mega-menu__link--level-2 mega-menu__heading">
+                            {{ childlink.title | escape }}
+                          </span>
+                        {%- else -%}
+                          <a
+                            id="HeaderMenu-{{ link.handle }}-{{ childlink.handle }}"
+                            href="{{ childlink.url }}"
+                            class="mega-menu__link mega-menu__link--level-2 link{% if childlink.current %} mega-menu__link--active{% endif %}{% if child_is_heading %} mega-menu__heading{% endif %}"
+                            {% if childlink.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{ childlink.title | escape }}
+                          </a>
+                        {%- endif -%}
+
                         {%- if childlink.links != blank -%}
-                          <ul class="list-unstyled" role="list">
+                          <ul class="mega-menu__column-list list-unstyled" role="list">
                             {%- for grandchildlink in childlink.links -%}
                               <li>
                                 <a
@@ -159,12 +191,14 @@
                     {%- else -%}
                       <span></span>
                     {%- endif -%}
-                    <a href="{{ link.url }}" class="os-mega-footer__link">
-                      View all {{ link.title | escape }}
-                      <span class="svg-wrapper" aria-hidden="true">
-                        {{- 'icon-arrow.svg' | inline_asset_content -}}
-                      </span>
-                    </a>
+                    {%- if link.url != blank and link.url != '#' -%}
+                      <a href="{{ link.url }}" class="os-mega-footer__link">
+                        View all {{ link.title | escape }}
+                        <span class="svg-wrapper" aria-hidden="true">
+                          {{- 'icon-arrow.svg' | inline_asset_content -}}
+                        </span>
+                      </a>
+                    {%- endif -%}
                   </div>
                 </div>
               </div>

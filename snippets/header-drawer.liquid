@@ -71,31 +71,43 @@
                                     {{ childlink.title | escape }}
                                   </a>
                                 {%- else -%}
-                                  <p class="os-drawer-group-label">{{ childlink.title | escape }}</p>
-                                  <ul class="menu-drawer__menu list-menu" role="list">
-                                    {%- for grandchildlink in childlink.links -%}
-                                      <li>
-                                        <a
-                                          id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
-                                          href="{{ grandchildlink.url }}"
-                                          class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
-                                          {% if grandchildlink.current %}
-                                            aria-current="page"
-                                          {% endif %}
-                                        >
-                                          {{ grandchildlink.title | escape }}
-                                        </a>
-                                      </li>
-                                    {%- endfor -%}
-                                  </ul>
-                                  {%- if childlink.url != blank and childlink.url != '#' -%}
-                                    <a
-                                      href="{{ childlink.url }}"
-                                      class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                  <details class="os-drawer-group">
+                                    <summary
+                                      id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
+                                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset os-drawer-group__summary"
                                     >
-                                      View all {{ childlink.title | escape }}
-                                    </a>
-                                  {%- endif -%}
+                                      {{ childlink.title | escape }}
+                                      <span class="svg-wrapper">
+                                        {{- 'icon-caret.svg' | inline_asset_content -}}
+                                      </span>
+                                    </summary>
+                                    <ul class="menu-drawer__menu list-menu os-drawer-group__list" role="list">
+                                      {%- if childlink.url != blank and childlink.url != '#' -%}
+                                        <li>
+                                          <a
+                                            href="{{ childlink.url }}"
+                                            class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
+                                          >
+                                            View all {{ childlink.title | escape }}
+                                          </a>
+                                        </li>
+                                      {%- endif -%}
+                                      {%- for grandchildlink in childlink.links -%}
+                                        <li>
+                                          <a
+                                            id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}-{{ grandchildlink.handle }}"
+                                            href="{{ grandchildlink.url }}"
+                                            class="menu-drawer__menu-item link link--text list-menu__item focus-inset{% if grandchildlink.current %} menu-drawer__menu-item--active{% endif %}"
+                                            {% if grandchildlink.current %}
+                                              aria-current="page"
+                                            {% endif %}
+                                          >
+                                            {{ grandchildlink.title | escape }}
+                                          </a>
+                                        </li>
+                                      {%- endfor -%}
+                                    </ul>
+                                  </details>
                                 {%- endif -%}
                               </li>
                             {%- endfor -%}
