@@ -37,13 +37,29 @@
               {%- for link in section.settings.menu.links -%}
                 <li>
                   {%- if link.links != blank -%}
-                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}">
+                    <details id="Details-menu-drawer-menu-item-{{ forloop.index }}" class="os-drawer-item">
                       <summary
                         id="HeaderDrawer-{{ link.handle }}"
-                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
+                        class="menu-drawer__menu-item list-menu__item link link--text focus-inset os-drawer-item__summary{% if link.child_active %} menu-drawer__menu-item--active{% endif %}"
                       >
-                        {{ link.title | escape }}
-                        <span class="svg-wrapper">
+                        {%- if link.url != blank and link.url != '#' and link.url != '/#' -%}
+                          <a
+                            href="{{ link.url }}"
+                            class="os-drawer-item__link{% if link.child_active or link.current %} menu-drawer__menu-item--active{% endif %}"
+                            {% if link.current %}
+                              aria-current="page"
+                            {% endif %}
+                          >
+                            {{ link.title | escape }}
+                          </a>
+                        {%- else -%}
+                          <span class="os-drawer-item__link">{{ link.title | escape }}</span>
+                        {%- endif -%}
+                        <span
+                          class="os-drawer-item__toggle svg-wrapper"
+                          data-drawer-toggle
+                          aria-hidden="true"
+                        >
                           {{- 'icon-caret.svg' | inline_asset_content -}}
                         </span>
                       </summary>
@@ -71,27 +87,30 @@
                                     {{ childlink.title | escape }}
                                   </a>
                                 {%- else -%}
-                                  <details class="os-drawer-group">
+                                  <details class="os-drawer-group os-drawer-item">
                                     <summary
                                       id="HeaderDrawer-{{ link.handle }}-{{ childlink.handle }}"
-                                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset os-drawer-group__summary"
+                                      class="menu-drawer__menu-item list-menu__item link link--text focus-inset os-drawer-group__summary os-drawer-item__summary"
                                     >
-                                      {{ childlink.title | escape }}
-                                      <span class="svg-wrapper">
+                                      {%- if childlink.url != blank and childlink.url != '#' and childlink.url != '/#' -%}
+                                        <a
+                                          href="{{ childlink.url }}"
+                                          class="os-drawer-item__link"
+                                        >
+                                          {{ childlink.title | escape }}
+                                        </a>
+                                      {%- else -%}
+                                        <span class="os-drawer-item__link">{{ childlink.title | escape }}</span>
+                                      {%- endif -%}
+                                      <span
+                                        class="os-drawer-item__toggle svg-wrapper"
+                                        data-drawer-toggle
+                                        aria-hidden="true"
+                                      >
                                         {{- 'icon-caret.svg' | inline_asset_content -}}
                                       </span>
                                     </summary>
                                     <ul class="menu-drawer__menu list-menu os-drawer-group__list" role="list">
-                                      {%- if childlink.url != blank and childlink.url != '#' -%}
-                                        <li>
-                                          <a
-                                            href="{{ childlink.url }}"
-                                            class="menu-drawer__menu-item link link--text list-menu__item focus-inset"
-                                          >
-                                            View all {{ childlink.title | escape }}
-                                          </a>
-                                        </li>
-                                      {%- endif -%}
                                       {%- for grandchildlink in childlink.links -%}
                                         <li>
                                           <a

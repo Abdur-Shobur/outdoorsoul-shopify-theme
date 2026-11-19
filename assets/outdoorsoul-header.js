@@ -271,6 +271,13 @@
       const details = menu.querySelector('details');
       if (!details) return;
       const panel = getPanel(menu);
+      const summary = details.querySelector('summary');
+      const topLink = summary?.querySelector('a.header__menu-item-link');
+
+      /* Let top-level label navigate; caret/summary still opens menu on hover */
+      topLink?.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
 
       menu.addEventListener('mouseenter', () => {
         if (!isDesktop()) return;
@@ -310,9 +317,35 @@
     });
   };
 
+  /* Mobile drawer: label navigates, caret-only expands accordion */
+  const bindDrawerLinkToggle = () => {
+    const drawer = $('#menu-drawer');
+    if (!drawer || drawer.dataset.osDrawerBound === 'true') return;
+    drawer.dataset.osDrawerBound = 'true';
+
+    drawer.querySelectorAll('a.os-drawer-item__link').forEach((link) => {
+      link.addEventListener('click', (event) => {
+        event.stopPropagation();
+      });
+    });
+
+    drawer.querySelectorAll('summary.os-drawer-item__summary').forEach((summary) => {
+      summary.addEventListener('click', (event) => {
+        if (event.target.closest('a.os-drawer-item__link')) return;
+        if (!event.target.closest('[data-drawer-toggle]')) {
+          event.preventDefault();
+        }
+      });
+    });
+  };
+
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bindMegaHover);
+    document.addEventListener('DOMContentLoaded', () => {
+      bindMegaHover();
+      bindDrawerLinkToggle();
+    });
   } else {
     bindMegaHover();
+    bindDrawerLinkToggle();
   }
 })();

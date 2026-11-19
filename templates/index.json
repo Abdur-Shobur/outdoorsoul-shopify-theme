@@ -190,6 +190,52 @@
         "padding_bottom": 36
       }
     },
+    "179507801300cf7432": {
+      "type": "apps",
+      "blocks": {
+        "judge_me_reviews_cards_carousel_rJ7gfy": {
+          "type": "shopify://apps/judge-me-reviews/blocks/cards_carousel/61ccd3b1-a9f2-4160-9fe9-4fec8413e5d8",
+          "settings": {
+            "show_sample_reviews": true,
+            "reviews_selection": "all",
+            "products": [],
+            "filter_pinned": false,
+            "filter_featured": false,
+            "filter_custom_tags": "",
+            "star_rating": "5_star",
+            "show_review_media": true,
+            "display_order": "media_first",
+            "no_image_fallback": "review_text_only",
+            "max_reviews": 20,
+            "review_length": "medium",
+            "text_size": "medium",
+            "image_ratio": "1",
+            "reviews_shown": 4,
+            "show_reviewer_name": true,
+            "show_product_name": true,
+            "hide_arrows_mobile": true,
+            "arrows_position": "sides",
+            "max_width": 1100,
+            "corner_styling": "soft",
+            "header_text_color": "#000000",
+            "text_color": "#000000",
+            "card_color": "#F9F9F9",
+            "stars_color": "",
+            "arrows_color": "#000000",
+            "transition_speed": 5,
+            "header_text": "Customers are saying",
+            "show_average_rating": true,
+            "rating_display": "show_trust_badge"
+          }
+        }
+      },
+      "block_order": [
+        "judge_me_reviews_cards_carousel_rJ7gfy"
+      ],
+      "settings": {
+        "include_margins": true
+      }
+    },
     "1784486218094e13e6": {
       "type": "_blocks",
       "blocks": {
@@ -455,53 +501,6 @@
         "padding_bottom": 36
       }
     },
-    "os_reviews": {
-      "type": "os-reviews",
-      "blocks": {
-        "review_1": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "Brilliant pruners — sharp straight out of the box and comfortable for longer sessions in the garden.",
-            "author": "Sarah M.",
-            "meta": "Verified buyer"
-          }
-        },
-        "review_2": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "Fast UK delivery and the Wolf-Garten tools are exactly as described. Will order again.",
-            "author": "James T.",
-            "meta": "Verified buyer"
-          }
-        },
-        "review_3": {
-          "type": "review",
-          "settings": {
-            "rating": 5,
-            "quote": "Great service and solid Wilkinson Sword quality. Packaging was careful and everything arrived perfect.",
-            "author": "Helen R.",
-            "meta": "Verified buyer"
-          }
-        }
-      },
-      "block_order": [
-        "review_1",
-        "review_2",
-        "review_3"
-      ],
-      "settings": {
-        "title": "What customers say",
-        "subtitle": "Real reviews from gardeners across the UK.",
-        "show_summary": true,
-        "summary_rating": 5,
-        "summary_text": "4.9 / 5 from verified buyers",
-        "columns": "3",
-        "padding_top": 36,
-        "padding_bottom": 48
-      }
-    },
     "os_featured_articles": {
       "type": "os-featured-articles",
       "settings": {
@@ -536,7 +535,7 @@
           "type": "point",
           "settings": {
             "icon": "box",
-            "title": "Next-day options",
+            "title": "Next Day Delivery",
             "text": "When you need tools fast."
           }
         },
@@ -775,6 +774,7 @@
     "os_promo_banners",
     "os_featured_products_2",
     "os_promo_banners_2",
+    "179507801300cf7432",
     "1784486218094e13e6",
     "blocks_cyYVBr",
     "blocks_KMnWtw",
@@ -783,7 +783,6 @@
     "1784034835399f9e0b",
     "collection_list_fM4mEX",
     "featured_blog_JFXgna",
-    "os_reviews",
     "os_featured_articles",
     "os_trust_band",
     "image_banner",
