@@ -80,14 +80,20 @@ h5,
 	background: var(--os-forest) !important;
 	color: #fff !important;
 	border: 0 !important;
+	min-height: 3.6rem;
+	overflow: hidden;
 }
 
 .os-offer-slider {
 	min-height: 3.6rem;
+	overflow: hidden;
 }
 
 .os-offer-slick {
 	margin: 0;
+	position: relative;
+	overflow: hidden;
+	min-height: 3.6rem;
 }
 
 .os-offer-slick .os-offer-slide {
@@ -100,6 +106,20 @@ h5,
 	font-size: clamp(1.152rem, 1.12rem + 0.1vw, 1.28rem);
 	letter-spacing: 0.04em;
 	box-sizing: border-box;
+}
+
+/* Prevent FOUC: only first slide visible until Slick initializes */
+.os-offer-slick:not(.slick-initialized) {
+	display: block;
+	max-height: 3.6rem;
+}
+
+.os-offer-slick:not(.slick-initialized) > .os-offer-slide {
+	display: none !important;
+}
+
+.os-offer-slick:not(.slick-initialized) > .os-offer-slide:first-child {
+	display: flex !important;
 }
 
 @media screen and (max-width: 700px) {
@@ -435,6 +455,75 @@ h5,
 		padding-inline: 0.7rem !important;
 		gap: 0.3rem;
 	}
+}
+
+/* ---------- Dropdown (flat menus) ---------- */
+.section-header .os-dropdown {
+	position: relative;
+}
+
+.section-header .os-dropdown > .header__submenu,
+.section-header .os-dropdown > .os-dropdown__panel {
+	min-width: 24rem;
+	max-width: 32rem;
+	margin: 0;
+	padding: 1.2rem 0;
+	border: 1px solid var(--os-line);
+	border-radius: 1.2rem;
+	background: var(--os-cream) !important;
+	box-shadow: 0 18px 36px -20px rgba(35, 67, 47, 0.35);
+	overflow: hidden;
+	z-index: 40;
+}
+
+.section-header .js .os-dropdown[open] > .header__submenu,
+.section-header .os-dropdown[open] > .header__submenu,
+.section-header .js .os-dropdown[open] > .os-dropdown__panel,
+.section-header .os-dropdown[open] > .os-dropdown__panel {
+	opacity: 1 !important;
+	visibility: visible !important;
+	transform: none !important;
+	pointer-events: auto !important;
+}
+
+.section-header .os-dropdown[open] > .header__submenu::before,
+.section-header .os-dropdown[open] > .os-dropdown__panel::before {
+	content: '';
+	position: absolute;
+	left: 0;
+	right: 0;
+	bottom: 100%;
+	height: 1.6rem;
+}
+
+.section-header .os-dropdown__panel .header__menu-item,
+.section-header .os-dropdown > .header__submenu .header__menu-item {
+	display: block;
+	width: 100%;
+	padding: 1rem 1.6rem !important;
+	font-size: clamp(1.312rem, 1.28rem + 0.12vw, 1.44rem) !important;
+	line-height: 1.35;
+	color: var(--os-ink) !important;
+	text-decoration: none !important;
+	background: transparent !important;
+}
+
+.section-header .os-dropdown__panel .header__menu-item:hover,
+.section-header .os-dropdown > .header__submenu .header__menu-item:hover,
+.section-header .os-dropdown__panel .list-menu__item--active,
+.section-header .os-dropdown > .header__submenu .list-menu__item--active {
+	color: var(--os-forest) !important;
+	background: color-mix(in srgb, var(--os-sand) 80%, transparent) !important;
+}
+
+.section-header .os-dropdown[open] > summary.header__menu-item::after {
+	opacity: 1;
+	transform: scaleX(1);
+}
+
+.section-header .os-dropdown[open] > summary .icon-caret,
+.section-header .os-dropdown[open] > summary .svg-wrapper {
+	transform: rotate(180deg);
 }
 
 /* ---------- Mega menu ---------- */
@@ -2752,7 +2841,6 @@ h5,
 
 	.os-collection .facets-vertical facet-filters-form.facets,
 	.os-collection .facets-vertical .facets__form-vertical,
-	.os-collection .os-shop-other-collections.small-hide,
 	.os-collection .os-shop-promo {
 		display: none !important;
 	}
@@ -3005,61 +3093,6 @@ h5,
 		border-color: transparent;
 		background: transparent;
 	}
-}
-
-/* Collections filter — inside main facets card */
-.os-collection
-	.facets-vertical
-	.os-shop-other-collections.facets__disclosure-vertical {
-	border-top: 0;
-	border-bottom: 0;
-	margin: 0;
-	padding: 1.4rem 0 0;
-}
-
-.os-collection
-	.facets-vertical
-	.facets__disclosure-vertical:has(+ .os-shop-other-collections) {
-	border-bottom: 1px solid var(--os-line);
-}
-
-.os-shop-other-collections__list {
-	margin: 0;
-	padding: 0;
-	max-height: 28rem;
-	overflow-y: auto;
-}
-
-.os-shop-other-collections__link {
-	display: flex;
-	align-items: baseline;
-	justify-content: space-between;
-	gap: 1rem;
-	min-height: 3.6rem;
-	padding: 0.7rem 0;
-	font-size: clamp(1.312rem, 1.28rem + 0.12vw, 1.44rem);
-	color: var(--os-ink);
-	text-decoration: none;
-}
-
-.os-shop-other-collections__link:hover {
-	color: var(--os-forest);
-}
-
-.os-shop-other-collections__link.is-active {
-	color: var(--os-forest);
-	font-weight: 600;
-}
-
-.os-shop-other-collections__count {
-	color: var(--os-muted);
-	flex-shrink: 0;
-	font-weight: 400;
-}
-
-.os-shop-other-collections--mobile .os-shop-other-collections__list {
-	padding: 3rem 2rem;
-	max-height: 100svh;
 }
 
 /* Sidebar promo card */

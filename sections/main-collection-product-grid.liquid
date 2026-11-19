@@ -111,11 +111,7 @@
             enable_filtering: section.settings.enable_filtering,
             enable_sorting: section.settings.enable_sorting,
             filter_type: section.settings.filter_type,
-            paginate: paginate,
-            show_collections_filter: section.settings.show_other_collections,
-            collections_filter_heading: section.settings.other_collections_heading,
-            collections_filter_list: section.settings.other_collections,
-            current_collection: collection
+            paginate: paginate
           %}
 
           {%- if section.settings.filter_type == 'vertical' and section.settings.show_sidebar_promo -%}
@@ -433,30 +429,6 @@
       "id": "enable_sorting",
       "default": true,
       "label": "t:sections.main-collection-product-grid.settings.enable_sorting.label"
-    },
-    {
-      "type": "header",
-      "content": "Collections filter"
-    },
-    {
-      "type": "checkbox",
-      "id": "show_other_collections",
-      "default": true,
-      "label": "Show collections in filter sidebar",
-      "info": "Adds a Collections list under the filters in the left sidebar"
-    },
-    {
-      "type": "text",
-      "id": "other_collections_heading",
-      "label": "Heading",
-      "default": "Collections"
-    },
-    {
-      "type": "collection_list",
-      "id": "other_collections",
-      "label": "Collections",
-      "info": "Optional. Leave empty to show all collections automatically.",
-      "limit": 50
     },
     {
       "type": "header",

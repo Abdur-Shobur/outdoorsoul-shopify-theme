@@ -63,8 +63,6 @@
         "enable_filtering": true,
         "filter_type": "vertical",
         "enable_sorting": true,
-        "show_other_collections": true,
-        "other_collections_heading": "Collections",
         "show_sidebar_promo": true,
         "sidebar_promo_heading": "Not sure where to start?",
         "sidebar_promo_text": "Browse our trusted brands and find the right garden tools for your space.",

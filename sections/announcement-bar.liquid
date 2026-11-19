@@ -1,4 +1,20 @@
 {{ 'slick.css' | asset_url | stylesheet_tag }}
+{%- style -%}
+  /* Critical: stop announcement FOUC before main CSS / Slick load */
+  .os-offer-slick:not(.slick-initialized) {
+    overflow: hidden;
+    max-height: 3.6rem;
+  }
+  .os-offer-slick:not(.slick-initialized) > .os-offer-slide {
+    display: none !important;
+  }
+  .os-offer-slick:not(.slick-initialized) > .os-offer-slide:first-child {
+    display: flex !important;
+    align-items: center;
+    justify-content: center;
+    min-height: 3.6rem;
+  }
+{%- endstyle -%}
 
 {%- liquid
   assign social_icons = true

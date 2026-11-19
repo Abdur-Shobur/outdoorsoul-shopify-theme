@@ -33,6 +33,7 @@
       prevArrow: '<button type="button" class="slick-prev" aria-label="Previous announcement"></button>',
       nextArrow: '<button type="button" class="slick-next" aria-label="Next announcement"></button>',
     });
+    el.classList.add('is-ready');
     return true;
   };
 
@@ -210,12 +211,16 @@
     const isDesktop = () => matchMedia('(min-width: 990px)').matches;
 
     const getPanel = (menu) =>
-      menu?.querySelector('details.mega-menu .mega-menu__content, details .mega-menu__content');
+      menu?.querySelector(
+        'details.mega-menu .mega-menu__content, details .mega-menu__content, details.os-dropdown > .header__submenu, details.os-dropdown > .os-dropdown__panel'
+      );
 
     const isPointerOverMega = () =>
       Boolean(
         document.querySelector('.section-header header-menu:hover') ||
-          document.querySelector('.section-header .mega-menu[open] > .mega-menu__content:hover')
+          document.querySelector('.section-header .mega-menu[open] > .mega-menu__content:hover') ||
+          document.querySelector('.section-header .os-dropdown[open] > .header__submenu:hover') ||
+          document.querySelector('.section-header .os-dropdown[open] > .os-dropdown__panel:hover')
       );
 
     const closeAll = () => {
