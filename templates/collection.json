@@ -11,7 +11,11 @@
   "sections": {
     "os_collection_hero": {
       "type": "os-collection-hero",
-      "settings": {}
+      "settings": {
+        "overlay_opacity": 55,
+        "min_height": 450,
+        "min_height_mobile": 200
+      }
     },
     "blocks_fD49xV": {
       "type": "_blocks",

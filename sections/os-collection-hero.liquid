@@ -3,10 +3,6 @@
   if heading == blank
     assign heading = collection.title
   endif
-  assign text = section.settings.text
-  if text == blank and collection.description != blank
-    assign text = collection.description | strip_html | truncate: 160
-  endif
   assign image = section.settings.image
   if image == blank and collection.image
     assign image = collection.image
@@ -20,38 +16,30 @@
 <div
   id="OsCollectionHero-{{ section.id }}"
   class="os-collection-hero{% if image != blank %} os-collection-hero--has-image{% endif %}"
+  style="
+    --os-col-hero-min-h: {{ section.settings.min_height }}px;
+    --os-col-hero-min-h-mobile: {{ section.settings.min_height_mobile }}px;
+    --os-col-hero-overlay: {{ section.settings.overlay_opacity | divided_by: 100.0 }};
+  "
 >
   {%- if image != blank -%}
-    {{
-      image
-      | image_url: width: 1600
-      | image_tag:
-        class: 'os-collection-hero__image',
-        widths: '750, 1100, 1600',
-        sizes: '(min-width: 990px) 52vw, 100vw',
-        loading: 'eager',
-        alt: image_alt
-    }}
+    <div class="os-collection-hero__media" aria-hidden="true">
+      {{
+        image
+        | image_url: width: 2400
+        | image_tag:
+          class: 'os-collection-hero__image',
+          widths: '750, 1100, 1600, 2000, 2400',
+          sizes: '100vw',
+          loading: 'eager',
+          fetchpriority: 'high',
+          alt: ''
+      }}
+    </div>
   {%- endif -%}
 
-  <div class="os-container os-collection-hero__inner">
-    <nav class="os-collection-hero__breadcrumb" aria-label="Breadcrumb">
-      <ol class="os-collection-hero__crumbs">
-        <li>
-          <a href="{{ routes.root_url }}">Home</a>
-        </li>
-        <li aria-hidden="true">
-          <span class="svg-wrapper">{{- 'icon-caret.svg' | inline_asset_content -}}</span>
-        </li>
-        <li aria-current="page">{{ collection.title | escape }}</li>
-      </ol>
-    </nav>
-
+  <div class="os-collection-hero__inner">
     <h1 class="os-collection-hero__title">{{ heading | escape }}</h1>
-
-    {%- if text != blank -%}
-      <p class="os-collection-hero__text">{{ text | escape }}</p>
-    {%- endif -%}
   </div>
 </div>
 
@@ -68,16 +56,40 @@
       "info": "Defaults to the collection title"
     },
     {
-      "type": "textarea",
-      "id": "text",
-      "label": "Text",
-      "info": "Defaults to a short collection description"
-    },
-    {
       "type": "image_picker",
       "id": "image",
-      "label": "Image",
-      "info": "Defaults to the collection image"
+      "label": "Background image",
+      "info": "Defaults to the collection image. Full-bleed behind the centered title."
+    },
+    {
+      "type": "range",
+      "id": "overlay_opacity",
+      "min": 0,
+      "max": 90,
+      "step": 5,
+      "unit": "%",
+      "label": "Image overlay",
+      "default": 55
+    },
+    {
+      "type": "range",
+      "id": "min_height",
+      "min": 180,
+      "max": 600,
+      "step": 10,
+      "unit": "px",
+      "label": "Minimum height (desktop)",
+      "default": 450
+    },
+    {
+      "type": "range",
+      "id": "min_height_mobile",
+      "min": 140,
+      "max": 400,
+      "step": 10,
+      "unit": "px",
+      "label": "Minimum height (mobile)",
+      "default": 200
     }
   ],
   "presets": [
